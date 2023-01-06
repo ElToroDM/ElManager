@@ -78,9 +78,11 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
-  font-size: 2vh;
   background-color: rgb(255, 253, 228);
   color: rgb(12, 12, 12);
+}
+body, input{
+  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+  font-size: 2vh;
 }
 </style>

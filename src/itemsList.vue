@@ -1,21 +1,16 @@
 <script setup>
 /* TODO:
-github
-rename
 edit props structure
 edit props
-undo actions: useManualRefHistory? or Pinia? ....or withouts libs
-save list
+undo actions: useManualRefHistory? or Pinia? ...or withouts libs
+save data
 alternative to :hover buttons because of touch screens
 move item buttons for touch because of touch screens functions like scroll, etc
 */
-import { ref, reactive, computed, onMounted } from 'vue'
-
-const props = defineProps({
-  items: Object
-})
-
+import { ref, reactive, computed, onMounted, nextTick } from 'vue'
+const props = defineProps({items: Object})
 const itemrefs = ref([])
+const states = reactive({})
 
 //______________________________________________________________________________
 // DRAG & DROP
@@ -24,7 +19,6 @@ const drag = reactive({})
 
 //______________________________________________________________________________
 function onDragStart(event, item) {
-  drag.dragging = true
   drag.sourceItemId = item.id
 
   const sourceItemIndex = props.items.indexOf(item)
@@ -38,15 +32,17 @@ function onDragStart(event, item) {
 }
 
 //______________________________________________________________________________
-function onDragEnd(event, item) {
-  drag.info = ''
-  drag.dragging = false
+function onDragEnd() {
+  // drag.info = ''
+  // delete dragging props from items
   props.items.forEach(item => delete item.dragging)
-}
+  // Delete drag props
+  for (const prop in drag) delete drag[prop]
 
+}
 //______________________________________________________________________________
 function onDragOver(event, item) {
-  if (!drag.dragging) return
+  if (!props.mouseDown) return
 
   // Adjust item whith touch events (touchMove targets original item, even when the touch is over another item)
   if (event.touches) {
@@ -65,10 +61,7 @@ function onDragOver(event, item) {
 
   // posX (for horizontal dragging)
   const posX = event.pageX || event.touches[0].pageX
-  
   // drag.info = ' item: ' + item.id + ' x:' + posX //+ ' y:' + posY
-  // return
-
   const sourceItemId = drag.sourceItemId
   const sourceItem = props.items.find(x => x.id == sourceItemId)
   const sourceItemIndex = props.items.indexOf(sourceItem)
@@ -82,7 +75,7 @@ function onDragOver(event, item) {
   if (targetItemIndex === sourceItemIndex) {
     if (targetItemIndex === 0) return
     if (posX > drag.x + 20) {
-      drag.info = ' item: ' + item.id + ' x:' + posX
+      //drag.info = ' item: ' + item.id + ' x:' + posX
       // Move to the right
       if (props.items[targetItemIndex].level === props.items[targetItemIndex - 1].level) levelDifference++
       for (let i = targetItemIndex; i <= lastSuccessorIndex; i++) props.items[i].level += levelDifference
@@ -107,7 +100,7 @@ function onDragOver(event, item) {
   // If item target is on the same branch, change it for the item that immediately follows the branch
   if (targetItemIndex > sourceItemIndex && targetItemIndex <= lastSuccessorIndex) {
     targetItemIndex += lastSuccessorIndex - sourceItemIndex
-    if (targetItemIndex>= props.items.length) return
+    if (targetItemIndex >= props.items.length) return
     item = props.items[targetItemIndex]
     levelDifference = item.level - sourceItem.level
   }
@@ -128,11 +121,6 @@ function onDragOver(event, item) {
   props.items.splice(targetItemIndex, 0, ...drag.itemsCopy);
   //Remove sourceItem (and successors)
   removeItem(sourceItem)
-}
-
-//______________________________________________________________________________
-function onMouseMove(event) {
-  // drag.info = event.clientY + ' ' + event.pageY + ' ' + event.screenY
 }
 
 //______________________________________________________________________________
@@ -230,8 +218,33 @@ function isInOpenFolder(item) {
 }*/
 
 //______________________________________________________________________________
-document.addEventListener('mouseup', onDragEnd)
-document.addEventListener('touchend', onDragEnd)
+// ITEMS EVENTS
+//______________________________________________________________________________
+document.addEventListener('mouseup', onMouseUp)
+document.addEventListener('touchend', onMouseUp)
+document.addEventListener('mousedown', onMouseDown)
+//______________________________________________________________________________
+function onMouseDown(event, item) {
+  props.mouseDown = true
+  if (item) onDragStart(event, item)
+}
+//______________________________________________________________________________
+function onMouseUp() {
+  props.mouseDown = false
+  onDragEnd()
+}
+//______________________________________________________________________________
+function onDblClicK(item) {
+  props.itemEditing = item.id
+  nextTick(() => {
+    const itemInput = document.getElementById('itemEditInput')
+    itemInput.focus()
+  })
+}
+//______________________________________________________________________________
+function onMouseMove(event) {
+  // drag.info = event.clientY + ' ' + event.pageY + ' ' + event.screenY
+}
 //______________________________________________________________________________
 </script>
 
@@ -239,21 +252,24 @@ document.addEventListener('touchend', onDragEnd)
   <div style="height: 49vh; overflow-y: scroll;">
     <template v-for="item in items">
       <div v-if="isInOpenFolder(item)" :style="{ 'padding-left': item.level * 2 + 'vh' }" class="itemLine"
-        ref="itemrefs" :class="{ dragging: item.dragging }" @mousedown="onDragStart($event, item)"
-        @mousemove="onDragOver($event, item)" @touchstart="onDragStart($event, item)"
+        ref="itemrefs" :class="{ dragging: item.dragging }" @mousedown="onMouseDown($event, item)"
+        @mousemove="onDragOver($event, item)" @touchstart="onMouseDown($event, item)"
         @touchmove="onDragOver($event, item)">
         <span :class="{ invisible: !isFolder(item) }" @click="toggleOpenFolder(item)" class="isFolder">
           {{ item.open === false ? '&#62;' : '&#709;' }}</span>
-        <div class="item">
-          [{{ item.id.toString().slice(-4) }}] {{ item.name }}
-          ${{ itemTotalCost(item) }}{{ item.info }}
+        <input v-if="props.itemEditing == item.id" v-model="item.name" @blur="props.itemEditing = false"
+          @keyup.enter="props.itemEditing = false" id="itemEditInput" />
+        <div v-else @dblclick="onDblClicK(item)" class="item">
+          <!-- [{{ item.id.toString().slice(-4) }}] -->
+          {{ item.name }}
+          <!-- ${{ itemTotalCost(item) }}{{ item.info }} -->
           <span @click="removeItem(item)" class="itemRemove">&#215;</span>
           <span @click="insertItem(item); item.open = true" class="insertItem">+</span>
         </div>
       </div>
     </template>
+    <!-- {{ drag }} -->
   </div>
-  {{ drag.info }}
 </template>
 
 <style>
@@ -267,6 +283,7 @@ document.addEventListener('touchend', onDragEnd)
   white-space: nowrap;
   text-overflow: ellipsis;
   border-bottom: 1px solid rgb(228, 232, 199);
+  height: 3vh;
 }
 
 .item {
