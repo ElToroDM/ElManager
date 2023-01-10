@@ -1,12 +1,10 @@
 <script setup>
 /* TODO:
 scroll when dragging upper or lower
-edit props structure
-edit props
-undo actions: useManualRefHistory? or Pinia? ...or withouts libs
-save data
+add button at the end of treeview
 (touch) fix double clic or make button for rename
 (touch) move item buttons to avoid conflicts with touch screens functions like scroll, gestures, etc
+expand/collapse all
 */
 import { ref, reactive, computed, onMounted, nextTick } from 'vue'
 const props = defineProps({ items: Object })
@@ -72,13 +70,13 @@ function onDragOver(event, item) {
       return
     }
   }
-  
+
   // drag.info = ' item: ' + item.id + ' drag.x:' + drag.x + ' posX:' + posX
 
   //______________________________________
   // Vertical dragging for moving items
   //______________________________________
-    // Adjust item whith touch events (touchMove targets original item, even when the touch is over another item)
+  // Adjust item whith touch events (touchMove targets original item, even when the touch is over another item)
   // if (event.touches) {
   // Get the element at the touch point
   let element = document.elementFromPoint(posX, posY)
@@ -125,12 +123,13 @@ function onDragOver(event, item) {
 //______________________________________________________________________________
 function newItemId() {
   // return (Date.now() + Math.random()) * 10000
-  return (Date.now()+ Math.random()) *10000 % 1000000000000000
+  return (Date.now() + Math.random()) * 10000 % 1000000000000000
 }
 //______________________________________________________________________________
 function insertItem(item) {
-  const targetItemIndex = props.items.indexOf(item)
-  props.items.splice(targetItemIndex + 1, 0, { id: newItemId(), name: 'New item', level: item.level + 1, cost: 2 })
+  const lastSuccessorItemIndex = getLastSuccessorIndex(item)
+  props.items.splice(lastSuccessorItemIndex + 1, 0,
+    { id: newItemId(), name: 'New item', level: item.level + 1, cost: 2 })
 }
 //______________________________________________________________________________
 function removeItem(item) {

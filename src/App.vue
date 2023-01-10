@@ -1,24 +1,16 @@
 <script setup>
+/*
+TODO:
+edit props structure
+edit props
+undo actions: useManualRefHistory? or Pinia? ...or withouts libs
+save data
+*/
 import { ref } from 'vue'
 import itemsList from './itemsList.vue'
 
-// const items = ref([
-//   { "name": "AP01", "id": 1, "level": 0, "cost": 1 },
-//   { "name": "Armar", "id": 2, "level": 1, "cost": 1 },
-//   { "name": "Movimiento", "id": 3, "level": 2, "cost": 1 },
-//   { "name": "Zócalo GU10", "id": 4, "level": 2, "cost": 1 },
-//   { "name": "Base", "id": 5, "level": 2, "cost": 1 },
-//   { "name": "Terminación", "id": 6, "level": 3, "cost": 1 },
-//   { "name": "Mecanizado", "id": 7, "level": 4, "cost": 1 },
-//   { "name": "Chapa nº20 160x121", "id": 8, "level": 5, "cost": 3 },
-//   { "name": "Cilindro", "id": 9, "level": 2, "cost": 1 },
-//   { "name": "Terminación", "id": 10, "level": 3, "cost": 1 },
-//   { "name": "Mecanizado", "id": 11, "level": 4, "cost": 2 },
-//   { "name": "Cilindro repujado", "id": 12, "level": 5, "cost": 3 }
-// ])
-
 const items = ref([
-  { "name": "Panqueque de dulce de leche", "id": 1, "level": 0, "cost": 1, "open": true },
+  { "id": 732785649503224, "name": "Panqueque de dulce de leche", "level": 0, "cost": 1, "open": true },
   { "id": 732785649504646, "name": "Enrollar", "level": 1, "cost": 2, "open": true },
   { "id": 732787039516608, "name": "Panqueque", "level": 2, "cost": 2, "open": true },
   { "id": 732787228074946, "name": "Cocinar vuelta y vuelta", "level": 3, "cost": 2, "open": true },
@@ -35,10 +27,10 @@ const items = ref([
 </script>
 
 <template>
-  <div style="height: 70vh; overflow-y: scroll; overflow-x:hidden;" onselectstart='return false;'>
+  <div id="treeView" onselectstart='return false;'>
     <itemsList :items="items"></itemsList>
   </div>
-  <div style="position:absolute; bottom:0;height: 30vh; overflow-y: scroll;width:100%;">
+  <div style="position:absolute; bottom:0;height: 40vh; overflow-y: scroll;width:100%;">
     <div v-for="item in items" style="overflow:hidden; white-space: nowrap;"> {{ item }},</div>
   </div>
 </template>
@@ -56,5 +48,11 @@ body,
 input {
   font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
   font-size: 2vh;
+}
+
+#treeView {
+  height: 60vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 </style>
