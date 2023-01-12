@@ -1,12 +1,18 @@
 <script setup>
-/* TODO:
-scroll when dragging upper or lower
+/*______________________________________________________________________________
+Treevue - Treeview component for Vue.js
+by Diego Fraga
+exerionbit.com
+Code started: november 5, 2022
+________________________________________________________________________________
+TODO:
+transitions https://vuejs.org/examples/#list-transition
 add button at the end of treeview
-(touch) fix double clic or make button for rename
+(touch) double clic or make button for rename
 (touch) move item buttons to avoid conflicts with touch screens functions like scroll, gestures, etc
 expand/collapse all
 */
-import { ref, reactive, computed, onMounted, nextTick } from 'vue'
+import { ref, reactive, nextTick } from 'vue'
 const props = defineProps({ items: Object })
 const itemref = ref([])
 const state = reactive({})
@@ -19,13 +25,14 @@ const drag = reactive({})
 function onDragStart(event, item) {
   drag.sourceItemId = item.id
   // Reset horizontal drag threshold
-  drag.x = event.pageX || event.touches[0].pageX
+  drag.xStart = event.pageX || event.touches[0].pageX
   // Create a copy of the items to move
   const sourceItemIndex = props.items.indexOf(item)
   const lastSuccessorIndex = getLastSuccessorIndex(item)
   drag.itemsCopy = props.items.slice(sourceItemIndex, lastSuccessorIndex + 1)
   // Mark original items as "dragging"
   for (let i = sourceItemIndex; i <= lastSuccessorIndex; i++) props.items[i].dragging = true
+  onMouseMove(event, item)
 }
 //______________________________________________________________________________
 function onDragEnd() {
@@ -44,21 +51,23 @@ function onDragOver(event, item) {
   let levelDifference = item.level - sourceItem.level
   let posX; if (event.touches) { posX = event.touches[0].pageX } else { posX = event.pageX }
   let posY; if (event.touches) { posY = event.touches[0].pageY } else { posY = event.pageY }
+  // let posX = drag.x
+  // let posY = drag.y
   //______________________________________
-  // Handle horizontal dragging, if any, for level adjustment and return:
+  // Handle horizontal dragging, if any, to ajust levels:
   //______________________________________
   const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) / 100
   const dragThresholdX = 1 * vh
   if (targetItemIndex === sourceItemIndex) {
     if (targetItemIndex === 0) return
-    if (posX > drag.x + dragThresholdX) {
+    if (posX > drag.xStart + dragThresholdX) {
       // Move to the right
       if (props.items[targetItemIndex].level === props.items[targetItemIndex - 1].level) levelDifference++
       for (let i = targetItemIndex; i <= lastSuccessorIndex; i++) props.items[i].level += levelDifference
-      drag.x = posX
+      drag.xStart = posX
       return
-    } else if (posX < drag.x - dragThresholdX) {
-      drag.x = posX
+    } else if (posX < drag.xStart - dragThresholdX) {
+      drag.xStart = posX
       // Move to the left
       if (props.items[targetItemIndex].level - props.items[targetItemIndex - 1].level === 1) {
         if (lastSuccessorIndex + 1 < props.items.length) {
@@ -74,7 +83,7 @@ function onDragOver(event, item) {
   // drag.info = ' item: ' + item.id + ' drag.x:' + drag.x + ' posX:' + posX
 
   //______________________________________
-  // Vertical dragging for moving items
+  // Vertical dragging to move items
   //______________________________________
   // Adjust item whith touch events (touchMove targets original item, even when the touch is over another item)
   // if (event.touches) {
@@ -88,6 +97,7 @@ function onDragOver(event, item) {
     if (index === -1) return
   }
   item = props.items[index]
+  // drag.info = ' item: ' + item.id + ' drag:' + drag.x+ ',' +drag.y + ' pos:' + posX+ ',' + posY
   targetItemIndex = props.items.indexOf(item)
   levelDifference = item.level - sourceItem.level
   // If item target is on the same branch, change it for the item that immediately follows the branch
@@ -112,10 +122,10 @@ function onDragOver(event, item) {
   drag.itemsCopy = drag.itemsCopy.map(e => ({ ...e, level: e.level + levelDifference }))
   // Insert items in new position
   props.items.splice(targetItemIndex, 0, ...drag.itemsCopy);
-  //Remove sourceItem (and successors)
+  // Remove sourceItem (and successors)
   removeItem(sourceItem)
   // Vertical dragging made, reset horizontal dragging
-  drag.x = posX
+  drag.xStart = posX
 }
 
 //______________________________________________________________________________
@@ -193,7 +203,8 @@ function isInOpenFolder(item) {
 document.addEventListener('mouseup', onMouseUp)
 document.addEventListener('touchend', onMouseUp)
 document.addEventListener('mousedown', onMouseDown)
-document.addEventListener('mousemove', onMouseMove)
+// document.addEventListener('mousemove', onMouseMove)
+window.addEventListener('mousemove', onMouseMove)
 //______________________________________________________________________________
 function onMouseDown(event, item) {
   selectedItemStyleUpdate(item)
@@ -215,14 +226,55 @@ function onDblClicK(item) {
     itemInput.select()
   })
 }
+
+//######################################################################################
+//drag.info = ''
+function autoScroll(event) {
+  drag.autoScroll = false
+  if (state.mouseDown) {
+    const dragScrollStep = 15//element.clientHeight
+    // drag.info+=drag.autoScroll+' '/////////////////
+    const treevueDiv = document.getElementById("treevueDiv")
+    if (drag.y <= dragScrollStep) {
+      treevueDiv.scrollBy(0, -dragScrollStep * 3)
+      drag.autoScroll = setTimeout(() => { autoScroll(event) }, 50)
+    } else if (drag.y >= treevueDiv.clientHeight - dragScrollStep) {
+      treevueDiv.scrollBy(0, dragScrollStep * 3)
+      drag.autoScroll = setTimeout(() => { autoScroll(event) }, 50)
+    }
+  }
+
+}
+//######################################################################################
 //______________________________________________________________________________
 function onMouseMove(event, item) {
+  //######################################################################################
+  if (state.mouseDown) {
+    if (event.touches) {drag.y = event.touches[0].clientY } else if (event.clientY) { drag.y = event.clientY }
+
+    // if (event.touches) {
+    //   drag.X = event.touches[0].pageX
+    //   drag.y = event.touches[0].pageY
+    // } else {
+    //   drag.x = event.pageX
+    //   drag.y = event.pageY
+    // }
+
+
+    // drag.info = drag.y
+    // Scroll treevueDiv if target item position is on/near top/bottom border
+    if (!drag.autoScroll) drag.autoScroll = setTimeout(() => { autoScroll(event) }, 25)
+  }
+  //######################################################################################
+
   // drag.info = event.clientY + ' ' + event.pageY + ' ' + event.screenY
-  event.stopPropagation()
+
   // Items highlights on hover
   selectedItemStyleUpdate(item)
   // Handle drags
-  if (item && state.mouseDown) onDragOver(event, item)
+  if (item && state.mouseDown) onDragOver(event, item) //// va para mouse y touch???????????????????
+  event.stopPropagation()
+
 }
 //______________________________________________________________________________
 function itemHighlight(item) {
@@ -244,30 +296,42 @@ function selectedItemStyleUpdate(item) {
 </script>
 
 <template>
-  <template v-for="item in items">
-    <div v-if="isInOpenFolder(item)" :style="{ 'padding-left': item.level * 2 + 'vh' }" class="itemLine" ref="itemref"
-      :class="{ itemLineDragging: item.dragging }, itemHighlight(item)" @mousedown="onMouseDown($event, item)"
-      @mousemove="onMouseMove($event, item)" @touchstart="onMouseDown($event, item)"
-      @touchmove="onDragOver($event, item)">
-      <span :class="{ invisible: !isFolder(item) }" @click="toggleOpenFolder(item)" class="isFolder">
-        {{ item.open === false ? '&#62;' : '&#709;' }}</span>
-      <input v-if="state.itemEditing == item.id" v-model="item.name" @blur="state.itemEditing = false"
-        @keyup.esc="state.itemEditing = false" @keyup.enter="state.itemEditing = false" id="itemEditInput" />
-      <div v-else class="item">
-        <!-- [{{ item.id.toString().slice(-4) }}] -->
-        <span @dblclick="onDblClicK(item)">{{ item.name }}</span>
-        <!-- ${{ itemTotalCost(item) }}{{ item.info }} -->
+  <div id="treevueDiv" onselectstart='return false;'>
+    <template v-for="item in items">
+      <div v-if="isInOpenFolder(item)" :style="{ 'padding-left': item.level * 2 + 'vh' }" class="itemLine" ref="itemref"
+        :class="{ itemLineDragging: item.dragging }, itemHighlight(item)" @mousedown="onMouseDown($event, item)"
+        @mousemove="onMouseMove($event, item)" @touchstart="onMouseDown($event, item)"
+        @touchmove="onMouseMove($event, item)">
+        <span :class="{ invisible: !isFolder(item) }" @click="toggleOpenFolder(item)" class="isFolder">
+          {{ item.open === false ? '&#62;' : '&#709;' }}</span>
+        <input v-if="state.itemEditing == item.id" v-model="item.name" @blur="state.itemEditing = false"
+          @keyup.esc="state.itemEditing = false" @keyup.enter="state.itemEditing = false" id="itemEditInput" />
+        <div v-else class="item">
+          <!-- [..{{ item.id.toString().slice(-4) }}] -->
+          <span @dblclick="onDblClicK(item)">{{ item.name }}</span>
+          <!-- ${{ itemTotalCost(item) }}{{ item.info }} -->
+        </div>
+        <div v-if="item.highlight == 1" class="itemEdition">
+          <span @click="removeItem(item)" class="itemRemove">&times;</span>
+          <span @click="insertItem(item); item.open = true" class="insertItem">+</span>
+        </div>
       </div>
-      <div v-if="item.highlight == 1" class="itemEdition">
-        <span @click="removeItem(item)" class="itemRemove">&times;</span>
-        <span @click="insertItem(item); item.open = true" class="insertItem">+</span>
-      </div>
-    </div>
-  </template>
-  <!-- {{ state }}<br />{{ drag }} -->
+    </template>
+    <!-- {{ state }}<br />{{ drag }} -->
+  </div>
+  {{ drag.info }}
+  <br />
+  <!-- {{drag.autoScroll}} -->
 </template>
 
 <style>
+#treevueDiv {
+  height: 30vh;
+  /*60vh*/
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
 .itemLine {
   display: flex;
   white-space: nowrap;
@@ -276,6 +340,10 @@ function selectedItemStyleUpdate(item) {
   height: 3vh;
   padding: .25vh 0;
   cursor: default;
+
+
+  touch-action: none;
+  /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 }
 
 .itemLineDragging {

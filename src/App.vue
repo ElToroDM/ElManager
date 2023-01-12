@@ -3,10 +3,10 @@
 TODO:
 edit props structure
 edit props
-undo actions: useManualRefHistory? or Pinia? ...or withouts libs
+undo actions: useManualRefHistory? or Pinia? ...or withouts libs: https://vuejs.org/examples/#circle-drawer
 save data
 */
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import itemsList from './itemsList.vue'
 
 const items = ref([
@@ -27,10 +27,8 @@ const items = ref([
 </script>
 
 <template>
-  <div id="treeView" onselectstart='return false;'>
-    <itemsList :items="items"></itemsList>
-  </div>
-  <div style="position:absolute; bottom:0;height: 40vh; overflow-y: scroll;width:100%;">
+  <itemsList :items="items"></itemsList>
+  <div style="position:absolute; bottom:0;height: 40vh; overflow-y: scroll;width:100%;font:.8em monospace;">
     <div v-for="item in items" style="overflow:hidden; white-space: nowrap;"> {{ item }},</div>
   </div>
 </template>
@@ -48,11 +46,5 @@ body,
 input {
   font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
   font-size: 2vh;
-}
-
-#treeView {
-  height: 60vh;
-  overflow-y: scroll;
-  overflow-x: hidden;
 }
 </style>
