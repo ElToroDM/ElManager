@@ -6,7 +6,7 @@ edit props
 undo actions: useManualRefHistory? or Pinia? ...or withouts libs: https://vuejs.org/examples/#circle-drawer
 save data
 */
-import { ref, onMounted } from 'vue'
+import { ref} from 'vue'
 import itemsList from './itemsList.vue'
 
 const items = ref([
