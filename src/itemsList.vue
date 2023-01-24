@@ -24,16 +24,15 @@ const state = reactive({})
 // DRAG & DROP
 //______________________________________________________________________________
 const drag = reactive({})
+let vh
 //______________________________________________________________________________
 function onDragStart(event, item) {
   drag.sourceItemId = item.id
   // Reset horizontal drag threshold
   drag.startPosX = event.pageX || event.touches[0].pageX
-  // Create a copy of the items to move
+  // Mark original items as "dragging"
   const sourceItemIndex = props.items.indexOf(item)
   const lastSuccessorIndex = getLastSuccessorIndex(item)
-  drag.itemsCopy = props.items.slice(sourceItemIndex, lastSuccessorIndex + 1)
-  // Mark original items as "dragging"
   for (let i = sourceItemIndex; i <= lastSuccessorIndex; i++) props.items[i].dragging = true
   onMouseMove(event, item)
 }
@@ -46,20 +45,20 @@ function onDragEnd() {
 }
 //______________________________________________________________________________
 function onDragOver(event, item) {
-  const sourceItemId = drag.sourceItemId
-  const sourceItem = props.items.find(x => x.id == sourceItemId)
+  const sourceItem = props.items.find(x => x.id == drag.sourceItemId)
   const sourceItemIndex = props.items.indexOf(sourceItem)
   const lastSuccessorIndex = getLastSuccessorIndex(sourceItem)
   let targetItemIndex = props.items.indexOf(item)
   let levelDifference = item.level - sourceItem.level
-  let posX; if (event.touches) { posX = event.touches[0].pageX } else { posX = event.pageX }
-  let posY; if (event.touches) { posY = event.touches[0].pageY } else { posY = event.pageY }
+  let posX, posY
+  if (event.touches) { posX = event.touches[0].pageX; posY = event.touches[0].pageY }
+  else { posX = event.pageX; posY = event.pageY }
   //______________________________________
   // Handle horizontal dragging, if any, to ajust levels:
   //______________________________________
-  const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) / 100
-  const dragThresholdX = 1 * vh
   if (targetItemIndex === sourceItemIndex) {
+    vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) / 100
+    const dragThresholdX = 1 * vh
     if (targetItemIndex === 0) return
     if (posX > drag.startPosX + dragThresholdX) {
       // Move to the right
@@ -84,20 +83,22 @@ function onDragOver(event, item) {
   // Vertical dragging to move items
   //______________________________________
   // Adjust item whith touch events (touchMove targets original item, even when the touch is over another item)
-  // if (event.touches) {
-  // Get the element at the touch point
-  let element = document.elementFromPoint(posX, posY)
-  let index = itemref.value.indexOf(element)
-  // If element is not a item, check if it is child of item
-  if (index === -1) {
-    if (!element) return
-    index = itemref.value.indexOf(element.parentNode)
-    if (index === -1) return
+  if (event.touches) {
+    // Get the element at the touch point
+    let element = document.elementFromPoint(posX, posY)
+    let index = itemref.value.indexOf(element)
+    // If element is not a item, check if it is child of item
+    if (index === -1) {
+      if (!element) return
+      index = itemref.value.indexOf(element.parentNode)
+      if (index === -1) return
+    }
+    item = props.items[index]
+    targetItemIndex = props.items.indexOf(item)
+    levelDifference = item.level - sourceItem.level
   }
-  item = props.items[index]
-  // drag.info = ' item: ' + item.id + ' drag:' + drag.x+ ',' +drag.y + ' pos:' + posX+ ',' + posY
-  targetItemIndex = props.items.indexOf(item)
-  levelDifference = item.level - sourceItem.level
+  // Don't vertical drag to the same item
+  if (targetItemIndex === sourceItemIndex) return
   // If item target is on the same branch, change it for the item that immediately follows the branch
   if (targetItemIndex > sourceItemIndex && targetItemIndex <= lastSuccessorIndex) {
     targetItemIndex += lastSuccessorIndex - sourceItemIndex
@@ -114,14 +115,15 @@ function onDragOver(event, item) {
       levelDifference++
     }
   }
-  // Don't vertical drag to the same item
-  if (targetItemIndex === sourceItemIndex) return
+  // Create a copy of the items to move
+  let itemsCopy = props.items.slice(sourceItemIndex, lastSuccessorIndex + 1)
   // Adjust levels of items to move
-  drag.itemsCopy = drag.itemsCopy.map(e => ({ ...e, level: e.level + levelDifference }))
-  // Insert items in new position
-  props.items.splice(targetItemIndex, 0, ...drag.itemsCopy);
+  itemsCopy = itemsCopy.map(e => ({ ...e, level: e.level + levelDifference }))
   // Remove sourceItem (and successors)
   removeItem(sourceItem)
+  // Insert items in new position
+  if (targetItemIndex > sourceItemIndex) targetItemIndex -= itemsCopy.length
+  props.items.splice(targetItemIndex, 0, ...itemsCopy);
   // Vertical dragging made, reset horizontal dragging
   drag.startPosX = posX
 }
@@ -130,7 +132,6 @@ function onDragOver(event, item) {
 // ITEMS MANIPULATION
 //______________________________________________________________________________
 function newItemId() {
-  // return (Date.now() + Math.random()) * 10000
   return (Date.now() + Math.random()) * 10000 % 1000000000000000
 }
 //______________________________________________________________________________
@@ -178,7 +179,7 @@ function toggleOpenFolder(item) {
 let previousOpenFolderLevel = 0
 function isInOpenFolder(item) {
   // Determine wich items should be hidden or shown based on upper closed or opened folders.
-  // (To be called sequentially from the first item)
+  // (To be called sequentially, must start from the first item)
   if (previousOpenFolderLevel === 0) {
     if (item.level === 0) return true // Root is always visible
     const previousItem = props.items[props.items.indexOf(item) - 1]
@@ -200,7 +201,6 @@ function isInOpenFolder(item) {
 document.addEventListener('mouseup', onMouseUp)
 document.addEventListener('touchend', onMouseUp)
 document.addEventListener('mousedown', onMouseDown)
-// document.addEventListener('mousemove', onMouseMove)
 window.addEventListener('mousemove', onMouseMove)
 //______________________________________________________________________________
 function onMouseDown(event, item) {
@@ -227,21 +227,20 @@ function onDblClicK(item) {
 function onMouseMove(event, item) {
   if (state.mouseDown) {
     if (event.touches) { drag.clientY = event.touches[0].clientY } else if (event.clientY) { drag.clientY = event.clientY }
-    // drag.info = drag.y
     // Scroll treevueDiv if target item position is on/near top/bottom border
     if (!drag.autoScroll) drag.autoScroll = setTimeout(() => { autoScroll(event) }, 25)
   }
   // Items highlights on hover
   selectedItemStyleUpdate(item)
   // Handle drags
-  if (item && state.mouseDown) onDragOver(event, item) //// va para mouse y touch???????????????????
+  if (item && state.mouseDown) onDragOver(event, item)
   event.stopPropagation()
 }
 //______________________________________________________________________________
 function autoScroll(event) {
   drag.autoScroll = false
   if (state.mouseDown) {
-    const dragScrollStep = 15//element.clientHeight
+    const dragScrollStep = 1*vh//15//element.clientHeight
     const treevueDiv = document.getElementById("treevueDiv")
     if (drag.clientY <= dragScrollStep) {
       treevueDiv.scrollBy(0, -dragScrollStep * 3)
@@ -295,15 +294,13 @@ function selectedItemStyleUpdate(item) {
     </template>
     <!-- {{ state }}<br />{{ drag }} -->
   </div>
-  {{ drag.info }}
+  <!-- {{ drag.info }} -->
   <br />
-  <!-- {{drag.autoScroll}} -->
 </template>
 
 <style>
 #treevueDiv {
-  height: 30vh;
-  /*60vh*/
+  height: 60vh;
   overflow-y: scroll;
   overflow-x: hidden;
 }
