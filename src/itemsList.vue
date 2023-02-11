@@ -196,6 +196,22 @@ function isInOpenFolder(item) {
   return false
 }
 //______________________________________________________________________________
+function itemHighlight(item) {
+  if (item.highlight) return 'itemHighlight' + item.highlight
+}
+//______________________________________________________________________________
+function selectedItemStyleUpdate(item) {
+  if (state.mouseDown) return
+  // Delete old highlights
+  props.items.forEach(item => delete item.highlight)
+  if (!item) return
+  // Add new highlights props
+  const sourceItemIndex = props.items.indexOf(item)
+  const lastSuccessorIndex = getLastSuccessorIndex(item)
+  item.highlight = 1
+  for (let i = sourceItemIndex + 1; i <= lastSuccessorIndex; i++) props.items[i].highlight = 2
+}
+//______________________________________________________________________________
 // ITEMS EVENTS
 //______________________________________________________________________________
 document.addEventListener('mouseup', onMouseUp)
@@ -206,8 +222,10 @@ window.addEventListener('mousemove', onMouseMove)
 function onMouseDown(event, item) {
   selectedItemStyleUpdate(item)
   event.stopPropagation()
-  state.mouseDown = true
-  if (item) onDragStart(event, item)
+  if (item) {
+    state.mouseDown = true
+    onDragStart(event, item)
+  }
 }
 //______________________________________________________________________________
 function onMouseUp() {
@@ -240,7 +258,7 @@ function onMouseMove(event, item) {
 function autoScroll(event) {
   drag.autoScroll = false
   if (state.mouseDown) {
-    const dragScrollStep = 1*vh//15//element.clientHeight
+    const dragScrollStep = 1 * vh//15//element.clientHeight
     const treevueDiv = document.getElementById("treevueDiv")
     if (drag.clientY <= dragScrollStep) {
       treevueDiv.scrollBy(0, -dragScrollStep * 3)
@@ -250,22 +268,6 @@ function autoScroll(event) {
       drag.autoScroll = setTimeout(() => { autoScroll(event) }, 50)
     }
   }
-}
-//______________________________________________________________________________
-function itemHighlight(item) {
-  if (item.highlight) return 'itemHighlight' + item.highlight
-}
-//______________________________________________________________________________
-function selectedItemStyleUpdate(item) {
-  if (state.mouseDown) return
-  // Delete old highlights
-  props.items.forEach(item => delete item.highlight)
-  if (!item) return
-  // Add new highlights props
-  const sourceItemIndex = props.items.indexOf(item)
-  const lastSuccessorIndex = getLastSuccessorIndex(item)
-  item.highlight = 1
-  for (let i = sourceItemIndex + 1; i <= lastSuccessorIndex; i++) props.items[i].highlight = 2
 }
 //______________________________________________________________________________
 </script>
@@ -286,7 +288,7 @@ function selectedItemStyleUpdate(item) {
           <span @dblclick="onDblClicK(item)">{{ item.name }}</span>
           <!-- ${{ itemTotalCost(item) }}{{ item.info }} -->
         </div>
-        <div v-if="item.highlight == 1" class="itemEdition">
+        <div v-if="item.highlight == 1" class="itemEdition itemHighlight1">
           <span @click="removeItem(item)" class="itemRemove">&times;</span>
           <span @click="insertItem(item); item.open = true" class="insertItem">+</span>
         </div>
@@ -300,15 +302,15 @@ function selectedItemStyleUpdate(item) {
 
 <style>
 #treevueDiv {
-  height: 60vh;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  flex-grow: 1;
 }
 
 .itemLine {
+  position: relative;
   display: flex;
   white-space: nowrap;
-  text-overflow: ellipsis;
+  /* text-overflow: ellipsis; */
+  overflow:visible;
   border-bottom: 1px solid rgb(228, 232, 199);
   height: 3vh;
   padding: .25vh 0;
@@ -322,7 +324,6 @@ function selectedItemStyleUpdate(item) {
 }
 
 .item {
-  overflow: hidden;
   align-self: center;
 }
 
@@ -341,11 +342,13 @@ function selectedItemStyleUpdate(item) {
 }
 
 .itemEdition {
-  margin-left: auto;
-  margin-right: .5vh;
+  position:sticky;
+  right: 0;
+  padding-right: 1vh;
   font-size: 1.5em;
-  text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.5), 1px -1px 0 rgba(0, 0, 0, 0.5),
-    -1px 1px 0 rgba(0, 0, 0, 0.5), 1px 1px 0 rgba(0, 0, 0, 0.5);
+  background-color: rgba(241, 255, 150, 0.7);
+  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.5), 1px -1px 1px rgba(0, 0, 0, 0.5),
+    -1px 1px 1px rgba(0, 0, 0, 0.5), 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 
 .itemRemove {
