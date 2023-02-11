@@ -3,7 +3,7 @@
 TODO:
 edit props structure
 edit props
-undo actions: useManualRefHistory? or Pinia? ...or withouts libs: https://vuejs.org/examples/#circle-drawer
+undo actions: useManualRefHistory? or Pinia? ...or without libs: https://vuejs.org/examples/#circle-drawer
 save data
 */
 import { ref} from 'vue'
