@@ -1,7 +1,7 @@
 <script setup>
 /*
 TODO:
-pane separator movement logic
+column titles
 edit props structure
 edit props
 undo actions: useManualRefHistory? or Pinia? ...or without libs: https://vuejs.org/examples/#circle-drawer
@@ -76,7 +76,8 @@ function paneSeparatorMouseMove(event) {
     <div class="pane" style="width:300px;">
       <itemsList :items="items"></itemsList>
     </div>
-    <div class="paneSeparator" @mousedown="paneSeparatorMouseDown($event)"></div>
+    <div class="paneSeparator" @mousedown="paneSeparatorMouseDown($event)" @touchstart="paneSeparatorMouseDown($event)">
+    </div>
     <div class="pane" style="flex-grow: 1;">
       <propsEdit :items="items"></propsEdit>
     </div>
@@ -97,15 +98,18 @@ function paneSeparatorMouseMove(event) {
   display: flex;
   overflow-y: scroll;
   overflow-x: scroll;
+  min-width: 50px;
 }
 
 .paneSeparator {
   display: flex;
-  width: 10px;
+  width: .75vh;
   cursor: col-resize;
-  background-color: rgb(228, 232, 199);
 }
 
+.paneSeparator:hover {
+  background-color: orange;
+}
 
 
 body {

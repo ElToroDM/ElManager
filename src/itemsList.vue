@@ -309,7 +309,6 @@ function autoScroll(event) {
   position: relative;
   display: flex;
   white-space: nowrap;
-  /* text-overflow: ellipsis; */
   overflow:visible;
   border-bottom: 1px solid rgb(228, 232, 199);
   height: 3vh;

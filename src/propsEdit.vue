@@ -7,6 +7,8 @@ exerionbit.com
 Code started: january 28, 2023
 ________________________________________________________________________________
 TODO:
+columns
+columns titles
 ________________________________________________________________________________
 */
 import { ref, reactive, nextTick } from 'vue'
