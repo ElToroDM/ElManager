@@ -273,7 +273,7 @@ function autoScroll(event) {
 </script>
 
 <template>
-  <div id="treevueDiv" onselectstart='return false;'>
+  <div id="treevueDiv">
     <template v-for="item in items">
       <div v-if="isInOpenFolder(item)" :style="{ 'padding-left': item.level * 2 + 'vh' }" class="itemLine" ref="itemref"
         :class="{ itemLineDragging: item.dragging }, itemHighlight(item)" @mousedown="onMouseDown($event, item)"

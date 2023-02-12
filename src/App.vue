@@ -1,12 +1,13 @@
 <script setup>
 /*
 TODO:
+pane separator movement logic
 edit props structure
 edit props
 undo actions: useManualRefHistory? or Pinia? ...or without libs: https://vuejs.org/examples/#circle-drawer
 save data
 */
-import { ref, reactive, onMounted,nextTick } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import itemsList from './itemsList.vue'
 import propsEdit from './propsEdit.vue'
 
@@ -30,72 +31,44 @@ const items = ref([
 const state = reactive({})
 
 //______________________________________________________________________________
-// DRAG & DROP
-//______________________________________________________________________________
-const drag = reactive({})
-let vh
-//______________________________________________________________________________
-function onDragStart(event, item) {
-  drag.sourceItemId = item.id
-  // Reset horizontal drag threshold
-  drag.startPosX = event.pageX || event.touches[0].pageX
-  onMouseMove(event, item)
-}
-//______________________________________________________________________________
-function onDragEnd() {
-
-}
-//______________________________________________________________________________
-function onDragOver(event, item) {
-}
-//______________________________________________________________________________
-function onMouseDown(event, item) {
-  event.stopPropagation()
-  if (item) {
-    state.mouseDown = true
-    // onDragStart(event, item)
-  }
-}
-//______________________________________________________________________________
-function onMouseUp() {
-  state.mouseDown = false
-  onDragEnd()
-}
-//______________________________________________________________________________
-function onMouseMove(event, item) {
-  if (state.mouseDown) {
-    if (event.touches) { drag.clientY = event.touches[0].clientY } else if (event.clientY) { drag.clientY = event.clientY }
-    // Scroll treevueDiv if target item position is on/near top/bottom border
-    if (!drag.autoScroll) drag.autoScroll = setTimeout(() => { autoScroll(event) }, 25)
-  }
-
-  // Handle drags
-  if (item && state.mouseDown) { //onDragOver(event, item)}
-
-  }
-  event.stopPropagation()
-}
-//______________________________________________________________________________
+// PANES
 //______________________________________________________________________________
 onMounted(() => {
-  // Synchronize scrolling for all "pane" divs
-  const divs = document.getElementsByClassName("pane");
-    let timeoutId;
-    Array.from(divs).forEach((div) => {
-      div.addEventListener("scroll", () => {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => {
-          const scrollTop = div.scrollTop;
-          Array.from(divs).forEach((otherDiv) => {
-            if (otherDiv !== div) {
-              otherDiv.scrollTop = scrollTop;
-            }
-          });
-        }, 5);
-      });
-    });
+  // Pane scrolling synchronization
+  const divs = document.getElementsByClassName("pane")
+  let timeoutId
+  Array.from(divs).forEach((div) => {
+    div.addEventListener("scroll", () => {
+      clearTimeout(timeoutId)
+      timeoutId = setTimeout(() => {
+        const scrollTop = div.scrollTop;
+        Array.from(divs).forEach((otherDiv) => {
+          if (otherDiv !== div) otherDiv.scrollTop = scrollTop
+        })
+      }, 5)
+    })
   })
-
+})
+//______________________________________________________________________________
+function paneSeparatorMouseDown(event) {
+  document.addEventListener('mouseup', paneSeparatorMouseUp, true)
+  document.addEventListener('touchend', paneSeparatorMouseUp, true)
+  window.addEventListener('mousemove', paneSeparatorMouseMove, true)
+  state.pane = event.currentTarget.previousElementSibling
+  state.baseWidth = state.pane.offsetWidth - event.pageX
+}
+//______________________________________________________________________________
+function paneSeparatorMouseUp() {
+  document.removeEventListener('mouseup', paneSeparatorMouseUp, true)
+  document.removeEventListener('touchend', paneSeparatorMouseUp, true)
+  window.removeEventListener('mousemove', paneSeparatorMouseMove, true)
+}
+//______________________________________________________________________________
+function paneSeparatorMouseMove(event) {
+  event.stopPropagation()
+  state.pane.style.width = state.baseWidth + event.pageX + 'px'
+}
+//______________________________________________________________________________
 </script>
 
 <template>
@@ -103,7 +76,7 @@ onMounted(() => {
     <div class="pane" style="width:300px;">
       <itemsList :items="items"></itemsList>
     </div>
-    <div class="paneSeparator" onselectstart='return false;' @mousemove="onMouseMove($event, item)"></div>
+    <div class="paneSeparator" @mousedown="paneSeparatorMouseDown($event)"></div>
     <div class="pane" style="flex-grow: 1;">
       <propsEdit :items="items"></propsEdit>
     </div>
@@ -111,7 +84,6 @@ onMounted(() => {
   <!-- <div style="position:absolute; bottom:0;height: 40vh; overflow-y: scroll;width:100%;font:.8em monospace;">
     <div v-for="item in items" style="overflow:hidden; white-space: nowrap;"> {{ item }},</div>
   </div> -->
-  {{ drag.px }}
 </template>
 
 <style>

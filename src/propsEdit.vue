@@ -36,7 +36,7 @@ function isInOpenFolder(item) {
 </script>
 
 <template>
-  <div id="propsEditDiv" onselectstart='return false;'>
+  <div id="propsEditDiv">
     <template v-for="item in items">
       <div v-if="isInOpenFolder(item)" class="itemLine" ref="itemref">
         {{ item.cost }}
