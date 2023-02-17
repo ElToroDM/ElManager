@@ -11,7 +11,7 @@ columns
 columns titles
 ________________________________________________________________________________
 */
-import { ref, reactive, nextTick } from 'vue'
+import { ref, reactive } from 'vue'
 const props = defineProps({ items: Object })
 const itemref = ref([])
 const state = reactive({})
@@ -47,7 +47,7 @@ function isInOpenFolder(item) {
     <!-- {{ state }}<br />{{ drag }} -->
   </div>
   <!-- {{ drag.info }} -->
-  <br />
+<br />
 </template>
 
 

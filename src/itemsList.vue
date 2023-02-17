@@ -309,7 +309,7 @@ function autoScroll(event) {
   position: relative;
   display: flex;
   white-space: nowrap;
-  overflow:visible;
+  overflow: visible;
   border-bottom: 1px solid rgb(228, 232, 199);
   height: 3vh;
   padding: .25vh 0;
@@ -341,7 +341,7 @@ function autoScroll(event) {
 }
 
 .itemEdition {
-  position:sticky;
+  position: sticky;
   right: 0;
   padding-right: 1vh;
   font-size: 1.5em;
