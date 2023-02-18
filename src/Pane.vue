@@ -1,4 +1,16 @@
 <script setup>
+/*
+________________________________________________________________________________
+Pane component for Vue.js
+by Diego Fraga
+exerionbit.com
+Code started: february 2022
+________________________________________________________________________________
+TODO:
+(touch) splitter move
+________________________________________________________________________________
+*/
+
 import { reactive, onMounted } from 'vue'
 defineProps({
     splitter: Boolean,
@@ -6,7 +18,7 @@ defineProps({
 })
 
 onMounted(() => {
-    // Panel scrolling synchronization
+    // Pane scrolling synchronization
     const divs = document.getElementsByClassName("pane")
     let timeoutId
     Array.from(divs).forEach((div) => {
@@ -28,7 +40,9 @@ function paneSplitterMouseDown(event) {
     document.addEventListener('mouseup', paneSplitterMouseUp, true)
     document.addEventListener('touchend', paneSplitterMouseUp, true)
     window.addEventListener('mousemove', paneSplitterMouseMove, true)
-    state.pane = event.currentTarget.previousElementSibling
+    state.paneSplitter = event.currentTarget
+    state.paneSplitter.classList.add("paneSplitterResizing")
+    state.pane = state.paneSplitter.previousElementSibling
     state.paneBaseWidth = state.pane.offsetWidth - event.pageX
 }
 //______________________________________________________________________________
@@ -36,6 +50,7 @@ function paneSplitterMouseUp() {
     document.removeEventListener('mouseup', paneSplitterMouseUp, true)
     document.removeEventListener('touchend', paneSplitterMouseUp, true)
     window.removeEventListener('mousemove', paneSplitterMouseMove, true)
+    state.paneSplitter.classList.remove("paneSplitterResizing")
 }
 //______________________________________________________________________________
 function paneSplitterMouseMove(event) {
@@ -50,7 +65,7 @@ function paneSplitterMouseMove(event) {
         <slot></slot>
     </div>
     <div v-else-if="splitter" class="paneSplitter" @mousedown="paneSplitterMouseDown($event)"
-        @touchstart="panelSplitterMouseDown($event)">
+        @touchstart="paneSplitterMouseDown($event)">
     </div>
     <div v-else class="pane">
         <slot></slot>
@@ -74,9 +89,14 @@ function paneSplitterMouseMove(event) {
     display: flex;
     width: .75vh;
     cursor: col-resize;
+    transition: 0s background-color;
+    transition-duration: 200ms;
 }
 
-.paneSplitter:hover {
+.paneSplitter:hover,
+.paneSplitterResizing {
     background-color: orange;
+    transition-delay: 200ms;
+    transition-duration: 200ms;
 }
 </style>

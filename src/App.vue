@@ -10,7 +10,7 @@ save data
 import { ref, reactive, onMounted } from 'vue'
 import ItemsList from './ItemsList.vue'
 import PropsEdit from './PropsEdit.vue'
-import Panel from './Panel.vue'
+import Pane from './Pane.vue'
 
 const items = ref([
   { "id": 732785649503224, "name": "Panqueque de dulce de leche", "level": 0, "cost": 1 },
@@ -31,15 +31,15 @@ const items = ref([
 </script>
 
 <template>
-  <Panel container style="height: 40vh;">
-    <Panel style="width:300px;">
+  <Pane container style="height: 40vh;">
+    <Pane style="width:300px;">
       <ItemsList :items="items" />
-    </Panel>
-    <Panel splitter />
-    <Panel style="flex-grow: 1;">
+    </Pane>
+    <Pane splitter />
+    <Pane style="flex-grow: 1;">
       <PropsEdit :items="items" />
-    </Panel>
-  </Panel>
+    </Pane>
+  </Pane>
 <!-- <div style="position:absolute; bottom:0;height: 40vh; overflow-y: scroll;width:100%;font:.8em monospace;">
     <div v-for="item in items" style="overflow:hidden; white-space: nowrap;"> {{ item }},</div></div>
    --></template>
