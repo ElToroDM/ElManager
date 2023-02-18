@@ -8,8 +8,8 @@ undo actions: useManualRefHistory? or Pinia? ...or without libs: https://vuejs.o
 save data
 */
 import { ref, reactive, onMounted } from 'vue'
-import itemsList from './itemsList.vue'
-import propsEdit from './propsEdit.vue'
+import ItemsList from './ItemsList.vue'
+import PropsEdit from './PropsEdit.vue'
 import Panel from './Panel.vue'
 
 const items = ref([
@@ -33,11 +33,11 @@ const items = ref([
 <template>
   <Panel container style="height: 40vh;">
     <Panel style="width:300px;">
-      <itemsList :items="items" />
+      <ItemsList :items="items" />
     </Panel>
-    <Panel separator />
+    <Panel splitter />
     <Panel style="flex-grow: 1;">
-      <propsEdit :items="items" />
+      <PropsEdit :items="items" />
     </Panel>
   </Panel>
 <!-- <div style="position:absolute; bottom:0;height: 40vh; overflow-y: scroll;width:100%;font:.8em monospace;">

@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, onMounted } from 'vue'
 defineProps({
-    separator: Boolean,
+    splitter: Boolean,
     container: Boolean
 })
 
@@ -49,7 +49,7 @@ function panelSeparatorMouseMove(event) {
     <div v-if="container" class="panelsContainer">
         <slot></slot>
     </div>
-    <div v-else-if="separator" class="panelSeparator" @mousedown="panelSeparatorMouseDown($event)"
+    <div v-else-if="splitter" class="panelSeparator" @mousedown="panelSeparatorMouseDown($event)"
         @touchstart="panelSeparatorMouseDown($event)">
     </div>
     <div v-else class="panel">

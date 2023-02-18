@@ -39,11 +39,11 @@ function isInOpenFolder(item) {
 
 <template>
   <div id="propsEditDiv">
-    <template v-for="item in items">
+    <div class="row" v-for="item in items">
       <div v-if="isInOpenFolder(item)" class="itemLine" ref="itemref">
         {{ item.cost }}
       </div>
-    </template>
+    </div>
     <!-- {{ state }}<br />{{ drag }} -->
   </div>
   <!-- {{ drag.info }} -->
@@ -55,5 +55,10 @@ function isInOpenFolder(item) {
 <style>
 #propsEditDiv {
   flex-grow: 1;
+}
+
+.row{
+  flex-grow: 1;
+  /* display:flex; */
 }
 </style>
