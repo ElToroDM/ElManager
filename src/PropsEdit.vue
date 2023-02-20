@@ -21,15 +21,15 @@ function isInOpenFolder(item) {
   // Determine wich items should be hidden or shown based on upper closed or opened folders.
   // (To be called sequentially, must start from the first item)
   if (previousOpenFolderLevel === 0) {
-    if (item.level === 0) return true // Root is always visible
+    if (item.item_level === 0) return true // Root is always visible
     const previousItem = props.items[props.items.indexOf(item) - 1]
-    if (previousItem.open === false && item.level === previousItem.level + 1) {
-      previousOpenFolderLevel = item.level
+    if (previousItem.open === false && item.item_level === previousItem.item_level + 1) {
+      previousOpenFolderLevel = item.item_level
       return false
     }
     return true
   }
-  if (item.level < previousOpenFolderLevel) {
+  if (item.item_level < previousOpenFolderLevel) {
     previousOpenFolderLevel = 0
     return true
   }
@@ -39,15 +39,16 @@ function isInOpenFolder(item) {
 
 <template>
   <div id="propsEditDiv">
-    <div class="row" v-for="item in items">
+    <div v-for="item in items">
       <div v-if="isInOpenFolder(item)" class="itemLine" ref="itemref">
-        {{ item.cost }}
+        <div class="cell">{{ item.cantidad }}</div>
+        <div class="cell">{{ item.stock }}</div>
       </div>
     </div>
     <!-- {{ state }}<br />{{ drag }} -->
   </div>
   <!-- {{ drag.info }} -->
-<br />
+  <br />
 </template>
 
 
@@ -57,8 +58,20 @@ function isInOpenFolder(item) {
   flex-grow: 1;
 }
 
-.row{
-  flex-grow: 1;
-  /* display:flex; */
+/* .row{
+  display:flex;
+} */
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content:right;
+  width: 50px;
+  border-right: 1px solid rgb(228, 232, 199);
+  /* background-color: aqua; */
 }
+
+/* .cell:first-child {
+  transform: translateX(-10px);
+} */
 </style>

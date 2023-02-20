@@ -1,11 +1,11 @@
 <script setup>
 /*
 TODO:
+save items data
 column titles
 edit props structure
 edit props
-undo actions: useManualRefHistory? or Pinia? ...or without libs: https://vuejs.org/examples/#circle-drawer
-save data
+undo actions: useManualRefHistory? or Pinia? ...or: https://vuejs.org/examples/#circle-drawer
 */
 import { ref, reactive, onMounted } from 'vue'
 import ItemsList from './ItemsList.vue'
@@ -13,19 +13,19 @@ import PropsEdit from './PropsEdit.vue'
 import Pane from './Pane.vue'
 
 const items = ref([
-  { "id": 732785649503224, "name": "Panqueque de dulce de leche", "level": 0, "cost": 1 },
-  { "id": 732785649504646, "name": "Enrollar", "level": 1, "cost": 1 },
-  { "id": 732787039516608, "name": "Panqueque", "level": 2, "cost": 1 },
-  { "id": 732787228074946, "name": "Cocinar vuelta y vuelta", "level": 3, "cost": 2 },
-  { "id": 732787388636990, "name": "Pasta", "level": 4, "cost": 1 },
-  { "id": 732787473433670, "name": "Batir", "level": 5, "cost": 1 },
-  { "id": 732787615515042, "name": "Huevos", "level": 6, "cost": 3 },
-  { "id": 732787613195910, "name": "Manteca derretida", "level": 6, "cost": 1 },
-  { "id": 732787611591662, "name": "Leche", "level": 6, "cost": 4 },
-  { "id": 732787609910024, "name": "Harina", "level": 6, "cost": 2 },
-  { "id": 732787604156978, "name": "Esencia de vainilla", "level": 6, "cost": 2 },
-  { "id": 732787571510938, "name": "Sal", "level": 6, "cost": 1 },
-  { "id": 732787108951490, "name": "Dulce de leche", "level": 2, "cost": 6 }
+  { "item_id": 732785649503224, "item_name": "Panqueque de dulce de leche", "item_level": 0, "stock": 2 },
+  { "item_id": 732785649504646, "item_name": "Enrollar", "item_level": 1, "stock": 0, },
+  { "item_id": 732787039516608, "item_name": "Panqueque", "item_level": 2, "stock": 4 },
+  { "item_id": 732787228074946, "item_name": "Cocinar vuelta y vuelta", "item_level": 3, "stock": 0 },
+  { "item_id": 732787388636990, "item_name": "Pasta", "item_level": 4, "stock": 0 },
+  { "item_id": 732787473433670, "item_name": "Batir", "item_level": 5, "stock": 0 },
+  { "item_id": 732787615515042, "item_name": "Huevos", "item_level": 6, "stock": 6, "cantidad":4 },
+  { "item_id": 732787613195910, "item_name": "Manteca derretida", "item_level": 6, "stock": 2, "cantidad":.05 },
+  { "item_id": 732787611591662, "item_name": "Leche", "item_level": 6, "stock": 1, "cantidad":2 },
+  { "item_id": 732787609910024, "item_name": "Harina", "item_level": 6, "stock": 1, "cantidad":.8 },
+  { "item_id": 732787604156978, "item_name": "Esencia de vainilla", "item_level": 6, "stock": 250, "cantidad":10 },
+  { "item_id": 732787571510938, "item_name": "Sal", "item_level": 6, "stock": 500, "cantidad":2 },
+  { "item_id": 732787108951490, "item_name": "Dulce de leche", "item_level": 2, "stock": .4, "cantidad":.05 }
 ])
 //______________________________________________________________________________
 </script>

@@ -27,7 +27,7 @@ const drag = reactive({})
 let vh
 //______________________________________________________________________________
 function onDragStart(event, item) {
-  drag.sourceItemId = item.id
+  drag.sourceItemId = item.item_id
   // Reset horizontal drag threshold
   drag.startPosX = event.pageX || event.touches[0].pageX
   // Mark original items as "dragging"
@@ -45,11 +45,11 @@ function onDragEnd() {
 }
 //______________________________________________________________________________
 function onDragOver(event, item) {
-  const sourceItem = props.items.find(x => x.id == drag.sourceItemId)
+  const sourceItem = props.items.find(x => x.item_id == drag.sourceItemId)
   const sourceItemIndex = props.items.indexOf(sourceItem)
   const lastSuccessorIndex = getLastSuccessorIndex(sourceItem)
   let targetItemIndex = props.items.indexOf(item)
-  let levelDifference = item.level - sourceItem.level
+  let levelDifference = item.item_level - sourceItem.item_level
   let posX, posY
   if (event.touches) { posX = event.touches[0].pageX; posY = event.touches[0].pageY }
   else { posX = event.pageX; posY = event.pageY }
@@ -62,19 +62,19 @@ function onDragOver(event, item) {
     if (targetItemIndex === 0) return
     if (posX > drag.startPosX + dragThresholdX) {
       // Move to the right
-      if (props.items[targetItemIndex].level === props.items[targetItemIndex - 1].level) levelDifference++
-      for (let i = targetItemIndex; i <= lastSuccessorIndex; i++) props.items[i].level += levelDifference
+      if (props.items[targetItemIndex].item_level === props.items[targetItemIndex - 1].item_level) levelDifference++
+      for (let i = targetItemIndex; i <= lastSuccessorIndex; i++) props.items[i].item_level += levelDifference
       drag.startPosX = posX
       return
     } else if (posX < drag.startPosX - dragThresholdX) {
       drag.startPosX = posX
       // Move to the left
-      if (props.items[targetItemIndex].level - props.items[targetItemIndex - 1].level === 1) {
+      if (props.items[targetItemIndex].item_level - props.items[targetItemIndex - 1].item_level === 1) {
         if (lastSuccessorIndex + 1 < props.items.length) {
-          if (props.items[targetItemIndex].level === props.items[lastSuccessorIndex + 1].level) return
+          if (props.items[targetItemIndex].item_level === props.items[lastSuccessorIndex + 1].item_level) return
         }
         levelDifference--
-        for (let i = targetItemIndex; i <= lastSuccessorIndex; i++) props.items[i].level += levelDifference
+        for (let i = targetItemIndex; i <= lastSuccessorIndex; i++) props.items[i].item_level += levelDifference
       }
       return
     }
@@ -95,7 +95,7 @@ function onDragOver(event, item) {
     }
     item = props.items[index]
     targetItemIndex = props.items.indexOf(item)
-    levelDifference = item.level - sourceItem.level
+    levelDifference = item.item_level - sourceItem.item_level
   }
   // Don't vertical drag to the same item
   if (targetItemIndex === sourceItemIndex) return
@@ -104,7 +104,7 @@ function onDragOver(event, item) {
     targetItemIndex += lastSuccessorIndex - sourceItemIndex
     if (targetItemIndex >= props.items.length) return
     item = props.items[targetItemIndex]
-    levelDifference = item.level - sourceItem.level
+    levelDifference = item.item_level - sourceItem.item_level
   }
   // Adjust target position if below than source in the tree (indexes are higher when position is below)
   if (targetItemIndex > sourceItemIndex) {
@@ -118,7 +118,7 @@ function onDragOver(event, item) {
   // Create a copy of the items to move
   let itemsCopy = props.items.slice(sourceItemIndex, lastSuccessorIndex + 1)
   // Adjust levels of items to move
-  itemsCopy = itemsCopy.map(e => ({ ...e, level: e.level + levelDifference }))
+  itemsCopy = itemsCopy.map(e => ({ ...e, item_level: e.item_level + levelDifference }))
   // Remove sourceItem (and successors)
   removeItem(sourceItem)
   // Insert items in new position
@@ -138,7 +138,7 @@ function newItemId() {
 function insertItem(item) {
   const lastSuccessorItemIndex = getLastSuccessorIndex(item)
   props.items.splice(lastSuccessorItemIndex + 1, 0,
-    { id: newItemId(), name: 'New item', level: item.level + 1, cost: 2 })
+    { item_id: newItemId(), item_name: 'New item', item_level: item.item_level + 1, cost: 2 })
 }
 //______________________________________________________________________________
 function removeItem(item) {
@@ -150,7 +150,7 @@ function getLastSuccessorIndex(item) {
   const targetItemIndex = props.items.indexOf(item)
   let lastSuccessorIndex = targetItemIndex
   while (lastSuccessorIndex < props.items.length - 1) {
-    if (props.items[lastSuccessorIndex + 1].level <= item.level) break
+    if (props.items[lastSuccessorIndex + 1].item_level <= item.item_level) break
     lastSuccessorIndex++
   }
   return lastSuccessorIndex
@@ -162,7 +162,7 @@ function itemTotalCost(item) {
 //______________________________________________________________________________
 function isFolder(item) {
   try {
-    return props.items[props.items.indexOf(item) + 1].level === item.level + 1
+    return props.items[props.items.indexOf(item) + 1].item_level === item.item_level + 1
   } catch {
     return false
   }
@@ -181,15 +181,15 @@ function isInOpenFolder(item) {
   // Determine wich items should be hidden or shown based on upper closed or opened folders.
   // (To be called sequentially, must start from the first item)
   if (previousOpenFolderLevel === 0) {
-    if (item.level === 0) return true // Root is always visible
+    if (item.item_level === 0) return true // Root is always visible
     const previousItem = props.items[props.items.indexOf(item) - 1]
-    if (previousItem.open === false && item.level === previousItem.level + 1) {
-      previousOpenFolderLevel = item.level
+    if (previousItem.open === false && item.item_level === previousItem.item_level + 1) {
+      previousOpenFolderLevel = item.item_level
       return false
     }
     return true
   }
-  if (item.level < previousOpenFolderLevel) {
+  if (item.item_level < previousOpenFolderLevel) {
     previousOpenFolderLevel = 0
     return true
   }
@@ -234,7 +234,7 @@ function onMouseUp() {
 }
 //______________________________________________________________________________
 function onDblClicK(item) {
-  state.itemEditing = item.id
+  state.itemEditing = item.item_id
   nextTick(() => {
     const itemInput = document.getElementById('itemEditInput')
     itemInput.focus()
@@ -274,18 +274,27 @@ function autoScroll(event) {
 
 <template>
   <div id="treevueDiv">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8" style="display:none;">
+      <symbol id="folder-caret">
+        <polyline points="2,0 6,4 2,8" />
+      </symbol>
+    </svg>
     <template v-for="item in items">
-      <div v-if="isInOpenFolder(item)" :style="{ 'padding-left': item.level * 2 + 'vh' }" class="itemLine" ref="itemref"
-        :class="{ itemLineDragging: item.dragging }, itemHighlight(item)" @mousedown="onMouseDown($event, item)"
-        @mousemove="onMouseMove($event, item)" @touchstart="onMouseDown($event, item)"
-        @touchmove="onMouseMove($event, item)">
-        <span :class="{ invisible: !isFolder(item) }" @click="toggleOpenFolder(item)" class="isFolder">
-          {{ item.open === false ? '&#62;' : '&#709;' }}</span>
-        <input v-if="state.itemEditing == item.id" v-model="item.name" @blur="state.itemEditing = false"
+      <div v-if="isInOpenFolder(item)" :style="{ 'padding-left': item.item_level * 2 + 'vh' }" class="itemLine"
+        ref="itemref" :class="{ itemLineDragging: item.dragging }, itemHighlight(item)"
+        @mousedown="onMouseDown($event, item)" @mousemove="onMouseMove($event, item)"
+        @touchstart="onMouseDown($event, item)" @touchmove="onMouseMove($event, item)">
+        <span :class="{ invisible: !isFolder(item) }, { isFolderOpen: item.open != false }"
+          @click="toggleOpenFolder(item)" class="isFolder">
+          <svg>
+            <use xlink:href="#folder-caret" />
+          </svg>
+        </span>
+        <input v-if="state.itemEditing == item.item_id" v-model="item.item_name" @blur="state.itemEditing = false"
           @keyup.esc="state.itemEditing = false" @keyup.enter="state.itemEditing = false" id="itemEditInput" />
         <div v-else class="item">
-          <!-- [..{{ item.id.toString().slice(-4) }}] -->
-          <span @dblclick="onDblClicK(item)">{{ item.name }}</span>
+          <!-- [..{{ item.item_id.toString().slice(-4) }}] -->
+          <span @dblclick="onDblClicK(item)">{{ item.item_name }}</span>
           <!-- ${{ itemTotalCost(item) }}{{ item.info }} -->
         </div>
         <div v-if="item.highlight == 1" class="itemEdition itemHighlight1">
@@ -311,8 +320,7 @@ function autoScroll(event) {
   white-space: nowrap;
   overflow: visible;
   border-bottom: 1px solid rgb(228, 232, 199);
-  height: 3vh;
-  padding: .25vh 0;
+  height: 4vh;
   cursor: default;
   /* touch-action: none; */
 }
@@ -323,7 +331,9 @@ function autoScroll(event) {
 }
 
 .item {
-  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: right;
 }
 
 .invisible {
@@ -331,16 +341,36 @@ function autoScroll(event) {
 }
 
 .isFolder {
-  vertical-align: bottom;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  font-size: 1em;
   cursor: pointer;
   color: goldenrod;
+  transition: transform 200ms;
+  padding-left: .2em;
+  padding-right: .2em;
 }
 
-.isFolder:hover {
-  color: rgb(128, 109, 0);
+.isFolder svg {
+  width: .6em;
+  height: .6em;
+  stroke: goldenrod;
+  stroke-width: .07em;
+  fill: none;
+}
+
+.isFolder:hover svg {
+  stroke-width: .15em;
+}
+
+.isFolderOpen {
+  transform: rotate(90deg);
 }
 
 .itemEdition {
+  display: flex;
+  align-items: center;
   position: sticky;
   right: 0;
   padding-right: 1vh;

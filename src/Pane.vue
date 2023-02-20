@@ -4,10 +4,10 @@ ________________________________________________________________________________
 Pane component for Vue.js
 by Diego Fraga
 exerionbit.com
-Code started: february 2022
+Code started: february 12, 2022
 ________________________________________________________________________________
 TODO:
-(touch) splitter move
+(touch) pane resizing with touchs
 ________________________________________________________________________________
 */
 
