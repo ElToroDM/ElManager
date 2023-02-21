@@ -274,7 +274,7 @@ function autoScroll(event) {
 
 <template>
   <div id="treevueDiv">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8" style="display:none;">
+    <svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
       <symbol id="folder-caret">
         <polyline points="2,0 6,4 2,8" />
       </symbol>
@@ -347,7 +347,7 @@ function autoScroll(event) {
   font-size: 1em;
   cursor: pointer;
   color: goldenrod;
-  transition: transform 200ms;
+  transition: transform 100ms;
   padding-left: .2em;
   padding-right: .2em;
 }
