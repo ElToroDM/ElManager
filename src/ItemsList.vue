@@ -346,7 +346,6 @@ function autoScroll(event) {
   justify-content: right;
   font-size: 1em;
   cursor: pointer;
-  color: goldenrod;
   transition: transform 100ms;
   padding-left: .2em;
   padding-right: .2em;
