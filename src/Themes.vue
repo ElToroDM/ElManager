@@ -37,7 +37,7 @@ function toggleTheme() {
     --primary-variant: #0062cc;
     --on-primary: #ffffff;
     --secondary: #6c757d;
-    --secondary-variant: #5a6268;
+    --secondary-variant: #4e555a;
     --on-secondary: #ffffff;
     --background: #ffffff;
     --on-background: #000000;
@@ -57,7 +57,7 @@ function toggleTheme() {
     --on-secondary: #ffffff;
     --background: #1a1a1a;
     --on-background: #ffffff;
-    --surface: #262626;
+    --surface: #323232;
     --on-surface: #ffffff;
     --error: #ff4c4c;
     --on-error: #ffffff;
