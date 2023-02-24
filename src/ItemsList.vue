@@ -319,10 +319,10 @@ function autoScroll(event) {
   display: flex;
   white-space: nowrap;
   overflow: visible;
-  color: var(--on-surface);
-  background-color:var(--surface);
+  color: var(--on-background);
+  background-color:var(--background);
   /* border-bottom: 1px solid rgb(228, 232, 199); */
-  border-bottom: 1px solid var(--secondary);
+  border-bottom: 1px solid var(--surface);
   height: 4vh;
   cursor: default;
   /* touch-action: none; */

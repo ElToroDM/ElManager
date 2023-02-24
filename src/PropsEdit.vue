@@ -67,7 +67,8 @@ function isInOpenFolder(item) {
   align-items: center;
   justify-content:right;
   width: 50px;
-  border-right: 1px solid var(--secondary);
+  padding-right: .2em;
+  border-right: 1px solid var(--surface);
   /* background-color: aqua; */
 }
 
