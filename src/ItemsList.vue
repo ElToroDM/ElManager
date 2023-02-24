@@ -319,14 +319,19 @@ function autoScroll(event) {
   display: flex;
   white-space: nowrap;
   overflow: visible;
-  border-bottom: 1px solid rgb(228, 232, 199);
+  color: var(--on-surface);
+  background-color:var(--surface);
+  /* border-bottom: 1px solid rgb(228, 232, 199); */
+  border-bottom: 1px solid var(--secondary);
   height: 4vh;
   cursor: default;
   /* touch-action: none; */
 }
 
 .itemLineDragging {
-  background-color: rgba(241, 255, 150, 0.8);
+  /* background-color: rgba(241, 255, 150, 0.8); */
+  color: var(--on-surface);
+  background-color:var(--surface);
   cursor: ns-resize;
 }
 
@@ -354,7 +359,8 @@ function autoScroll(event) {
 .isFolder svg {
   width: .6em;
   height: .6em;
-  stroke: goldenrod;
+  /* stroke: goldenrod; */
+  stroke: var(--primary);
   stroke-width: .07em;
   fill: none;
 }
@@ -374,7 +380,9 @@ function autoScroll(event) {
   right: 0;
   padding-right: 1vh;
   font-size: 1.5em;
-  background-color: rgba(241, 255, 150, 0.7);
+  /* background-color: rgba(241, 255, 150, 0.7); */
+  color: var(--on-surface);
+  background-color: var(--surface);
   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.5), 1px -1px 1px rgba(0, 0, 0, 0.5),
     -1px 1px 1px rgba(0, 0, 0, 0.5), 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
@@ -392,10 +400,14 @@ function autoScroll(event) {
 }
 
 .itemHighlight1 {
-  background-color: rgba(241, 255, 150, 0.6);
+  /* background-color: rgba(241, 255, 150, 0.6); */
+  color: var(--on-secondary);
+  background-color: var(--secondary);
 }
 
 .itemHighlight2 {
-  background-color: rgba(241, 255, 150, 0.3);
+  /* background-color: rgba(241, 255, 150, 0.3); */
+  color: var(--on-secondary);
+  background-color: var(--secondary-variant);
 }
 </style>
