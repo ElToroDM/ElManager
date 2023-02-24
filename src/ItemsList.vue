@@ -322,7 +322,8 @@ function autoScroll(event) {
   color: var(--on-background);
   background-color:var(--background);
   /* border-bottom: 1px solid rgb(228, 232, 199); */
-  border-bottom: 1px solid var(--surface);
+  /* border-bottom: 1px solid var(--surface); */
+  /* box-shadow: 10px 10px var(--on-surface); */
   height: 4vh;
   cursor: default;
   /* touch-action: none; */

@@ -67,9 +67,12 @@ function isInOpenFolder(item) {
   align-items: center;
   justify-content:right;
   width: 50px;
+  padding:0;
+  margin:0;
   padding-right: .2em;
-  border-right: 1px solid var(--surface);
+  /* border-right: 1px solid var(--surface); */
   /* background-color: aqua; */
+  box-shadow: 0 0 1px var(--on-surface) inset;
 }
 
 /* .cell:first-child {

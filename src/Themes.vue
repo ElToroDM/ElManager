@@ -1,13 +1,16 @@
-<template>
-    <div>
-        <button @click="toggleTheme">Toggle Theme</button>
-
-        <!-- {{ state.themes }} -->
-        <p>{{ state.themes[state.themeIndex] }}</p>
-    </div>
-</template>
-  
 <script setup>
+/*
+________________________________________________________________________________
+Themes - Color Theme changer for Vue.js
+by Diego Fraga
+exerionbit.com
+Code started: january 28, 2023
+________________________________________________________________________________
+TODO:
+document
+________________________________________________________________________________
+*/
+
 import { reactive } from 'vue'
 
 const state = reactive({
@@ -29,7 +32,16 @@ function toggleTheme() {
     document.documentElement.setAttribute('theme', state.themes[state.themeIndex])
 }
 </script>
-  
+
+<template>
+    <div>
+        <button @click="toggleTheme">Toggle Theme</button>
+
+        <!-- {{ state.themes }} -->
+        <p>{{ state.themes[state.themeIndex] }}</p>
+    </div>
+</template>
+
 <style >
 /* Default Theme */
 :root[theme="Default"] {
