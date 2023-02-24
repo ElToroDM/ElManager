@@ -40,7 +40,7 @@ function isInOpenFolder(item) {
 <template>
   <div id="propsEditDiv">
     <div v-for="item in items">
-      <div v-if="isInOpenFolder(item)" class="itemLine" ref="itemref">
+      <div v-if="isInOpenFolder(item)" class="row" ref="itemref">
         <div class="cell">{{ item.cantidad }}</div>
         <div class="cell">{{ item.stock }}</div>
       </div>
@@ -53,29 +53,32 @@ function isInOpenFolder(item) {
 
 
 
-<style>
+<style scoped>
 #propsEditDiv {
   flex-grow: 1;
 }
 
-/* .row{
-  display:flex;
-} */
+.row {
+  position: relative;
+  display: flex;
+  white-space: nowrap;
+  overflow: visible;
+  color: var(--on-surface);
+  background-color: var(--surface);
+  height: 4vh;
+  cursor: default;
+  /* touch-action: none; */
+}
 
 .cell {
   display: flex;
   align-items: center;
-  justify-content:right;
+  justify-content: right;
   width: 50px;
-  padding:0;
-  margin:0;
+  padding: 0;
+  margin: 0;
   padding-right: .2em;
-  /* border-right: 1px solid var(--surface); */
   /* background-color: aqua; */
-  box-shadow: 0 0 1px var(--on-surface) inset;
+  box-shadow: inset 0 0 1px var(--on-surface);
 }
-
-/* .cell:first-child {
-  transform: translateX(-10px);
-} */
 </style>

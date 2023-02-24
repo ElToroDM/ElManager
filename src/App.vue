@@ -1,11 +1,18 @@
 <script setup>
 /*
+________________________________________________________________________________
+ElManager
+by Diego Fraga
+exerionbit.com
+Code started: november 5, 2022
+________________________________________________________________________________
 TODO:
 save items data
 column titles
 edit props structure
 edit props
 undo actions: useManualRefHistory? or Pinia? ...or: https://vuejs.org/examples/#circle-drawer
+________________________________________________________________________________
 */
 import { ref, reactive, onMounted } from 'vue'
 import ItemsList from './ItemsList.vue'

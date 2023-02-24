@@ -4,9 +4,11 @@ ________________________________________________________________________________
 Themes - Color Theme changer for Vue.js
 by Diego Fraga
 exerionbit.com
-Code started: january 28, 2023
+Code started: february 18, 2023
 ________________________________________________________________________________
 TODO:
+test elements/template for showing all theme colors
+color editing tool
 document
 ________________________________________________________________________________
 */
@@ -35,14 +37,11 @@ function toggleTheme() {
 
 <template>
     <div>
-        <button @click="toggleTheme">Toggle Theme</button>
-
-        <!-- {{ state.themes }} -->
-        <p>{{ state.themes[state.themeIndex] }}</p>
+        <button @click="toggleTheme">Toggle Theme: {{ state.themes[state.themeIndex] }}</button>
     </div>
 </template>
 
-<style >
+<style>
 /* Default Theme */
 :root[theme="Default"] {
     --primary: #007bff;
@@ -123,7 +122,9 @@ function toggleTheme() {
     --on-error: #ffffff;
 }
 
-p {
+button {
+    margin-left: .5vh;
+    padding: .5vh;
     color: var(--on-surface);
     background-color: var(--surface);
     border: 3px solid var(--primary);

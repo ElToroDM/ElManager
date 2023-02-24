@@ -309,7 +309,7 @@ function autoScroll(event) {
   <br />
 </template>
 
-<style>
+<style scoped>
 #treevueDiv {
   flex-grow: 1;
 }
@@ -319,11 +319,9 @@ function autoScroll(event) {
   display: flex;
   white-space: nowrap;
   overflow: visible;
-  color: var(--on-background);
-  background-color:var(--background);
-  /* border-bottom: 1px solid rgb(228, 232, 199); */
-  /* border-bottom: 1px solid var(--surface); */
-  /* box-shadow: 10px 10px var(--on-surface); */
+  color: var(--on-surface);
+  background-color: var(--surface);
+  box-shadow: inset 0 0 1px var(--on-surface);
   height: 4vh;
   cursor: default;
   /* touch-action: none; */
@@ -332,7 +330,7 @@ function autoScroll(event) {
 .itemLineDragging {
   /* background-color: rgba(241, 255, 150, 0.8); */
   color: var(--on-surface);
-  background-color:var(--surface);
+  background-color: var(--surface);
   cursor: ns-resize;
 }
 

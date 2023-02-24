@@ -95,7 +95,7 @@ function paneSplitterMouseMove(event) {
 
 .paneSplitter:hover,
 .paneSplitterResizing {
-    background-color: orange;
+    background-color: var(--primary);
     transition-delay: 200ms;
     transition-duration: 200ms;
 }
