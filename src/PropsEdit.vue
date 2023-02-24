@@ -18,7 +18,7 @@ const state = reactive({})
 
 let previousOpenFolderLevel = 0
 function isInOpenFolder(item) {
-  // Determine wich items should be hidden or shown based on upper closed or opened folders.
+  // Determine wich items should be hidden or shown based on closed or opened upper folders.
   // (To be called sequentially, must start from the first item)
   if (previousOpenFolderLevel === 0) {
     if (item.item_level === 0) return true // Root is always visible
@@ -51,8 +51,6 @@ function isInOpenFolder(item) {
   <br />
 </template>
 
-
-
 <style scoped>
 #propsEditDiv {
   flex-grow: 1;
@@ -79,6 +77,15 @@ function isInOpenFolder(item) {
   margin: 0;
   padding-right: .2em;
   /* background-color: aqua; */
-  box-shadow: inset 0 0 1px var(--on-surface);
+  box-shadow:
+    inset -2px 0 1px -2px var(--on-surface),
+    inset 0 -2px 1px -2px var(--on-surface);
+}
+
+.cell:first-child {
+  box-shadow:
+    inset -2px 0 1px -2px var(--on-surface),
+    inset 0 -2px 1px -2px var(--on-surface),
+    inset 2px 0 1px -2px var(--on-surface)
 }
 </style>

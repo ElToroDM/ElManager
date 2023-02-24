@@ -321,14 +321,13 @@ function autoScroll(event) {
   overflow: visible;
   color: var(--on-surface);
   background-color: var(--surface);
-  box-shadow: inset 0 0 1px var(--on-surface);
+  box-shadow: inset 0 -2px 1px -2px var(--on-surface);
   height: 4vh;
   cursor: default;
   /* touch-action: none; */
 }
 
 .itemLineDragging {
-  /* background-color: rgba(241, 255, 150, 0.8); */
   color: var(--on-surface);
   background-color: var(--surface);
   cursor: ns-resize;
@@ -358,9 +357,8 @@ function autoScroll(event) {
 .isFolder svg {
   width: .6em;
   height: .6em;
-  /* stroke: goldenrod; */
   stroke: var(--primary);
-  stroke-width: .07em;
+  stroke-width: .1em;
   fill: none;
 }
 
@@ -379,7 +377,6 @@ function autoScroll(event) {
   right: 0;
   padding-right: 1vh;
   font-size: 1.5em;
-  /* background-color: rgba(241, 255, 150, 0.7); */
   color: var(--on-surface);
   background-color: var(--surface);
   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.5), 1px -1px 1px rgba(0, 0, 0, 0.5),

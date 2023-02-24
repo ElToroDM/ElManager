@@ -41,24 +41,33 @@ function toggleTheme() {
     </div>
 </template>
 
+<style scoped>
+button {
+    margin-left: .5vh;
+    padding: .5vh;
+    color: var(--on-surface);
+    background-color: var(--surface);
+    border: 3px solid var(--primary);
+}
+</style>
+
 <style>
 /* Default Theme */
-:root[theme="Default"] {
-    --primary: #007bff;
-    --primary-variant: #0062cc;
+:root[theme="Material"] {
+    --primary: #2196f3;
+    --primary-variant: #1976d2;
     --on-primary: #ffffff;
-    --secondary: #6c757d;
-    --secondary-variant: #4e555a;
+    --secondary: #9c27b0;
+    --secondary-variant: #7b1fa2;
     --on-secondary: #ffffff;
-    --background: #ffffff;
+    --background: #f5f5f5;
     --on-background: #000000;
-    --surface: #f2f2f2;
+    --surface: #ffffff;
     --on-surface: #000000;
-    --error: #dc3545;
+    --error: #f44336;
     --on-error: #ffffff;
 }
 
-/* Dark Theme */
 [theme="Dark"] {
     --primary: #81b3d3;
     --primary-variant: #5d98b3;
@@ -74,23 +83,6 @@ function toggleTheme() {
     --on-error: #ffffff;
 }
 
-/* Material Theme */
-[theme="Material"] {
-    --primary: #2196f3;
-    --primary-variant: #1976d2;
-    --on-primary: #ffffff;
-    --secondary: #9c27b0;
-    --secondary-variant: #7b1fa2;
-    --on-secondary: #ffffff;
-    --background: #f5f5f5;
-    --on-background: #000000;
-    --surface: #ffffff;
-    --on-surface: #000000;
-    --error: #f44336;
-    --on-error: #ffffff;
-}
-
-/* Red Theme */
 [theme="Red"] {
     --primary: #ff5722;
     --primary-variant: #e64a19;
@@ -106,7 +98,6 @@ function toggleTheme() {
     --on-error: #ffffff;
 }
 
-/* Green Theme */
 [theme="Green"] {
     --primary: #4caf50;
     --primary-variant: #388e3c;
@@ -120,14 +111,6 @@ function toggleTheme() {
     --on-surface: #000000;
     --error: #e53935;
     --on-error: #ffffff;
-}
-
-button {
-    margin-left: .5vh;
-    padding: .5vh;
-    color: var(--on-surface);
-    background-color: var(--surface);
-    border: 3px solid var(--primary);
 }
 </style>
   
