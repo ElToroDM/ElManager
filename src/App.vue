@@ -68,7 +68,7 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: var(--background );
+  background-color: var(--background);
   color: var(--on-background);
 }
 

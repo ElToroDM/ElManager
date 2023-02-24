@@ -53,7 +53,23 @@ button {
 
 <style>
 /* Default Theme */
-:root[theme="Material"] {
+
+:root[theme="Dark"] {
+    --primary: #81b3d3;
+    --primary-variant: #5d98b3;
+    --on-primary: #ffffff;
+    --secondary: #9ba3a8;
+    --secondary-variant: #757d80;
+    --on-secondary: #ffffff;
+    --background: #1a1a1a;
+    --on-background: #ffffff;
+    --surface: #323232;
+    --on-surface: #ffffff;
+    --error: #ff4c4c;
+    --on-error: #ffffff;
+}
+
+[theme="Material"] {
     --primary: #2196f3;
     --primary-variant: #1976d2;
     --on-primary: #ffffff;
@@ -68,20 +84,6 @@ button {
     --on-error: #ffffff;
 }
 
-[theme="Dark"] {
-    --primary: #81b3d3;
-    --primary-variant: #5d98b3;
-    --on-primary: #ffffff;
-    --secondary: #9ba3a8;
-    --secondary-variant: #757d80;
-    --on-secondary: #ffffff;
-    --background: #1a1a1a;
-    --on-background: #ffffff;
-    --surface: #323232;
-    --on-surface: #ffffff;
-    --error: #ff4c4c;
-    --on-error: #ffffff;
-}
 
 [theme="Red"] {
     --primary: #ff5722;
