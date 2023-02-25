@@ -55,28 +55,28 @@ button {
 /* Default Theme */
 
 :root[theme="Dark"] {
-    --primary: #81b3d3;
-    --primary-variant: #5d98b3;
+    --primary: #cc7402;
+    --primary-variant: #b45700;
     --on-primary: #ffffff;
-    --secondary: #9ba3a8;
-    --secondary-variant: #757d80;
+    --secondary: #8c9397;
+    --secondary-variant: #646a6c;
     --on-secondary: #ffffff;
     --background: #1a1a1a;
-    --on-background: #ffffff;
+    --on-background: #e9e9e9;
     --surface: #323232;
-    --on-surface: #ffffff;
+    --on-surface: #e9e9e9;
     --error: #ff4c4c;
     --on-error: #ffffff;
 }
 
 [theme="Material"] {
-    --primary: #2196f3;
-    --primary-variant: #1976d2;
+    --primary: #0e70c0;
+    --primary-variant: #0f4f8f;
     --on-primary: #ffffff;
-    --secondary: #9c27b0;
-    --secondary-variant: #7b1fa2;
+    --secondary: #a077a7;
+    --secondary-variant: #8f64a1;
     --on-secondary: #ffffff;
-    --background: #f5f5f5;
+    --background: #eeeaea;
     --on-background: #000000;
     --surface: #ffffff;
     --on-surface: #000000;
@@ -113,6 +113,118 @@ button {
     --on-surface: #000000;
     --error: #e53935;
     --on-error: #ffffff;
+}
+[theme="Light"] {
+--primary: #2196f3;
+--primary-variant: #1976d2;
+--on-primary: #ffffff;
+--secondary: #f44336;
+--secondary-variant: #d32f2f;
+--on-secondary: #ffffff;
+--background: #ffffff;
+--on-background: #000000;
+--surface: #eeeeee;
+--on-surface: #000000;
+--error: #ff5722;
+--on-error: #ffffff;
+}
+[theme="Custom"] {
+--primary: #8C43FF;
+--primary-variant: #6F00FF;
+--on-primary: #ffffff;
+--secondary: #FF8C43;
+--secondary-variant: #FF6F00;
+--on-secondary: #ffffff;
+--background: #F4F4F4;
+--on-background: #000000;
+--surface: #ffffff;
+--on-surface: #000000;
+--error: #FF4343;
+--on-error: #ffffff;
+}
+[theme="Ocean"] {
+--primary: #1c758a;
+--primary-variant: #134e63;
+--on-primary: #ffffff;
+--secondary: #28abb9;
+--secondary-variant: #1c758a;
+--on-secondary: #ffffff;
+--background: #d9e8ea;
+--on-background: #000000;
+--surface: #ffffff;
+--on-surface: #000000;
+--error: #ff6347;
+--on-error: #ffffff;
+}
+[theme="FireAndIce"] {
+--primary: #ff4d4d;
+--primary-variant: #b30000;
+--on-primary: #ffffff;
+--secondary: #4d79ff;
+--secondary-variant: #002699;
+--on-secondary: #ffffff;
+--background: #ffffff;
+--on-background: #000000;
+--surface: #f1f1f1;
+--on-surface: #000000;
+--error: #ff9100;
+--on-error: #ffffff;
+}
+[theme="Rainbow"] {
+--primary: #ff0000;
+--primary-variant: #bf0000;
+--on-primary: #ffffff;
+--secondary: #ff8000;
+--secondary-variant: #bf5f00;
+--on-secondary: #ffffff;
+--background: #8000ff;
+--on-background: #000000;
+--surface: #ffffff;
+--on-surface: #000000;
+--error: #ff1a1a;
+--on-error: #ffffff;
+}
+[theme="Colorful"] {
+--primary: #ff0000;
+--primary-variant: #990000;
+--on-primary: #ffffff;
+--secondary: #00ff00;
+--secondary-variant: #009900;
+--on-secondary: #ffffff;
+--background: #1a1a1a;
+--on-background: #ffffff;
+--surface: #ffffff;
+--on-surface: #000000;
+--error: #8b00ff;
+--on-error: #ffffff;
+}
+[theme="Pink"] {
+--primary: #e91e63;
+--primary-variant: #c2185b;
+--on-primary: #ffffff;
+--secondary: #f48fb1;
+--secondary-variant: #c51162;
+--on-secondary: #ffffff;
+--background: #fafafa;
+--on-background: #000000;
+--surface: #ffffff;
+--on-surface: #000000;
+--error: #d50000;
+--on-error: #ffffff;
+}
+[theme="PanquequeConDulceDeLeche"] {
+--primary: #f7e5b3;
+--primary-variant: #f5e0a9;
+--on-primary: #000000;
+--secondary: #e6b464;
+--secondary-variant: #d9a855;
+--on-secondary: #000000;
+--background: #f1d6a5;
+--on-background: #000000;
+--surface: #ffffff;
+--on-surface: #000000;
+--error: #9b4f0f;
+--on-error: #ffffff;
 }
 </style>
   

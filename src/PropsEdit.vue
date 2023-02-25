@@ -76,7 +76,7 @@ function isInOpenFolder(item) {
   padding: 0;
   margin: 0;
   padding-right: .2em;
-  /* background-color: aqua; */
+  /* background-color: rgb(125, 69, 63); */
   box-shadow:
     inset -2px 0 1px -2px var(--on-surface),
     inset 0 -2px 1px -2px var(--on-surface);
