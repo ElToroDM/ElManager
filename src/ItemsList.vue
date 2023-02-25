@@ -214,9 +214,9 @@ function selectedItemStyleUpdate(item) {
 //______________________________________________________________________________
 // ITEMS EVENTS
 //______________________________________________________________________________
-document.addEventListener('mouseup', onMouseUp)
-document.addEventListener('touchend', onMouseUp)
 document.addEventListener('mousedown', onMouseDown)
+window.addEventListener('mouseup', onMouseUp)
+window.addEventListener('touchend', onMouseUp)
 window.addEventListener('mousemove', onMouseMove)
 //______________________________________________________________________________
 function onMouseDown(event, item) {

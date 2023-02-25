@@ -53,7 +53,6 @@ button {
 
 <style>
 /* Default Theme */
-
 :root[theme="Dark"] {
     --primary: #cc7402;
     --primary-variant: #b45700;

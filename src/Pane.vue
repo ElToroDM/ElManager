@@ -7,6 +7,7 @@ exerionbit.com
 Code started: february 12, 2022
 ________________________________________________________________________________
 TODO:
+Make "Pane scrolling synchronization" optional
 (touch) pane resizing with touchs
 ________________________________________________________________________________
 */
