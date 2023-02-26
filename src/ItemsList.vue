@@ -273,7 +273,7 @@ function autoScroll(event) {
 </script>
 
 <template>
-  <div id="treevueDiv">
+  <div id="treevueDiv" @mouseleave="selectedItemStyleUpdate()">
     <svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
       <symbol id="folder-caret">
         <polyline points="2,0 6,4 2,8" />

@@ -91,7 +91,7 @@ function paneSplitterMouseMove(event) {
     width: .75vh;
     cursor: col-resize;
     background-color: var(--surface);
-    transition: 0s background-color;
+    transition: 0 background-color;
     transition-duration: 200ms;
 }
 
