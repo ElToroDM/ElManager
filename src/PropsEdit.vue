@@ -16,6 +16,7 @@ const props = defineProps({ items: Object })
 const itemref = ref([])
 const state = reactive({})
 
+//______________________________________________________________________________
 let previousOpenFolderLevel = 0
 function isInOpenFolder(item) {
   // Determine wich items should be hidden or shown based on closed or opened upper folders.
@@ -35,14 +36,16 @@ function isInOpenFolder(item) {
   }
   return false
 }
+//______________________________________________________________________________
+// let columnsNames = ["Cantidad por padre","Stock","Stock deseado","Reponer"]
+let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
 </script>
 
 <template>
   <div id="propsEditDiv">
     <div v-for="item in items">
       <div v-if="isInOpenFolder(item)" class="row" ref="itemref">
-        <div class="cell">{{ item.cantidad }}</div>
-        <div class="cell">{{ item.stock }}</div>
+        <div v-for="prop in columns" class="cell">{{ item.props[prop] }}</div>
       </div>
     </div>
     <!-- {{ state }}<br />{{ drag }} -->
