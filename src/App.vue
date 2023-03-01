@@ -48,11 +48,11 @@ const itemTypes = ref([
 
 <template>
   <Pane container style="height: 40vh;">
-    <Pane style="width:300px;">
+    <Pane style="width:300px;" class="listPane">
       <ItemsList :items="items" />
     </Pane>
     <Pane splitter />
-    <Pane style="flex-grow: 1;">
+    <Pane style="flex-grow: 1;"  class="listPane">
       <PropsEdit :items="items" />
     </Pane>
   </Pane>
@@ -64,6 +64,12 @@ const itemTypes = ref([
 </template>
 
 <style>
+.listPane{
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
 body {
   margin: 0;
   padding: 0;

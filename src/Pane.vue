@@ -20,7 +20,7 @@ defineProps({
 
 onMounted(() => {
     // Pane scrolling synchronization
-    const divs = document.getElementsByClassName("pane")
+    const divs = document.getElementsByClassName("scrollSync")
     let timeoutId
     Array.from(divs).forEach((div) => {
         div.addEventListener("scroll", () => {
@@ -56,7 +56,9 @@ function paneSplitterMouseUp() {
 //______________________________________________________________________________
 function paneSplitterMouseMove(event) {
     event.stopPropagation()
-    state.pane.style.width = state.paneBaseWidth + event.pageX + 'px'
+    // state.pane.style.width = state.paneBaseWidth + event.pageX + 'px'
+    // state.pane.style.minWidth = state.paneBaseWidth + event.pageX + 'px'
+    state.pane.style.flexBasis = state.paneBaseWidth + event.pageX + 'px'
 }
 //______________________________________________________________________________
 </script>
@@ -76,19 +78,25 @@ function paneSplitterMouseMove(event) {
 <style>
 .panesContainer {
     display: flex;
-    width: 100%;
 }
 
 .pane {
     display: flex;
-    overflow-y: scroll;
-    overflow-x: scroll;
-    min-width: 50px;
+    /* min-width: 100px; */
+}
+
+.pane:not(:last-child) {
+    /* flex-basis: 100px; */
+    flex-grow: 0;
+    flex-shrink: 0;
 }
 
 .paneSplitter {
     display: flex;
-    width: .75vh;
+    /* width: .75vh; */
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 1vh;
     cursor: col-resize;
     background-color: var(--surface);
     transition: 0 background-color;
@@ -100,5 +108,12 @@ function paneSplitterMouseMove(event) {
     background-color: var(--primary);
     transition-delay: 200ms;
     transition-duration: 200ms;
+}
+
+.scrollSync {
+    display: flex;
+    /* flex-grow:1; */
+    overflow-y: scroll;
+    overflow-x: scroll;
 }
 </style>

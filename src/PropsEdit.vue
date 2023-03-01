@@ -37,37 +37,73 @@ function isInOpenFolder(item) {
   return false
 }
 //______________________________________________________________________________
-// let columnsNames = ["Cantidad por padre","Stock","Stock deseado","Reponer"]
+let columnsNames = ["Cantidad por padre","Stock","Stock deseado","Reponer"]
 let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
 </script>
 
-<template>
-  <div id="propsEditDiv">
-    <div v-for="item in items">
+<template >
+  <div id="title" class="row scrollSync">
+    <div v-for="col in columnsNames" class="titleCell">
+      {{ col }}
+    </div>
+  </div>
+  <div id="propsEditDiv" class="scrollSync">
+    <template v-for="item in items">
       <div v-if="isInOpenFolder(item)" class="row" ref="itemref">
         <div v-for="prop in columns" class="cell">{{ item.props[prop] }}</div>
       </div>
-    </div>
-    <!-- {{ state }}<br />{{ drag }} -->
+    </template>
   </div>
-  <!-- {{ drag.info }} -->
-  <br />
 </template>
 
 <style scoped>
+#title {
+  /* display: grid; */
+  white-space: nowrap;
+  overflow: hidden;
+  min-height: 4vh;
+  align-items: center;
+  cursor: default;
+  color: var(--on-secondary);
+  background-color: var(--secondary-variant);
+  box-shadow: inset 0 -2px 1px -2px var(--on-secondary);
+}
+
+.titleCell {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  /* width: 40px; */
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 40px;
+  overflow: hidden;
+  /* padding: 0;
+  margin: 0; */
+  padding-left: .2em;
+  /* background-color: rgb(125, 69, 63); */
+  box-shadow:
+    inset -2px 0 1px -2px var(--on-secondary);
+
+
+}
+
 #propsEditDiv {
-  flex-grow: 1;
+  /* flex-direction: column; */
+  display: grid;
+  /* flex-grow: 1; */
 }
 
 .row {
+  /* flex-grow: 1; */
   position: relative;
   display: flex;
   white-space: nowrap;
-  overflow: visible;
+  /* overflow: visible; */
+  height: 4vh;
+  /* cursor: default; */
   color: var(--on-surface);
   background-color: var(--surface);
-  height: 4vh;
-  cursor: default;
   /* touch-action: none; */
 }
 
@@ -75,9 +111,13 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   display: flex;
   align-items: center;
   justify-content: right;
-  width: 50px;
-  padding: 0;
-  margin: 0;
+  /* width: 40px; */
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 40px;
+  overflow: hidden;
+  /* padding: 0;
+  margin: 0; */
   padding-right: .2em;
   /* background-color: rgb(125, 69, 63); */
   box-shadow:

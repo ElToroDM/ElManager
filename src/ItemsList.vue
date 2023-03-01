@@ -259,12 +259,12 @@ function autoScroll(event) {
   drag.autoScroll = false
   if (state.mouseDown) {
     const dragScrollStep = 1 * vh//15//element.clientHeight
-    const treevueDiv = document.getElementById("treevueDiv")
+    const itemsList = document.getElementById("items-list")
     if (drag.clientY <= dragScrollStep) {
-      treevueDiv.scrollBy(0, -dragScrollStep * 3)
+      itemsList.scrollBy(0, -dragScrollStep * 3)
       drag.autoScroll = setTimeout(() => { autoScroll(event) }, 50)
-    } else if (drag.clientY >= treevueDiv.clientHeight - dragScrollStep) {
-      treevueDiv.scrollBy(0, dragScrollStep * 3)
+    } else if (drag.clientY >= itemsList.clientHeight - dragScrollStep) {
+      itemsList.scrollBy(0, dragScrollStep * 3)
       drag.autoScroll = setTimeout(() => { autoScroll(event) }, 50)
     }
   }
@@ -273,8 +273,11 @@ function autoScroll(event) {
 </script>
 
 <template>
-  <div id="treevueDiv" @mouseleave="selectedItemStyleUpdate()">
-    <svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
+  <!-- <div id="container"> -->
+  <div id="title">Item</div>
+  <!-- <div class="scrollSync" > -->
+  <div id="itemsList" class="scrollSync" @mouseleave="selectedItemStyleUpdate()">
+    <svg style="display:none;">
       <symbol id="folder-caret">
         <polyline points="2,0 6,4 2,8" />
       </symbol>
@@ -303,27 +306,49 @@ function autoScroll(event) {
         </div>
       </div>
     </template>
-    <!-- {{ state }}<br />{{ drag }} -->
+    <!-- </div> -->
   </div>
-  <!-- {{ drag.info }} -->
-  <br />
+  <!-- </div> -->
 </template>
 
 <style scoped>
-#treevueDiv {
+/* .container {
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
+  overflow: hidden;
+} */
+
+#title {
+  display: flex;
+  white-space: nowrap;
+  overflow: hidden;
+  min-height: 4vh;
+  align-items: center;
+  padding-left: 1vh;
+  cursor: default;
+  color: var(--on-secondary);
+  background-color: var(--secondary-variant);
+  box-shadow: inset 0 -2px 1px -2px var(--on-secondary);
+}
+
+#itemsList {
+  /* flex-grow: 1; */
+
+  /* flex-direction: column; */
+  display: grid;
 }
 
 .itemLine {
   position: relative;
   display: flex;
   white-space: nowrap;
-  overflow: visible;
+  /* overflow:visible; */
+  min-height: 4vh;
+  /* cursor: default; */
   color: var(--on-surface);
   background-color: var(--surface);
   box-shadow: inset 0 -2px 1px -2px var(--on-surface);
-  height: 4vh;
-  cursor: default;
   /* touch-action: none; */
 }
 
@@ -337,6 +362,7 @@ function autoScroll(event) {
   display: flex;
   align-items: center;
   justify-content: right;
+  padding-right: .5em;
 }
 
 .invisible {
