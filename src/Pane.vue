@@ -93,7 +93,6 @@ function paneSplitterMouseMove(event) {
 
 .paneSplitter {
     display: flex;
-    /* width: .75vh; */
     flex-grow: 0;
     flex-shrink: 0;
     flex-basis: 1vh;

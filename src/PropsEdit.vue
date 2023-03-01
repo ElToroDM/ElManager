@@ -7,8 +7,10 @@ exerionbit.com
 Code started: january 28, 2023
 ________________________________________________________________________________
 TODO:
-columns
-columns titles
+resizable columns widths
+edit cells
+edit columns
+add / remove columns (item types?)
 ________________________________________________________________________________
 */
 import { ref, reactive } from 'vue'
@@ -42,7 +44,7 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
 </script>
 
 <template >
-  <div id="title" class="row scrollSync">
+  <div id="titles" class="row scrollSync">
     <div v-for="col in columnsNames" class="titleCell">
       {{ col }}
     </div>
@@ -57,7 +59,7 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
 </template>
 
 <style scoped>
-#title {
+#titles {
   /* display: grid; */
   white-space: nowrap;
   overflow: hidden;
@@ -73,6 +75,7 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   display: flex;
   align-items: center;
   justify-content: left;
+  min-height: inherit;
   /* width: 40px; */
   flex-grow: 0;
   flex-shrink: 0;
@@ -92,9 +95,12 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   /* flex-direction: column; */
   display: grid;
   /* flex-grow: 1; */
+  background-color: var(--surface);
+  color: var(--on-surface);
 }
 
 .row {
+
   /* flex-grow: 1; */
   position: relative;
   display: flex;
@@ -102,8 +108,6 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   /* overflow: visible; */
   height: 4vh;
   /* cursor: default; */
-  color: var(--on-surface);
-  background-color: var(--surface);
   /* touch-action: none; */
 }
 

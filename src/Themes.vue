@@ -7,6 +7,8 @@ exerionbit.com
 Code started: february 18, 2023
 ________________________________________________________________________________
 TODO:
+review color names. "variant" is ok?
+add pane variation?
 test elements/template for showing all theme colors
 color editing tool
 document
@@ -43,8 +45,8 @@ function toggleTheme() {
 
 <style scoped>
 button {
-    margin-left: .5vh;
-    padding: .5vh;
+    margin: 0 0 .5em 1em;
+    padding: .5em;
     color: var(--on-surface);
     background-color: var(--surface);
     border: 3px solid var(--primary);

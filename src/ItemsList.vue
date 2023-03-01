@@ -273,9 +273,7 @@ function autoScroll(event) {
 </script>
 
 <template>
-  <!-- <div id="container"> -->
   <div id="title">Item</div>
-  <!-- <div class="scrollSync" > -->
   <div id="itemsList" class="scrollSync" @mouseleave="selectedItemStyleUpdate()">
     <svg style="display:none;">
       <symbol id="folder-caret">
@@ -306,19 +304,10 @@ function autoScroll(event) {
         </div>
       </div>
     </template>
-    <!-- </div> -->
   </div>
-  <!-- </div> -->
 </template>
 
 <style scoped>
-/* .container {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  overflow: hidden;
-} */
-
 #title {
   display: flex;
   white-space: nowrap;
@@ -334,7 +323,6 @@ function autoScroll(event) {
 
 #itemsList {
   /* flex-grow: 1; */
-
   /* flex-direction: column; */
   display: grid;
 }
@@ -343,9 +331,7 @@ function autoScroll(event) {
   position: relative;
   display: flex;
   white-space: nowrap;
-  /* overflow:visible; */
   min-height: 4vh;
-  /* cursor: default; */
   color: var(--on-surface);
   background-color: var(--surface);
   box-shadow: inset 0 -2px 1px -2px var(--on-surface);
