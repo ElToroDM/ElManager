@@ -7,8 +7,7 @@ exerionbit.com
 Code started: november 5, 2022
 ________________________________________________________________________________
 TODO:
-save items data
-column titles
+save data
 edit props structure
 edit props
 undo actions: useManualRefHistory? or Pinia? ...or: https://vuejs.org/examples/#circle-drawer
@@ -48,7 +47,7 @@ const itemTypes = ref([
 
 <template>
   <Pane container style="height: 40vh;">
-    <Pane style="width:300px;" class="listPane">
+    <Pane style="width:250px;" class="listPane">
       <ItemsList :items="items" />
     </Pane>
     <Pane splitter />
@@ -81,6 +80,6 @@ body {
 body,
 input {
   font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
-  font-size: 2vh;
+  font-size: 1.5vh;
 }
 </style>

@@ -8,11 +8,10 @@ Code started: november 5, 2022
 ________________________________________________________________________________
 TODO:
 transitions https://vuejs.org/examples/#list-transition
-add "add button" at the end of treeview
+add an "add" button at the end of treeview
 (touch) double clic or make button for rename
 (touch) move item buttons to avoid conflicts with touch screens functions like scroll, gestures, etc
-folder arrow. Rotate, don't change between 2 chars (right/down) just rotate one
-expand/collapse all
+expand all / collapse all
 ________________________________________________________________________________
 */
 import { ref, reactive, nextTick } from 'vue'

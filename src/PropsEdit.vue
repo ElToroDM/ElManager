@@ -7,6 +7,7 @@ exerionbit.com
 Code started: january 28, 2023
 ________________________________________________________________________________
 TODO:
+**sync title horizontal scroll
 resizable columns widths
 edit cells
 edit columns
@@ -79,7 +80,7 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   /* width: 40px; */
   flex-grow: 0;
   flex-shrink: 0;
-  flex-basis: 40px;
+  flex-basis: 60px;
   overflow: hidden;
   /* padding: 0;
   margin: 0; */
@@ -115,10 +116,9 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   display: flex;
   align-items: center;
   justify-content: right;
-  /* width: 40px; */
   flex-grow: 0;
   flex-shrink: 0;
-  flex-basis: 40px;
+  flex-basis: 60px;
   overflow: hidden;
   /* padding: 0;
   margin: 0; */

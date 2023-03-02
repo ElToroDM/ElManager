@@ -7,7 +7,9 @@ exerionbit.com
 Code started: february 12, 2022
 ________________________________________________________________________________
 TODO:
-Make "Pane scrolling synchronization" optional
+add "Sync groups"
+Limit max panels sizes
+add horizontal panes
 (touch) pane resizing with touchs
 ________________________________________________________________________________
 */
