@@ -8,7 +8,7 @@ Code started: february 12, 2022
 ________________________________________________________________________________
 TODO:
 add "Sync groups"
-Limit max panels sizes
+Limit max panes sizes
 add horizontal panes
 (touch) pane resizing with touchs
 ________________________________________________________________________________

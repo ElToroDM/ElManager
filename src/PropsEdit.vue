@@ -7,7 +7,7 @@ exerionbit.com
 Code started: january 28, 2023
 ________________________________________________________________________________
 TODO:
-**sync title horizontal scroll
+sync title horizontal scroll
 resizable columns widths
 edit cells
 edit columns
