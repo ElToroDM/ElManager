@@ -36,7 +36,7 @@ onMounted(() => {
         })
     })
 
-    // Adjust panes margin-right to hide scrollbars
+    // Hide scrollbars adjusting panes margin-right to
     const scrollSyncDiv = document.querySelector('.scrollSync')
     const scrollbarWidth = scrollSyncDiv.clientWidth - scrollSyncDiv.offsetWidth-1
     if (scrollbarWidth) {
