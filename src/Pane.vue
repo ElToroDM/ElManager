@@ -35,6 +35,16 @@ onMounted(() => {
             }, 5)
         })
     })
+
+    // Adjust panes margin-right to hide scrollbars
+    const scrollSyncDiv = document.querySelector('.scrollSync')
+    const scrollbarWidth = scrollSyncDiv.clientWidth - scrollSyncDiv.offsetWidth-1
+    if (scrollbarWidth) {
+        const panes = document.querySelectorAll('.pane:not(:last-child)')
+        panes.forEach(pane => {
+            pane.style.marginRight = scrollbarWidth + 'px'
+        })
+    }
 })
 
 const state = reactive({})
@@ -84,22 +94,25 @@ function paneSplitterMouseMove(event) {
 
 .pane {
     display: flex;
-    /* min-width: 100px; */
+    min-width: 100px;
+    overflow: hidden;
 }
 
 .pane:not(:last-child) {
-    /* flex-basis: 100px; */
     flex-grow: 0;
     flex-shrink: 0;
+
+    /* margin-right: -17px; */
 }
 
 .paneSplitter {
+    z-index: 100;
     display: flex;
     flex-grow: 0;
     flex-shrink: 0;
     flex-basis: 1vh;
     cursor: col-resize;
-    background-color: var(--surface);
+    background-color: var(--background);
     transition: 0 background-color;
     transition-duration: 200ms;
 }
@@ -113,7 +126,6 @@ function paneSplitterMouseMove(event) {
 
 .scrollSync {
     display: flex;
-    /* flex-grow:1; */
     overflow-y: scroll;
     overflow-x: scroll;
 }

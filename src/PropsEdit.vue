@@ -61,7 +61,6 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
 
 <style scoped>
 #titles {
-  /* display: grid; */
   white-space: nowrap;
   overflow: hidden;
   min-height: 4vh;
@@ -77,13 +76,10 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   align-items: center;
   justify-content: left;
   min-height: inherit;
-  /* width: 40px; */
   flex-grow: 0;
   flex-shrink: 0;
   flex-basis: 60px;
   overflow: hidden;
-  /* padding: 0;
-  margin: 0; */
   padding-left: .2em;
   /* background-color: rgb(125, 69, 63); */
   box-shadow:
@@ -94,21 +90,18 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
 
 #propsEditDiv {
   /* flex-direction: column; */
-  display: grid;
   /* flex-grow: 1; */
+  display: grid;
   background-color: var(--surface);
   color: var(--on-surface);
 }
 
 .row {
-
   /* flex-grow: 1; */
   position: relative;
   display: flex;
   white-space: nowrap;
-  /* overflow: visible; */
   height: 4vh;
-  /* cursor: default; */
   /* touch-action: none; */
 }
 
@@ -120,8 +113,6 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   flex-shrink: 0;
   flex-basis: 60px;
   overflow: hidden;
-  /* padding: 0;
-  margin: 0; */
   padding-right: .2em;
   /* background-color: rgb(125, 69, 63); */
   box-shadow:
