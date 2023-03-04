@@ -14,6 +14,25 @@ edit cells
 edit columns
 add / remove columns (item types?)
 ________________________________________________________________________________
+FORMULAS
+  Functions
+    function sum average max min ceiling floor if len trim sqrt abs pi
+  Operators
+    arithmetic + - * / ^ %
+    comparison = > < >= <= <>
+    text concatenation &
+    reference : , (space)
+  References
+    name propName
+    dot parent.item.prop
+  Constants
+    number
+    string
+    date
+  Parentheses
+PRECEDENCE
+
+________________________________________________________________________________
 */
 import { ref, reactive } from 'vue'
 const props = defineProps({ items: Object })
@@ -41,13 +60,13 @@ function isInOpenFolder(item) {
   return false
 }
 //______________________________________________________________________________
-function cellDisplay(item, prop) {
+function cellView(item, prop) {
   const cell = item.props[prop]
   if (typeof cell === 'string' || cell instanceof String) {
     // cell it's a string
     // TODO sanitize string
     if (cell.charAt(0) != '=') return cell
-
+      
   } else {
     // cell it's not a string
     return cell
@@ -57,6 +76,7 @@ function cellDisplay(item, prop) {
 //______________________________________________________________________________
 let columnsNames = ["Cantidad por padre", "Stock", "Stock deseado", "Reponer"]
 let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
+//______________________________________________________________________________
 </script>
 
 <template >
@@ -68,7 +88,7 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   <div id="propsEditDiv" class="scrollSync">
     <template v-for="item in items">
       <div v-if="isInOpenFolder(item)" class="row" ref="itemref">
-        <div v-for="prop in columns" class="cell">{{ cellDisplay(item, prop) }}</div>
+        <div v-for="prop in columns" class="cell">{{ cellView(item, prop) }}</div>
       </div>
     </template>
   </div>
