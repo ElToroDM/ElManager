@@ -7,6 +7,7 @@ exerionbit.com
 Code started: january 28, 2023
 ________________________________________________________________________________
 TODO:
+** calculate cell formulas eg: =column1+column2
 sync title horizontal scroll
 resizable columns widths
 edit cells
@@ -40,7 +41,21 @@ function isInOpenFolder(item) {
   return false
 }
 //______________________________________________________________________________
-let columnsNames = ["Cantidad por padre","Stock","Stock deseado","Reponer"]
+function cellDisplay(item, prop) {
+  const cell = item.props[prop]
+  if (typeof cell === 'string' || cell instanceof String) {
+    // cell it's a string
+    // TODO sanitize string
+    if (cell.charAt(0) != '=') return cell
+
+  } else {
+    // cell it's not a string
+    return cell
+  }
+
+}
+//______________________________________________________________________________
+let columnsNames = ["Cantidad por padre", "Stock", "Stock deseado", "Reponer"]
 let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
 </script>
 
@@ -53,7 +68,7 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   <div id="propsEditDiv" class="scrollSync">
     <template v-for="item in items">
       <div v-if="isInOpenFolder(item)" class="row" ref="itemref">
-        <div v-for="prop in columns" class="cell">{{ item.props[prop] }}</div>
+        <div v-for="prop in columns" class="cell">{{ cellDisplay(item, prop) }}</div>
       </div>
     </template>
   </div>

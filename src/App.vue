@@ -20,7 +20,7 @@ import Pane from './Pane.vue'
 import Themes from './Themes.vue'
 
 const items = ref([
-  { "item_id": 732785649503224, "item_typeId": 3, "item_name": "Panqueque de dulce de leche", "item_level": 0, "props": { "stock": 2 } },
+  { "item_id": 732785649503224, "item_typeId": 3, "item_name": "Panqueque de dulce de leche", "item_level": 0, "props": { "stock": 2 ,"reponer":5} },
   { "item_id": 732785649504646, "item_typeId": 1, "item_name": "Enrollar", "item_level": 1, "props": { "stock": 0, } },
   { "item_id": 732787039516608, "item_typeId": 1, "item_name": "Panqueque", "item_level": 2, "props": { "stock": 4 } },
   { "item_id": 732787228074946, "item_typeId": 1, "item_name": "Cocinar vuelta y vuelta", "item_level": 3, "props": { "stock": 0 } },
@@ -38,8 +38,8 @@ const items = ref([
 const itemTypes = ref([
   // { "type_id": 0, "type_name": "unassigned" },
   { "type_id": 1, "type_name": "task", "type_props": ["time", "cost"] },
-  { "type_id": 2, "type_name": "piece", "type_props": ["stock", "cost", "weight"] },
-  { "type_id": 3, "type_name": "product", "type_props": ["stock", "cost", "weight"] }
+  { "type_id": 2, "type_name": "piece", "type_props": {"stock":"", "cost":"", "reponer":"=$parent.reponer*cantidad"} },
+  { "type_id": 3, "type_name": "product", "type_props": ["stock", "cost", "reponer"] }
 ])
 
 //______________________________________________________________________________
