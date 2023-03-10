@@ -1,6 +1,6 @@
 <script setup>
 import { reactive } from 'vue'
-const state = reactive({})
+const state = reactive({ result: '' })
 function evaluate(inputElement) {
   const input = inputElement.value
   const parser = new nearley.Parser(arithmetic.ParserRules, arithmetic.ParserStart)
