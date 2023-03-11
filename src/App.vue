@@ -18,7 +18,7 @@ import ItemsList from './ItemsList.vue'
 import PropsEdit from './PropsEdit.vue'
 import Pane from './Pane.vue'
 import Themes from './Themes.vue'
-import Nearley from './Nearley.vue'
+import Nearley from './Evaluate.vue'
 
 const items = ref([
   { "item_id": 732785649503224, "item_typeId": 3, "item_name": "Panqueque de dulce de leche", "item_level": 0, "props": { "stock": 2, "reponer": 5 } },

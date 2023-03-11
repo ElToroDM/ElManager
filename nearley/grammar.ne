@@ -1,6 +1,6 @@
 # Original code by Hardmath123 from https://github.com/Hardmath123/nearley/
 # Modified by Diego Fraga
-# Modification started: march 3 2023
+# started: march 3 2023
 # `main` is the nonterminal that nearley tries to parse,
 # so we define it first.
 # The _'s are defined as whitespace below. This is a mini-idiom.
