@@ -1,6 +1,6 @@
 # Original code by Hardmath123 from https://github.com/Hardmath123/nearley/
 # Modified by Diego Fraga
-# started: march 3 2023
+# Modification started: march 3 2023
 # `main` is the nonterminal that nearley tries to parse,
 # so we define it first.
 # The _'s are defined as whitespace below. This is a mini-idiom.
@@ -43,8 +43,8 @@ N -> float          {% id %}
     | "sqrt"i _ "(" _ AS _ ")" {% function(d) {return {type:'sqrt', d:d, v:Math.sqrt(d[4].v)}} %}
     | "ln"i _ "(" _ AS _ ")" {% function(d) {return {type:'ln', d:d, v:Math.log(d[4].v)}}  %}
 
-	| "max"i _ "(" _ AS (_ "," _ AS):+ _ ")" {% function(d) {return {type:'max', d:d, v:Math.max(d[4].v,...d[5].map(item => item[3].v))}} %}
-	| "min"i _ "(" _ AS (_ "," _ AS):+ _ ")" {% function(d) {return {type:'min', d:d, v:Math.min(d[4].v,...d[5].map(item => item[3].v))}} %}
+    | "max"i _ "(" _ AS (_ "," _ AS):+ _ ")" {% function(d) {return {type:'max', d:d, v:Math.max(d[4].v,...d[5].map(item => item[3].v))}} %}
+    | "min"i _ "(" _ AS (_ "," _ AS):+ _ ")" {% function(d) {return {type:'min', d:d, v:Math.min(d[4].v,...d[5].map(item => item[3].v))}} %}
 
     | "pi"i          {% function(d) {return {type:'pi', d:d, v:Math.PI}} %}
     | "e"i           {% function(d) {return {type:'e', d:d, v:Math.E}} %}
@@ -55,7 +55,7 @@ N -> float          {% id %}
 # I use `float` to basically mean a number with a decimal point in it
 float ->
       int "." int   {% function(d) {return {v:parseFloat(d[0].v + d[1] + d[2].v)}} %}
-	| int 			{% function(d) {return {v:parseInt(d[0].v)}} %}
+    | int 			{% function(d) {return {v:parseInt(d[0].v)}} %}
     | int "."       {% function(d) {return {v:parseInt(d[0].v)}} %}
     | "." int   	{% function(d) {return {v:parseFloat(d[0] + d[1].v)}} %}
 
