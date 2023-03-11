@@ -1,4 +1,32 @@
 <script setup>
+/*
+________________________________________________________________________________
+Evaluate test component
+by Diego Fraga
+exerionbit.com
+Code started: january 28, 2023
+________________________________________________________________________________
+To compile grammar:
+nearleyc grammar.ne -o grammar.js
+________________________________________________________________________________
+TODO:
+FORMULAS
+  Functions
+    function sum average ceiling floor if len trim
+  Operators
+    arithmetic + - * / ^ %
+    comparison = > < >= <= <>
+    text concatenation &
+    reference : , (space)
+  References
+    name propName
+    dot parent.item.prop
+  Constants
+    number
+    string
+    date
+________________________________________________________________________________
+*/
 import { reactive } from 'vue'
 const state = reactive({ result: '' })
 function evaluate(inputElement) {

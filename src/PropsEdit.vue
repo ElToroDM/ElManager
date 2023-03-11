@@ -14,25 +14,6 @@ edit cells
 edit columns
 add / remove columns (item types?)
 ________________________________________________________________________________
-FORMULAS
-  Functions
-    function sum average max min ceiling floor if len trim sqrt abs pi
-  Operators
-    arithmetic + - * / ^ %
-    comparison = > < >= <= <>
-    text concatenation &
-    reference : , (space)
-  References
-    name propName
-    dot parent.item.prop
-  Constants
-    number
-    string
-    date
-  Parentheses
-PRECEDENCE
-
-________________________________________________________________________________
 */
 import { ref, reactive } from 'vue'
 const props = defineProps({ items: Object })
