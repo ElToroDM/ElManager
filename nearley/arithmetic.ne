@@ -1,62 +1,66 @@
-# This is a nice little grammar to familiarize yourself
-# with the nearley syntax.
+# Original code by Hardmath123 from https://github.com/Hardmath123/nearley/
+# Modified by Diego Fraga
+# started: march 3 2023
+# `main` is the nonterminal that nearley tries to parse,
+# so we define it first.
+# The _'s are defined as whitespace below. This is a mini-idiom.
+# The stuff inside {% %} is an optional postprocessing function
+# which can return anything you like.
 
-# It parses valid calculator input, obeying OOO and stuff.
-#   ln (3 + 2*(8/e - sin(pi/5)))
-# is valid input.
-
-# This is (hopefully) pretty self-evident.
-
-# `main` is the nonterminal that nearley tries to parse, so
-# we define it first.
-# The _'s are defined as whitespace below. This is a mini-
-# -idiom.
-
-main -> _ AS _ {% function(d) {return d[1]; } %}
+main -> _ "=" _ AS _ {% function(d) {return {type:'main', d:d, v:d[3].v}} %}
 
 # PEMDAS!
 # We define each level of precedence as a nonterminal.
 
 # Parentheses
-P -> "(" _ AS _ ")" {% function(d) {return d[2]; } %}
+P -> "(" _ AS _ ")" {% function(d) {return {type:'P', d:d, v:d[2].v}} %}
     | N             {% id %}
 
 # Exponents
-E -> P _ "^" _ E    {% function(d) {return Math.pow(d[0], d[4]); } %}
+E -> P _ "^" _ E    {% function(d) {return {type:'E', d:d, v:Math.pow(d[0].v, d[4].v)}} %}
     | P             {% id %}
 
 # Multiplication and division
-MD -> MD _ "*" _ E  {% function(d) {return d[0]*d[4]; } %}
-    | MD _ "/" _ E  {% function(d) {return d[0]/d[4]; } %}
+MD -> MD _ "*" _ E  {% function(d) {return {type: 'M', d:d, v:d[0].v*d[4].v}} %}
+    | MD _ "/" _ E  {% function(d) {return {type: 'D', d:d, v:d[0].v/d[4].v}} %}
     | E             {% id %}
 
 # Addition and subtraction
-AS -> AS _ "+" _ MD {% function(d) {return d[0]+d[4]; } %}
-    | AS _ "-" _ MD {% function(d) {return d[0]-d[4]; } %}
+AS -> AS _ "+" _ MD {% function(d) {return {type:'A', d:d, v:d[0].v+d[4].v}} %}
+    | AS _ "-" _ MD {% function(d) {return {type:'S', d:d, v:d[0].v-d[4].v}} %}
     | MD            {% id %}
 
 # A number or a function of a number
 N -> float          {% id %}
-    | "sin" _ P     {% function(d) {return Math.sin(d[2]); } %}
-    | "cos" _ P     {% function(d) {return Math.cos(d[2]); } %}
-    | "tan" _ P     {% function(d) {return Math.tan(d[2]); } %}
+    | "sin"i _ "(" _ AS _ ")" {% function(d) {return {type:'sin', d:d, v:Math.sin(d[4].v)}} %}
+    | "cos"i _ "(" _ AS _ ")" {% function(d) {return {type:'cos', d:d, v:Math.cos(d[4].v)}} %}
+    | "tan"i _ "(" _ AS _ ")" {% function(d) {return {type:'tan', d:d, v:Math.tan(d[4].v)}} %}
     
-    | "asin" _ P    {% function(d) {return Math.asin(d[2]); } %}
-    | "acos" _ P    {% function(d) {return Math.acos(d[2]); } %}
-    | "atan" _ P    {% function(d) {return Math.atan(d[2]); } %}
+    | "asin"i _ "(" _ AS _ ")" {% function(d) {return {type:'asin', d:d, v:Math.asin(d[4].v)}} %}
+    | "acos"i _ "(" _ AS _ ")" {% function(d) {return {type:'acos', d:d, v:Math.acos(d[4].v)}} %}
+    | "atan"i _ "(" _ AS _ ")" {% function(d) {return {type:'atan', d:d, v:Math.atan(d[4].v)}} %}
 
-    | "pi"          {% function(d) {return Math.PI; } %}
-    | "e"           {% function(d) {return Math.E; } %}
-    | "sqrt" _ P    {% function(d) {return Math.sqrt(d[2]); } %}
-    | "ln" _ P      {% function(d) {return Math.log(d[2]); }  %}
+    | "sqrt"i _ "(" _ AS _ ")" {% function(d) {return {type:'sqrt', d:d, v:Math.sqrt(d[4].v)}} %}
+    | "ln"i _ "(" _ AS _ ")" {% function(d) {return {type:'ln', d:d, v:Math.log(d[4].v)}}  %}
+
+	| "max"i _ "(" _ AS (_ "," _ AS):+ _ ")" {% function(d) {return {type:'max', d:d, v:Math.max(d[4].v,...d[5].map(item => item[3].v))}} %}
+	| "min"i _ "(" _ AS (_ "," _ AS):+ _ ")" {% function(d) {return {type:'min', d:d, v:Math.min(d[4].v,...d[5].map(item => item[3].v))}} %}
+
+    | "pi"i          {% function(d) {return {type:'pi', d:d, v:Math.PI}} %}
+    | "e"i           {% function(d) {return {type:'e', d:d, v:Math.E}} %}
+
+	| "-" _ P      {% function(d) {return {type:'neg', d:d, v:-d[2].v}}  %}
+    | "+" _ P      {% function(d) {return {type:'pos', d:d, v:d[2].v}}  %}
 
 # I use `float` to basically mean a number with a decimal point in it
 float ->
-      int "." int   {% function(d) {return parseFloat(d[0] + d[1] + d[2])} %}
-	| int           {% function(d) {return parseInt(d[0])} %}
+      int "." int   {% function(d) {return {v:parseFloat(d[0].v + d[1] + d[2].v)}} %}
+	| int 			{% function(d) {return {v:parseInt(d[0].v)}} %}
+    | int "."       {% function(d) {return {v:parseInt(d[0].v)}} %}
+    | "." int   	{% function(d) {return {v:parseFloat(d[0] + d[1].v)}} %}
 
-int -> [0-9]:+        {% function(d) {return d[0].join(""); } %}
+int -> [0-9]:+        {% function(d) {return {v:d[0].join("")}} %}
 
 # Whitespace. The important thing here is that the postprocessor
 # is a null-returning function. This is a memory efficiency trick.
-_ -> [\s]:*     {% function(d) {return null; } %}
+_ -> [\s]:*     {% function(d) {return null } %}
