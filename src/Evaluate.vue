@@ -13,6 +13,9 @@ TODO:
 FORMULAS
   Functions
     function sum average ceiling floor if len trim
+    Reference functions
+      parentprop(prop) Returns parent item "prop" value
+      childrenprop(prop) Return array of "prop" values of the children items
   Operators
     arithmetic + - * / ^ %
     comparison = > < >= <= <>

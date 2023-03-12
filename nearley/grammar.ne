@@ -46,11 +46,24 @@ N -> float          {% id %}
     | "max"i _ "(" _ AS (_ "," _ AS):+ _ ")" {% function(d) {return {type:'max', d:d, v:Math.max(d[4].v,...d[5].map(item => item[3].v))}} %}
     | "min"i _ "(" _ AS (_ "," _ AS):+ _ ")" {% function(d) {return {type:'min', d:d, v:Math.min(d[4].v,...d[5].map(item => item[3].v))}} %}
 
-    | "pi"i          {% function(d) {return {type:'pi', d:d, v:Math.PI}} %}
-    | "e"i           {% function(d) {return {type:'e', d:d, v:Math.E}} %}
+    | "pi"i _ "(" _ ")" {% function(d) {return {type:'pi', d:d, v:Math.PI}} %}
+    | "e"i _ "(" _ ")" {% function(d) {return {type:'e', d:d, v:Math.E}} %}
 
 	| "-" _ P      {% function(d) {return {type:'neg', d:d, v:-d[2].v}}  %}
     | "+" _ P      {% function(d) {return {type:'pos', d:d, v:d[2].v}}  %}
+
+
+    | "parentprop"i _ "(" _ string _ ")" {% function(d) {return {type:'parentprop', d:d, v:d[4]}}  %}
+
+
+string-> "\"" characters "\"" {% (d) => d[1] %}
+	
+characters
+	-> character {% id %}
+	| character characters {% (d) => d[0] + d[1] %}
+
+character -> [^\"] {% id %}
+
 
 # I use `float` to basically mean a number with a decimal point in it
 float ->
