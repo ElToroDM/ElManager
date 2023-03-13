@@ -32,6 +32,11 @@ ________________________________________________________________________________
 */
 import { reactive } from 'vue'
 const state = reactive({ result: '' })
+
+function parentProp(s){
+  return s
+}
+
 function evaluate(inputElement) {
   const input = inputElement.value
   const parser = new nearley.Parser(grammar.ParserRules, grammar.ParserStart)

@@ -8,6 +8,7 @@
 # which can return anything you like.
 
 main -> _ "=" _ AS _ {% function(d) {return {type:'main', d:d, v:d[3].v}} %}
+	  | _ "=" _ S _  {% function(d) {return {type:'main', d:d, v:d[3].v}} %}
 
 # PEMDAS!
 # We define each level of precedence as a nonterminal.
@@ -43,26 +44,37 @@ N -> float          {% id %}
     | "sqrt"i _ "(" _ AS _ ")" {% function(d) {return {type:'sqrt', d:d, v:Math.sqrt(d[4].v)}} %}
     | "ln"i _ "(" _ AS _ ")" {% function(d) {return {type:'ln', d:d, v:Math.log(d[4].v)}}  %}
 
-    | "max"i _ "(" _ AS (_ "," _ AS):+ _ ")" {% function(d) {return {type:'max', d:d, v:Math.max(d[4].v,...d[5].map(item => item[3].v))}} %}
-    | "min"i _ "(" _ AS (_ "," _ AS):+ _ ")" {% function(d) {return {type:'min', d:d, v:Math.min(d[4].v,...d[5].map(item => item[3].v))}} %}
+    | "max"i _ "(" _ AS (_ "," _ AS):+ _ ")" {% (d) => {return {type:'max', d:d, v:Math.max(d[4].v,...d[5].map(item => item[3].v))}} %}
 
-    | "pi"i _ "(" _ ")" {% function(d) {return {type:'pi', d:d, v:Math.PI}} %}
-    | "e"i _ "(" _ ")" {% function(d) {return {type:'e', d:d, v:Math.E}} %}
+	| "min"i _ "(" _ AS (_ "," _ AS):+ _ ")" {% (d) => {return {type:'min', d:d, v:Math.min(d[4].v,...d[5].map(item => item[3].v))}} %}
 
-	| "-" _ P      {% function(d) {return {type:'neg', d:d, v:-d[2].v}}  %}
-    | "+" _ P      {% function(d) {return {type:'pos', d:d, v:d[2].v}}  %}
+    | "pi"i _ "(" _ ")" {% (d) => {return { v:Math.PI}} %}
+    | "e"i _ "(" _ ")" {% (d) => {return { v:Math.E}} %}
+
+	| "-" _ P      {% (d) => {return {type:'neg', d:d, v:-d[2].v}}  %}
+    | "+" _ P      {% (d) => {return {type:'pos', d:d, v:d[2].v}}  %}
+
+# Strings addition
+#SA -> AS _ "+" _ S {% function(d) {return {type:'concat', d:d, v:d[0].v+d[4].v}} %}
+#	| S            {% id %}
 
 
-    | "parentprop"i _ "(" _ string _ ")" {% function(d) {return {type:'parentprop', d:d, v:d[4]}}  %}
+# A string or a function of a string
+S -> string {% (d) => {return {v:d[0]}} %}
+	#| string {% (d) => d[0] %}
+    | "parentprop"i _ "(" _ string _ ")" {% function(d) {return {type:'parentprop', d:d, v:parentProp(d[4])}}  %}
 
 
+# Quoted string
 string-> "\"" characters "\"" {% (d) => d[1] %}
+string-> "'" characters "'" {% (d) => d[1] %}
 	
-characters
-	-> character {% id %}
+characters -> 
+	  character {% id %}
 	| character characters {% (d) => d[0] + d[1] %}
 
-character -> [^\"] {% id %}
+character ->
+	  [^\"] {% id %}
 
 
 # I use `float` to basically mean a number with a decimal point in it
