@@ -63,8 +63,6 @@ N -> float          {% id %}
 S -> string {% (d) => {return {v:d[0]}} %}
 	#| string {% (d) => d[0] %}
     | "parentprop"i _ "(" _ string _ ")" {% function(d) {return {type:'parentprop', d:d, v:parentProp(d[4])}}  %}
-	#| "parentprop"i _ "(" _ string _ ")" {% function(d) {return {type:'parentprop', d:d, v:"444"}}  %}
-
 
 # Quoted string
 string-> "\"" characters "\"" {% (d) => d[1] %}

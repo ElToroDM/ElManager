@@ -34,7 +34,7 @@ import { reactive } from 'vue'
 const state = reactive({ result: '' })
 
 window.parentProp = function (string) {
-  return string + '123' ;
+  return string+'?' ;
 };
 
 function evaluate(inputElement) {
@@ -43,7 +43,7 @@ function evaluate(inputElement) {
   try {
     parser.feed(input)
     if (!parser.results[0]) throw new Error(1)
-    if (isNaN(parser.results[0].v)) throw new Error(2)
+    //if (isNaN(parser.results[0].v)) throw new Error(2)
     if (parser.results[0].v === Infinity) throw new Error(3)
     state.result = input.replace(/^\s*=/, '') + ' = ' + parser.results[0].v.toString()
   } catch (e) {
@@ -55,7 +55,7 @@ function evaluate(inputElement) {
 
 <template>
   <div style="font-size: medium;">
-    <input autofocus type="text" @keypress.enter="evaluate($event.currentTarget)" value='=parentprop("lalaal")'
+    <input autofocus type="text" @keypress.enter="evaluate($event.currentTarget)" value='=parentprop("lalala")'
       ref="input" style="font-size: medium;" />
     {{ state.result }}
   </div>
