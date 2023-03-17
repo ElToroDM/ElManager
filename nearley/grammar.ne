@@ -30,6 +30,11 @@ MD -> MD _ "*" _ E  {% function(d) {return {type: 'M', d:d, v:d[0].v*d[4].v}} %}
 AS -> AS _ "+" _ MD {% function(d) {return {type:'A', d:d, v:d[0].v+d[4].v}} %}
     | AS _ "-" _ MD {% function(d) {return {type:'S', d:d, v:d[0].v-d[4].v}} %}
     | MD            {% id %}
+	
+# Strings addition
+    | S _ "+" _ AS {% function(d) {return {type:'A', d:d, v:d[0].v+d[4].v}} %}
+	| AS _ "+" _ S {% function(d) {return {type:'A', d:d, v:d[0].v+d[4].v}} %}
+	| S _ "+" _ S {% function(d) {return {type:'A', d:d, v:d[0].v+d[4].v}} %}
 
 # A number or a function of a number
 N -> float          {% id %}
@@ -54,15 +59,13 @@ N -> float          {% id %}
 	| "-" _ P      {% (d) => {return {type:'neg', d:d, v:-d[2].v}}  %}
     | "+" _ P      {% (d) => {return {type:'pos', d:d, v:d[2].v}}  %}
 
-# Strings addition
-#SA -> AS _ "+" _ S {% function(d) {return {type:'concat', d:d, v:d[0].v+d[4].v}} %}
-#	| S            {% id %}
-
 
 # A string or a function of a string
 S -> string {% (d) => {return {v:d[0]}} %}
 	#| string {% (d) => d[0] %}
     | "parentprop"i _ "(" _ string _ ")" {% function(d) {return {type:'parentprop', d:d, v:parentProp(d[4])}}  %}
+	#| "parentprop"i _ "(" _ string _ ")" {% function(d) {return {type:'parentprop', d:d, v:d[4]}}  %}
+
 
 # Quoted string
 string-> "\"" characters "\"" {% (d) => d[1] %}
