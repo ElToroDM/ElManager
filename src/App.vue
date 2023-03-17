@@ -18,7 +18,7 @@ import ItemsList from './ItemsList.vue'
 import PropsEdit from './PropsEdit.vue'
 import Pane from './Pane.vue'
 import Themes from './Themes.vue'
-import Nearley from './Evaluate.vue'
+import Evaluate from './Evaluate.vue'
 
 const items = ref([
   { "item_id": 732785649503224, "item_typeId": 3, "item_name": "Panqueque de dulce de leche", "item_level": 0, "props": { "stock": 2, "reponer": 5 } },
@@ -57,7 +57,8 @@ const itemTypes = ref([
     </Pane>
   </Pane>
   <div style="position:absolute; bottom:0;height: 40vh; overflow-y: scroll;width:100%;font:.8em monospace;">
-    <Nearley />
+    <Evaluate />
+    <!-- {{Evaluate.parentProp(666)}} -->
     <Themes />
     <!-- <div v-for="item in items" style="overflow:hidden; white-space: nowrap;"> {{ item }}</div> -->
     <div v-for="item in items" style="overflow:hidden; white-space: nowrap;"> {{ item }}</div>
