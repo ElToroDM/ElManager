@@ -34,7 +34,7 @@ import { reactive } from 'vue'
 const state = reactive({ result: '' })
 
 window.parentProp = function (string) {
-  return string+'?' ;
+  return string + '?';
 };
 
 function evaluate(inputElement) {

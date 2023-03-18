@@ -7,16 +7,16 @@
 # The stuff inside {% %} is an optional postprocessing function
 # which can return anything you like.
 
-main -> _ "=" _ AS _ {% function(d) {return {type:'main', d:d, v:d[3].v}} %}
-	  | _ "=" _ S _  {% function(d) {return {type:'main', d:d, v:d[3].v}} %}
+main -> _ "=" _ SC _ {% function(d) {return {type:'main', d:d, v:d[3].v}} %}
 
 # PEMDAS!
 # We define each level of precedence as a nonterminal.
 
 # Parentheses
-P -> "(" _ AS _ ")" {% function(d) {return {type:'P', d:d, v:d[2].v}} %}
+P -> "(" _ SC _ ")" {% function(d) {return {type:'P', d:d, v:d[2].v}} %}
     | N             {% id %}
-
+	| S {% id %}
+	
 # Exponents
 E -> P _ "^" _ E    {% function(d) {return {type:'E', d:d, v:Math.pow(d[0].v, d[4].v)}} %}
     | P             {% id %}
@@ -26,17 +26,22 @@ MD -> MD _ "*" _ E  {% function(d) {return {type: 'M', d:d, v:d[0].v*d[4].v}} %}
     | MD _ "/" _ E  {% function(d) {return {type: 'D', d:d, v:d[0].v/d[4].v}} %}
     | E             {% id %}
 
+
 # Addition and subtraction
 AS -> AS _ "+" _ MD {% function(d) {return {type:'A', d:d, v:d[0].v+d[4].v}} %}
     | AS _ "-" _ MD {% function(d) {return {type:'S', d:d, v:d[0].v-d[4].v}} %}
     | MD            {% id %}
-	
-# Strings addition
-    | S _ "+" _ AS {% function(d) {return {type:'A', d:d, v:d[0].v+d[4].v}} %}
-	| AS _ "+" _ S {% function(d) {return {type:'A', d:d, v:d[0].v+d[4].v}} %}
-	| S _ "+" _ S {% function(d) {return {type:'A', d:d, v:d[0].v+d[4].v}} %}
 
-# A number or a function of a number
+# String concatenation
+SC -> SC _ "&" _ AS {% function(d) {return {type:'SC', d:d, v:d[0].v+d[4].v}} %}
+    | AS            {% id %}
+
+# A string or a function of a string
+S -> string {% (d) => {return {v:d[0]}} %}
+    | "parentprop"i _ "(" _ SC _ ")" {% function(d) {return {type:'parentprop', d:d, v:parentProp(d[4].v)}}  %}
+	#| "parentprop"i _ "(" _ SC _ ")" {% function(d) {return {type:'parentprop', d:d, v:d[4].v}}  %}
+
+# A number or a function
 N -> float          {% id %}
     | "sin"i _ "(" _ AS _ ")" {% function(d) {return {type:'sin', d:d, v:Math.sin(d[4].v)}} %}
     | "cos"i _ "(" _ AS _ ")" {% function(d) {return {type:'cos', d:d, v:Math.cos(d[4].v)}} %}
@@ -58,13 +63,6 @@ N -> float          {% id %}
 
 	| "-" _ P      {% (d) => {return {type:'neg', d:d, v:-d[2].v}}  %}
     | "+" _ P      {% (d) => {return {type:'pos', d:d, v:d[2].v}}  %}
-
-
-# A string or a function of a string
-S -> string {% (d) => {return {v:d[0]}} %}
-	#| string {% (d) => d[0] %}
-    | "parentprop"i _ "(" _ string _ ")" {% function(d) {return {type:'parentprop', d:d, v:parentProp(d[4])}}  %}
-	#| "parentprop"i _ "(" _ string _ ")" {% function(d) {return {type:'parentprop', d:d, v:d[4]}}  %}
 
 
 # Quoted string
