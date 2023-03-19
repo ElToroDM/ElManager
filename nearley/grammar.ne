@@ -1,14 +1,14 @@
 # Original code by Hardmath123 from https://github.com/Hardmath123/nearley/
 # Modified by Diego Fraga
 # Started: march 3 2023
-main -> _ "=" _ SC _ {% function(d) {return {type:'main', d:d, v:d[3].v}} %}
+main -> _ "=" _ AS _ {% function(d) {return {type:'main', d:d, v:d[3].v}} %}
+	|   _ "=" _ SC _ {% function(d) {return {type:'main', d:d, v:d[3].v}} %}
 
 # We define each level of precedence as a nonterminal.
 
 # Parentheses
-P -> "(" _ SC _ ")" {% function(d) {return {type:'P', d:d, v:d[2].v}} %}
+P -> "(" _ AS _ ")" {% function(d) {return {type:'P', d:d, v:d[2].v}} %}
     | N             {% id %}
-	| S             {% id %}
 
 # Exponents
 E -> P _ "^" _ E    {% function(d) {return {type:'E', d:d, v:Math.pow(d[0].v, d[4].v)}} %}
@@ -24,14 +24,21 @@ AS -> AS _ "+" _ MD {% function(d) {return {type:'A', d:d, v:d[0].v+d[4].v}} %}
     | AS _ "-" _ MD {% function(d) {return {type:'S', d:d, v:d[0].v-d[4].v}} %}
     | MD            {% id %}
 
+SP	-> "(" _ SC _ ")" {% function(d) {return {type:'SP', d:d, v:d[2].v}} %}
+	| S             {% id %}
+
 # String concatenation
 SC -> SC _ "&" _ AS {% function(d) {return {type:'SC', d:d, v:d[0].v+d[4].v}} %}
-    | AS            {% id %}
+	| SC _ "&" _ S  {% function(d) {return {type:'SC', d:d, v:d[0].v+d[4].v}} %}
+	| AS _ "&" _ S  {% function(d) {return {type:'SC', d:d, v:d[0].v+d[4].v}} %}
+	| SP             {% id %}
 
 # A string or a function of a string
 S -> string {% (d) => {return {v:d[0]}} %}
      #| "parentprop"i _ "(" _ SC _ ")" {% function(d) {return {type:'parentprop', d:d, v:parentProp(d[4].v)}}  %}
 	| "parentprop"i _ "(" _ SC _ ")" {% function(d) {return {type:'parentprop', d:d, v:d[4].v}}  %}
+
+
 
 # A number or a function
 N -> float          {% id %}
