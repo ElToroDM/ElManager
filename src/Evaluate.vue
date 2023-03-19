@@ -33,9 +33,9 @@ ________________________________________________________________________________
 import { reactive } from 'vue'
 const state = reactive({ result: '' })
 
-window.parentProp = function (string) {
-  return string + '?';
-};
+// window.parentProp = function (string) {
+//   return string + '?';
+// };
 
 function evaluate(inputElement) {
   const input = inputElement.value
@@ -55,7 +55,7 @@ function evaluate(inputElement) {
 
 <template>
   <div style="font-size: medium;">
-    <input autofocus type="text" @keypress.enter="evaluate($event.currentTarget)" value='=parentprop("lalala")'
+    <input autofocus type="text" @keypress.enter="evaluate($event.currentTarget)" value='=5*8+4'
       ref="input" style="font-size: medium;" />
     {{ state.result }}
   </div>

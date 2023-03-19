@@ -22,7 +22,7 @@ import Evaluate from './Evaluate.vue'
 
 const items = ref([
   { "item_id": 732785649503224, "item_typeId": 3, "item_name": "Panqueque de dulce de leche", "item_level": 0, "props": { "stock": 2, "reponer": 5 } },
-  { "item_id": 732785649504646, "item_typeId": 1, "item_name": "Enrollar", "item_level": 1, "props": { "stock": 0, } },
+  { "item_id": 732785649504646, "item_typeId": 1, "item_name": "Enrollar", "item_level": 1, "props": { "stock": 0, "reponer": "=parentProp('reponer')*cantidad" } },
   { "item_id": 732787039516608, "item_typeId": 1, "item_name": "Panqueque", "item_level": 2, "props": { "stock": 4 } },
   { "item_id": 732787228074946, "item_typeId": 1, "item_name": "Cocinar vuelta y vuelta", "item_level": 3, "props": { "stock": 0 } },
   { "item_id": 732787388636990, "item_typeId": 2, "item_name": "Pasta", "item_level": 4, "props": { "stock": 0 } },

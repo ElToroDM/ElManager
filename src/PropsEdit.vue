@@ -18,7 +18,8 @@ ________________________________________________________________________________
 import { ref, reactive } from 'vue'
 const props = defineProps({ items: Object })
 const itemref = ref([])
-const state = reactive({})
+// const state = reactive({})
+const state = reactive({ result: '' })
 
 //______________________________________________________________________________
 let previousOpenFolderLevel = 0
@@ -47,13 +48,33 @@ function cellView(item, prop) {
     // cell it's a string
     // TODO sanitize string
     if (cell.charAt(0) != '=') return cell
-      
+    return evaluate(cell)
   } else {
     // cell it's not a string
     return cell
   }
 
 }
+
+window.parentProp = function (string) {
+  return string + '?';
+};
+
+function evaluate(input) {
+  const parser = new nearley.Parser(grammar.ParserRules, grammar.ParserStart)
+  try {
+    parser.feed(input)
+    if (!parser.results[0]) throw new Error(1)
+    //if (isNaN(parser.results[0].v)) throw new Error(2)
+    if (parser.results[0].v === Infinity) throw new Error(3)
+    return parser.results[0].v.toString()
+  } catch (e) {
+    return  /*'[error]'*/ + e //+ ' ' + parser.results[0].v.toString()
+  }
+}
+
+
+
 //______________________________________________________________________________
 let columnsNames = ["Cantidad por padre", "Stock", "Stock deseado", "Reponer"]
 let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
