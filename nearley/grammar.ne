@@ -35,8 +35,8 @@ SC -> SC _ "&" _ AS {% function(d) {return {type:'SC', d:d, v:d[0].v+d[4].v}} %}
 
 # A string or a function of a string
 S -> string {% (d) => {return {v:d[0]}} %}
-     #| "parentprop"i _ "(" _ SC _ ")" {% function(d) {return {type:'parentprop', d:d, v:parentProp(d[4].v)}}  %}
-	| "parentprop"i _ "(" _ SC _ ")" {% function(d) {return {type:'parentprop', d:d, v:d[4].v}}  %}
+    | "parentprop"i _ "(" _ SC _ ")" {% function(d) {return {type:'parentprop', d:d, v:parentProp(d[4].v)}}  %}
+	#| "parentprop"i _ "(" _ SC _ ")" {% function(d) {return {type:'parentprop', d:d, v:d[4].v}}  %}
 
 
 
