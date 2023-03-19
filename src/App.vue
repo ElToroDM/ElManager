@@ -39,7 +39,7 @@ const items = ref([
 const itemTypes = ref([
   // { "type_id": 0, "type_name": "unassigned" },
   { "type_id": 1, "type_name": "task", "type_props": ["time", "cost"] },
-  { "type_id": 2, "type_name": "piece", "type_props": { "stock": "", "cost": "", "reponer": "=$parent.reponer*cantidad" } },
+  { "type_id": 2, "type_name": "piece", "type_props": { "stock": "", "cost": "", "reponer": "=parentProp('Reponer')*cantidad" } },
   { "type_id": 3, "type_name": "product", "type_props": ["stock", "cost", "reponer"] }
 ])
 
