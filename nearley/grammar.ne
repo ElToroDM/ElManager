@@ -38,8 +38,6 @@ S -> string {% (d) => {return {v:d[0]}} %}
     | "parentprop"i _ "(" _ SC _ ")" {% function(d) {return {type:'parentprop', d:d, v:parentProp(d[4].v)}}  %}
 	#| "parentprop"i _ "(" _ SC _ ")" {% function(d) {return {type:'parentprop', d:d, v:d[4].v}}  %}
 
-
-
 # A number or a function
 N -> float          {% id %}
     | "sin"i _ "(" _ AS _ ")" {% function(d) {return {type:'sin', d:d, v:Math.sin(d[4].v)}} %}
