@@ -16,31 +16,11 @@ add / remove columns (item types?)
 ________________________________________________________________________________
 */
 import { ref, reactive } from 'vue'
+import {isInOpenFolder} from '/Items.js'
 const props = defineProps({ items: Object })
 const itemref = ref([])
 // const state = reactive({})
 const state = reactive({ result: '' })
-
-//______________________________________________________________________________
-let previousOpenFolderLevel = 0
-function isInOpenFolder(item) {
-  // Determine wich items should be hidden or shown based on closed or opened upper folders.
-  // (To be called sequentially, must start from the first item)
-  if (previousOpenFolderLevel === 0) {
-    if (item.item_level === 0) return true // Root is always visible
-    const previousItem = props.items[props.items.indexOf(item) - 1]
-    if (previousItem.open === false && item.item_level === previousItem.item_level + 1) {
-      previousOpenFolderLevel = item.item_level
-      return false
-    }
-    return true
-  }
-  if (item.item_level < previousOpenFolderLevel) {
-    previousOpenFolderLevel = 0
-    return true
-  }
-  return false
-}
 //______________________________________________________________________________
 function cellView(item, prop) {
   const cell = item.props[prop]
@@ -89,7 +69,7 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   </div>
   <div id="propsEditDiv" class="scrollSync">
     <template v-for="item in items">
-      <div v-if="isInOpenFolder(item)" class="row" ref="itemref">
+      <div v-if="isInOpenFolder(item,props)" class="row" ref="itemref">
         <div v-for="prop in columns" class="cell">{{ cellView(item, prop) }}</div>
       </div>
     </template>

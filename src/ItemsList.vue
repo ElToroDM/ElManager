@@ -15,6 +15,7 @@ expand all / collapse all
 ________________________________________________________________________________
 */
 import { ref, reactive, nextTick } from 'vue'
+import {isInOpenFolder} from '/Items.js'
 const props = defineProps({ items: Object })
 const itemref = ref([])
 const state = reactive({})
@@ -175,26 +176,6 @@ function toggleOpenFolder(item) {
   }
 }
 //______________________________________________________________________________
-let previousOpenFolderLevel = 0
-function isInOpenFolder(item) {
-  // Determine wich items should be hidden or shown based on upper closed or opened folders.
-  // (To be called sequentially, must start from the first item)
-  if (previousOpenFolderLevel === 0) {
-    if (item.item_level === 0) return true // Root is always visible
-    const previousItem = props.items[props.items.indexOf(item) - 1]
-    if (previousItem.open === false && item.item_level === previousItem.item_level + 1) {
-      previousOpenFolderLevel = item.item_level
-      return false
-    }
-    return true
-  }
-  if (item.item_level < previousOpenFolderLevel) {
-    previousOpenFolderLevel = 0
-    return true
-  }
-  return false
-}
-//______________________________________________________________________________
 function itemHighlight(item) {
   if (item.highlight) return 'itemHighlight' + item.highlight
 }
@@ -258,7 +239,7 @@ function autoScroll(event) {
   drag.autoScroll = false
   if (state.mouseDown) {
     const dragScrollStep = 1 * vh//15//element.clientHeight
-    const itemsList = document.getElementById("items-list")
+    const itemsList = document.getElementById("itemsList")
     if (drag.clientY <= dragScrollStep) {
       itemsList.scrollBy(0, -dragScrollStep * 3)
       drag.autoScroll = setTimeout(() => { autoScroll(event) }, 50)
@@ -280,7 +261,7 @@ function autoScroll(event) {
       </symbol>
     </svg>
     <template v-for="item in items">
-      <div v-if="isInOpenFolder(item)" :style="{ 'padding-left': item.item_level * 2 + 'vh' }" class="itemLine"
+      <div v-if="isInOpenFolder(item,props)" :style="{ 'padding-left': item.item_level * 2 + 'vh' }" class="itemLine"
         ref="itemref" :class="{ itemLineDragging: item.dragging }, itemHighlight(item)"
         @mousedown="onMouseDown($event, item)" @mousemove="onMouseMove($event, item)"
         @touchstart="onMouseDown($event, item)" @touchmove="onMouseMove($event, item)">
