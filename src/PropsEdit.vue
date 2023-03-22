@@ -33,11 +33,10 @@ function cellView(item, prop) {
     // cell it's not a string
     return cell
   }
-
 }
 
 window.parentProp = function (string) {
-  return string + '?';
+  return string + '?' + item.item_level;
 };
 
 function evaluate(input) {
@@ -52,8 +51,6 @@ function evaluate(input) {
     return  /*'[error]'*/ + e //+ ' ' + parser.results[0].v.toString()
   }
 }
-
-
 
 //______________________________________________________________________________
 let columnsNames = ["Cantidad por padre", "Stock", "Stock deseado", "Reponer"]

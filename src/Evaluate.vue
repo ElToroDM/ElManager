@@ -23,7 +23,11 @@ FORMULAS
     reference : , (space)
   References
     name propName
-    dot parent.item.prop
+    dot parentItem prop
+    range: childItems props
+    range: ancestors props
+    range: item props
+    etc etc
   Constants
     number
     string

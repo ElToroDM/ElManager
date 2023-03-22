@@ -156,9 +156,9 @@ function getLastSuccessorIndex(item) {
   return lastSuccessorIndex
 }
 //______________________________________________________________________________
-function itemTotalCost(item) {
-  return props.items.slice(props.items.indexOf(item), getLastSuccessorIndex(item) + 1).reduce((a, b) => a + b.cost, 0)
-}
+// function itemTotalCost(item) {
+//   return props.items.slice(props.items.indexOf(item), getLastSuccessorIndex(item) + 1).reduce((a, b) => a + b.cost, 0)
+// }
 //______________________________________________________________________________
 function isFolder(item) {
   try {
