@@ -29,10 +29,9 @@ function cellView(item, prop) {
     // TODO sanitize string
     if (cell.charAt(0) != '=') return cell
     return evaluate(cell)
-  } else {
-    // cell it's not a string
-    return cell
   }
+  // cell it's not a string
+  return cell  
 }
 
 window.parentProp = function (string) {
