@@ -40,8 +40,8 @@ S -> string {% (d) => {return {v:d[0]}} %}
 
 # A number or a function
 N -> float  {% id %}
-	#| prop {% (d) =>{return {type:'prop', d:d, v:prop(d[0].v)}}  %}
-	| prop {% (d) =>{return {type:'prop',  v:d[0]}} %}
+	#| prop {% (d) =>{return {type:'prop',  v:d[0]}} %}
+	| prop {% (d) =>{return {type:'prop',  v:prop(d[0])}} %}
 	#| prop {% (d) =>{return {type:'prop', d:d, v:10}}  %}
 	 #| prop _ "|||" int {% (d) =>{return {type:'prop', d:d, v:d[3].v}}  %}
 	 #| prop _ "|||" int {% (d) =>{return {type:'prop', d:d, v:prop(d[3].v,d[0].v)}}  %}

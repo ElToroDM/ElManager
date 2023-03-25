@@ -28,14 +28,17 @@ function cellView(item, prop) {
     // cell it's a string
     // TODO sanitize string
     if (cell.charAt(0) != '=') return cell
-    return evaluate(cell + '|||' + item.item_id)
+    window.item = item
+    return evaluate(cell )
   }
   // cell it's not a string
   return cell
 }
 
-window.parentProp = function (string, itemId) {
-  return string + '?' + item.item_level;
+// TODO create global obeject for evaluate, eg: window.cellEval   then use cellEval.item.props[x], etc
+
+window.prop = function (string) {
+  return item.props[string]
 };
 
 function evaluate(input) {
