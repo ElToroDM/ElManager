@@ -44,11 +44,13 @@ S -> string {% (d) => {return {v:d[0]}} %}
 # A number or a function
 N -> float  {% id %}
 	#| prop {% (d) =>{return {type:'prop', d:d, v:prop(d[0].v)}}  %}
-	| prop {% (d) =>{return {type:'prop', d:d, v:10}}  %}
+	| prop {% (d) =>{return {type:'prop', d:d, v:d[0].v}}  %}
+	#| prop {% (d) =>{return {type:'prop', d:d, v:10}}  %}
+	#| prop _ "|||" int {% (d) =>{return {type:'prop', d:d, v:d[0]}}  %}
 	#| ".." prop {% (d) =>{return {type:'parentprop', d:d, v:parentProp(d[1].v)}}  %}
-	| ".." prop {% (d) => {return { type:'parentprop', d:d, v:100}} %}
+	#| ".." prop {% (d) => {return { type:'parentprop', d:d, v:100}} %}
 
-| "sin"i _ "(" _ AS _ ")" {% function(d) {return {type:'sin', d:d, v:Math.sin(d[4].v)}} %}
+    | "sin"i _ "(" _ AS _ ")" {% function(d) {return {type:'sin', d:d, v:Math.sin(d[4].v)}} %}
     | "cos"i _ "(" _ AS _ ")" {% function(d) {return {type:'cos', d:d, v:Math.cos(d[4].v)}} %}
     | "tan"i _ "(" _ AS _ ")" {% function(d) {return {type:'tan', d:d, v:Math.tan(d[4].v)}} %}
     | "asin"i _ "(" _ AS _ ")" {% function(d) {return {type:'asin', d:d, v:Math.asin(d[4].v)}} %}
@@ -63,15 +65,9 @@ N -> float  {% id %}
     | "-" _ P      {% (d) => {return {type:'neg', d:d, v:-d[2].v}}  %}
     | "+" _ P      {% (d) => {return {type:'pos', d:d, v:d[2].v}}  %}
 
-#name ->  ".." namechars {% (d) => {return { v:10}} %}
-
-#namechars -> 
-#      namechar {% id %}
-#    | namechar namechars {% (d) => d[0] + d[1] %}
-
-prop ->
-      [a-zA-Z_\\] [a-zA-Z0-9_.]:* {% id %}
-
+# Prop
+#prop-> propchars {% (d) => {return {type:'prop', d:d, v:d[0].v} } %}
+prop -> [a-zA-Z_\\] [a-zA-Z0-9_.]:* {% function(d) {return {type:'propchars', d:d, v:d[0] + d[1].join("")}} %}
 
 
 # Quoted string

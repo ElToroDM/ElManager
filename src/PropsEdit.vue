@@ -16,7 +16,7 @@ add / remove columns (item types?)
 ________________________________________________________________________________
 */
 import { ref, reactive } from 'vue'
-import {isInOpenFolder} from '/Items.js'
+import { isInOpenFolder } from '/Items.js'
 const props = defineProps({ items: Object })
 const itemref = ref([])
 // const state = reactive({})
@@ -28,13 +28,13 @@ function cellView(item, prop) {
     // cell it's a string
     // TODO sanitize string
     if (cell.charAt(0) != '=') return cell
-    return evaluate(cell)
+    return evaluate(cell + '|||' + item.item_id)
   }
   // cell it's not a string
-  return cell  
+  return cell
 }
 
-window.parentProp = function (string) {
+window.parentProp = function (string, itemId) {
   return string + '?' + item.item_level;
 };
 
@@ -47,7 +47,7 @@ function evaluate(input) {
     if (parser.results[0].v === Infinity) throw new Error(3)
     return parser.results[0].v.toString()
   } catch (e) {
-    return  /*'[error]'*/ + e //+ ' ' + parser.results[0].v.toString()
+    return  /*'[error]' +*/ e //+ ' ' + parser.results[0].v.toString()
   }
 }
 
@@ -65,7 +65,7 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   </div>
   <div id="propsEditDiv" class="scrollSync">
     <template v-for="item in items">
-      <div v-if="isInOpenFolder(item,props)" class="row" ref="itemref">
+      <div v-if="isInOpenFolder(item, props)" class="row" ref="itemref">
         <div v-for="prop in columns" class="cell">{{ cellView(item, prop) }}</div>
       </div>
     </template>
