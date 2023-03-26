@@ -127,7 +127,6 @@ function onDragOver(event, item) {
   // Vertical dragging made, reset horizontal dragging
   drag.startPosX = posX
 }
-
 //______________________________________________________________________________
 // ITEMS MANIPULATION
 //______________________________________________________________________________

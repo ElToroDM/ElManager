@@ -40,17 +40,6 @@ function getParent(item) {
   return null
 }
 
-// function getLastSuccessorIndex(item) {
-//   const targetItemIndex = props.items.indexOf(item)
-//   let lastSuccessorIndex = targetItemIndex
-//   while (lastSuccessorIndex < props.items.length - 1) {
-//     if (props.items[lastSuccessorIndex + 1].item_level <= item.item_level) break
-//     lastSuccessorIndex++
-//   }
-//   return lastSuccessorIndex
-// }
-
-
 function cellView(item, prop) {
   const cell = item.props[prop]
   if (typeof cell === 'string' || cell instanceof String) {
