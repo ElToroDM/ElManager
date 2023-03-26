@@ -212,15 +212,6 @@ function onMouseUp() {
   onDragEnd()
 }
 //______________________________________________________________________________
-function onDblClicK(item) {
-  state.itemEditing = item.item_id
-  nextTick(() => {
-    const itemInput = document.getElementById('itemEditInput')
-    itemInput.focus()
-    itemInput.select()
-  })
-}
-//______________________________________________________________________________
 function onMouseMove(event, item) {
   if (state.mouseDown) {
     if (event.touches) { drag.clientY = event.touches[0].clientY } else if (event.clientY) { drag.clientY = event.clientY }
@@ -247,6 +238,14 @@ function autoScroll(event) {
       drag.autoScroll = setTimeout(() => { autoScroll(event) }, 50)
     }
   }
+}//______________________________________________________________________________
+function onDblClicK(item) {
+  state.itemEditing = item.item_id
+  nextTick(() => {
+    const itemInput = document.getElementById('itemEditInput')
+    itemInput.focus()
+    itemInput.select()
+  })
 }
 //______________________________________________________________________________
 </script>

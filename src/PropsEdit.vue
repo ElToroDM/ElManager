@@ -69,7 +69,15 @@ function evaluate(input) {
     return  /*'[error]' +*/ e //+ ' ' + parser.results[0].v.toString()
   }
 }
-
+//______________________________________________________________________________
+function onDblClicK(item,prop) {
+  state.cellEditing = item.item_id + prop
+  nextTick(() => {
+    const cellInput = document.getElementById('cellEditInput')
+    cellInput.focus()
+    cellInput.select()
+  })
+}
 //______________________________________________________________________________
 let columnsNames = ["Cantidad por padre", "Stock", "Stock deseado", "Reponer"]
 let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
@@ -85,17 +93,13 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   <div id="propsEditDiv" class="scrollSync">
     <template v-for="item in items">
       <div v-if="isInOpenFolder(item, props)" class="row" ref="itemref">
-        <!-- <div v-for="prop in columns" class="cell">{{ cellView(item, prop) }}</div> -->
-
         <template v-for="prop in columns">
-          <input v-if="state.itemEditing == item.item_id" v-model="item.item_name" @blur="state.itemEditing = false"
-            @keyup.esc="state.itemEditing = false" @keyup.enter="state.itemEditing = false" id="itemEditInput" />
+          <input v-if="state.cellEditing == item.item_id + prop" v-model="item.item_name" @blur="state.cellEditing = false"
+            @keyup.esc="state.cellEditing = false" @keyup.enter="state.cellEditing = false" id="cellEditInput" />
           <div v-else class="cell">
-            <span @dblclick="onDblClicK(item)">{{ cellView(item, prop) }}</span>
+            <span @dblclick="onDblClicK(item,prop)">{{ cellView(item, prop) }}</span>
           </div>
-
         </template>
-
       </div>
     </template>
   </div>
