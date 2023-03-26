@@ -22,24 +22,51 @@ const itemref = ref([])
 // const state = reactive({})
 const state = reactive({ result: '' })
 //______________________________________________________________________________
+
+// elMan global functions for nearley's grammar to evaluate props. Functions are globals to use compiled grammar "as is"...
+window.elMan = {
+  item: 0,
+  prop: string => elMan.item.props[string],
+  parentProp: string => getParent(elMan.item).props[string],
+}
+
+function getParent(item) {
+  const itemIndex = props.items.indexOf(item)
+  let parentIndex = itemIndex
+  while (parentIndex > 0) {
+    parentIndex--
+    if (props.items[parentIndex].item_level + 1 == item.item_level) return props.items[parentIndex]
+  }
+  return null
+}
+
+// function getLastSuccessorIndex(item) {
+//   const targetItemIndex = props.items.indexOf(item)
+//   let lastSuccessorIndex = targetItemIndex
+//   while (lastSuccessorIndex < props.items.length - 1) {
+//     if (props.items[lastSuccessorIndex + 1].item_level <= item.item_level) break
+//     lastSuccessorIndex++
+//   }
+//   return lastSuccessorIndex
+// }
+
+
 function cellView(item, prop) {
   const cell = item.props[prop]
   if (typeof cell === 'string' || cell instanceof String) {
     // cell it's a string
     // TODO sanitize string
     if (cell.charAt(0) != '=') return cell
-    window.item = item
-    return evaluate(cell )
+    elMan.item = item
+    return evaluate(cell)
   }
   // cell it's not a string
   return cell
 }
 
-// TODO create global obeject for evaluate, eg: window.cellEval   then use cellEval.item.props[x], etc
-
-window.prop = function (string) {
-  return item.props[string]
-};
+// window.elMan.prop = function (string) {
+//   return item.props[string]
+// };
 
 function evaluate(input) {
   const parser = new nearley.Parser(grammar.ParserRules, grammar.ParserStart)
