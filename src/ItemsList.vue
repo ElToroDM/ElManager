@@ -15,7 +15,7 @@ expand all / collapse all
 ________________________________________________________________________________
 */
 import { ref, reactive, nextTick } from 'vue'
-import {isInOpenFolder} from '/Items.js'
+import { isInOpenFolder } from '/Items.js'
 const props = defineProps({ items: Object })
 const itemref = ref([])
 const state = reactive({})
@@ -260,7 +260,7 @@ function autoScroll(event) {
       </symbol>
     </svg>
     <template v-for="item in items">
-      <div v-if="isInOpenFolder(item,props)" :style="{ 'padding-left': item.item_level * 2 + 'vh' }" class="itemLine"
+      <div v-if="isInOpenFolder(item, props)" :style="{ 'padding-left': item.item_level * 2 + 'vh' }" class="itemLine"
         ref="itemref" :class="{ itemLineDragging: item.dragging }, itemHighlight(item)"
         @mousedown="onMouseDown($event, item)" @mousemove="onMouseMove($event, item)"
         @touchstart="onMouseDown($event, item)" @touchmove="onMouseMove($event, item)">
@@ -273,9 +273,7 @@ function autoScroll(event) {
         <input v-if="state.itemEditing == item.item_id" v-model="item.item_name" @blur="state.itemEditing = false"
           @keyup.esc="state.itemEditing = false" @keyup.enter="state.itemEditing = false" id="itemEditInput" />
         <div v-else class="item">
-          <!-- [..{{ item.item_id.toString().slice(-4) }}] -->
           <span @dblclick="onDblClicK(item)">{{ item.item_name }}</span>
-          <!-- ${{ itemTotalCost(item) }}{{ item.info }} -->
         </div>
         <div v-if="item.highlight == 1" class="itemEdition itemHighlight1">
           <span @click="removeItem(item)" class="itemRemove">&times;</span>

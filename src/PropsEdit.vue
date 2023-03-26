@@ -85,7 +85,17 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   <div id="propsEditDiv" class="scrollSync">
     <template v-for="item in items">
       <div v-if="isInOpenFolder(item, props)" class="row" ref="itemref">
-        <div v-for="prop in columns" class="cell">{{ cellView(item, prop) }}</div>
+        <!-- <div v-for="prop in columns" class="cell">{{ cellView(item, prop) }}</div> -->
+
+        <template v-for="prop in columns">
+          <input v-if="state.itemEditing == item.item_id" v-model="item.item_name" @blur="state.itemEditing = false"
+            @keyup.esc="state.itemEditing = false" @keyup.enter="state.itemEditing = false" id="itemEditInput" />
+          <div v-else class="cell">
+            <span @dblclick="onDblClicK(item)">{{ cellView(item, prop) }}</span>
+          </div>
+
+        </template>
+
       </div>
     </template>
   </div>
