@@ -25,7 +25,7 @@ const state = reactive({ result: '' })
 
 // elMan global functions for nearley's grammar to evaluate props. Functions are globals to use compiled grammar "as is"...
 window.elMan = {
-  item: 0,
+  //item: 0,
   prop: string => elMan.item.props[string],
   parentProp: string => getParent(elMan.item).props[string],
 }
