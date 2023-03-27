@@ -70,14 +70,27 @@ function evaluate(input) {
   }
 }
 //______________________________________________________________________________
-function onDblClicK(item, prop) {
+// function onDblClicK(event,item, prop) {
+//   state.cellEditing = item.item_id + ':' + prop
+//   nextTick(() => {
+//     const cellInput = document.getElementById('cellEditInput')
+//     cellInput.left= event.currentTarget.offsetLeft+'px'
+//     cellInput.focus()
+//     cellInput.select()
+//   })
+// }
+function onDblClicK(event, item, prop) {
   state.cellEditing = item.item_id + ':' + prop
   nextTick(() => {
     const cellInput = document.getElementById('cellEditInput')
+    cellInput.style.left = event.currentTarget.offsetLeft + 'px'
     cellInput.focus()
-    cellInput.select()
+    // cellInput.select()
   })
+
+
 }
+
 //______________________________________________________________________________
 let columnsNames = ["Cantidad por padre", "Stock", "Stock deseado", "Reponer"]
 let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
@@ -94,8 +107,8 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
     <template v-for="item in items">
       <div v-if="isInOpenFolder(item, props)" class="row" ref="itemref">
         <template v-for="prop in columns">
-          <div class="cell" @dblclick="onDblClicK(item, prop)">
-            <span>{{ cellView(item, prop) }}</span>
+          <div class="cell" @dblclick="onDblClicK($event, item, prop)">
+            {{ cellView(item, prop) }}
           </div>
           <input v-if="state.cellEditing == item.item_id + ':' + prop" v-model="item.props[prop]"
             @keyup.esc="state.cellEditing = false" @keyup.enter="state.cellEditing = false" id="cellEditInput"
@@ -128,7 +141,6 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   flex-basis: 60px;
   overflow: hidden;
   padding-left: .2em;
-  /* background-color: rgb(125, 69, 63); */
   box-shadow: inset -2px 0 1px -2px var(--on-secondary);
 }
 
@@ -174,11 +186,12 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
 #cellEditInput {
   border: none;
   position: absolute;
+  z-index: 1;
   top: -1px;
-  /* left: 100px; */
   height: 100%;
   outline: none;
   background-color: var(--surface);
+  color: var(--on-surface);
   box-shadow: inset 0px 0px 0px 2px var(--primary);
 }
 </style>
