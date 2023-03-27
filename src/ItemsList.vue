@@ -271,8 +271,8 @@ function onDblClicK(item) {
         </span>
         <input v-if="state.itemEditing == item.item_id" v-model="item.item_name" @blur="state.itemEditing = false"
           @keyup.esc="state.itemEditing = false" @keyup.enter="state.itemEditing = false" id="itemEditInput" />
-        <div v-else class="item">
-          <span @dblclick="onDblClicK(item)">{{ item.item_name }}</span>
+        <div v-else class="item" @dblclick="onDblClicK(item)">
+          <span>{{ item.item_name }}</span>
         </div>
         <div v-if="item.highlight == 1" class="itemEdition itemHighlight1">
           <span @click="removeItem(item)" class="itemRemove">&times;</span>
@@ -384,13 +384,11 @@ function onDblClicK(item) {
 }
 
 .itemHighlight1 {
-  /* background-color: rgba(241, 255, 150, 0.6); */
   color: var(--on-secondary);
   background-color: var(--secondary);
 }
 
 .itemHighlight2 {
-  /* background-color: rgba(241, 255, 150, 0.3); */
   color: var(--on-secondary);
   background-color: var(--secondary-variant);
 }

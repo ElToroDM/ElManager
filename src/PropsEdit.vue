@@ -15,7 +15,7 @@ edit columns
 add / remove columns (item types?)
 ________________________________________________________________________________
 */
-import { ref, reactive } from 'vue'
+import { ref, reactive, nextTick } from 'vue'
 import { isInOpenFolder } from '/Items.js'
 const props = defineProps({ items: Object })
 const itemref = ref([])
@@ -70,8 +70,8 @@ function evaluate(input) {
   }
 }
 //______________________________________________________________________________
-function onDblClicK(item,prop) {
-  state.cellEditing = item.item_id + prop
+function onDblClicK(item, prop) {
+  state.cellEditing = item.item_id + ':' + prop
   nextTick(() => {
     const cellInput = document.getElementById('cellEditInput')
     cellInput.focus()
@@ -94,11 +94,12 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
     <template v-for="item in items">
       <div v-if="isInOpenFolder(item, props)" class="row" ref="itemref">
         <template v-for="prop in columns">
-          <input v-if="state.cellEditing == item.item_id + prop" v-model="item.item_name" @blur="state.cellEditing = false"
-            @keyup.esc="state.cellEditing = false" @keyup.enter="state.cellEditing = false" id="cellEditInput" />
-          <div v-else class="cell">
-            <span @dblclick="onDblClicK(item,prop)">{{ cellView(item, prop) }}</span>
+          <div class="cell" @dblclick="onDblClicK(item, prop)">
+            <span>{{ cellView(item, prop) }}</span>
           </div>
+          <input v-if="state.cellEditing == item.item_id + ':' + prop" v-model="item.props[prop]"
+            @keyup.esc="state.cellEditing = false" @keyup.enter="state.cellEditing = false" id="cellEditInput"
+            @blur="state.cellEditing = false" />
         </template>
       </div>
     </template>
@@ -128,10 +129,7 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   overflow: hidden;
   padding-left: .2em;
   /* background-color: rgb(125, 69, 63); */
-  box-shadow:
-    inset -2px 0 1px -2px var(--on-secondary);
-
-
+  box-shadow: inset -2px 0 1px -2px var(--on-secondary);
 }
 
 #propsEditDiv {
@@ -153,6 +151,7 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
 
 .cell {
   display: flex;
+  position: relative;
   align-items: center;
   justify-content: right;
   flex-grow: 0;
@@ -160,7 +159,6 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   flex-basis: 60px;
   overflow: hidden;
   padding-right: .2em;
-  /* background-color: rgb(125, 69, 63); */
   box-shadow:
     inset -2px 0 1px -2px var(--on-surface),
     inset 0 -2px 1px -2px var(--on-surface);
@@ -171,5 +169,16 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
     inset -2px 0 1px -2px var(--on-surface),
     inset 0 -2px 1px -2px var(--on-surface),
     inset 2px 0 1px -2px var(--on-surface)
+}
+
+#cellEditInput {
+  border: none;
+  position: absolute;
+  top: -1px;
+  /* left: 100px; */
+  height: 100%;
+  outline: none;
+  background-color: var(--surface);
+  box-shadow: inset 0px 0px 0px 2px var(--primary);
 }
 </style>
