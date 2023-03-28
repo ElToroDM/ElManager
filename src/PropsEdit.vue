@@ -79,16 +79,26 @@ function evaluate(input) {
 //     cellInput.select()
 //   })
 // }
+let cellWidth
 function onDblClicK(event, item, prop) {
   state.cellEditing = item.item_id + ':' + prop
   nextTick(() => {
+    cellWidth = event.currentTarget.offsetWidth
     const cellInput = document.getElementById('cellEditInput')
-    cellInput.style.left = event.currentTarget.offsetLeft + 'px'
+    cellInput.style.left = event.currentTarget.offsetLeft - 2 + 'px'
+    cellInput.style.width = cellWidth - 2 + 'px'
+    cellInput.style.minWidth = cellWidth - 2 + 'px'
     cellInput.focus()
     // cellInput.select()
   })
 
-
+}
+function onChangeInput(event) {
+  event.currentTarget.style.width = 0
+  const scrollWidth = event.currentTarget.scrollWidth
+  if (scrollWidth > cellWidth + 2) {
+    event.currentTarget.style.width = scrollWidth + 8 + 'px'
+  }
 }
 
 //______________________________________________________________________________
@@ -112,7 +122,7 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
           </div>
           <input v-if="state.cellEditing == item.item_id + ':' + prop" v-model="item.props[prop]"
             @keyup.esc="state.cellEditing = false" @keyup.enter="state.cellEditing = false" id="cellEditInput"
-            @blur="state.cellEditing = false" />
+            @blur="state.cellEditing00000000000000000000000 = false" @keypress="onChangeInput($event)" />
         </template>
       </div>
     </template>
