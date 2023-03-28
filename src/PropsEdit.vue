@@ -99,7 +99,6 @@ function onChangeInput(event) {
   if (scrollWidth > cellWidth + 2) {
     event.currentTarget.style.width = scrollWidth + 8 + 'px'
   }
-  event.currentTarget.style.width='600 px'
 }
 
 //______________________________________________________________________________
