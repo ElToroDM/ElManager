@@ -99,6 +99,7 @@ function onChangeInput(event) {
   if (scrollWidth > cellWidth + 2) {
     event.currentTarget.style.width = scrollWidth + 8 + 'px'
   }
+  event.currentTarget.style.width='600 px'
 }
 
 //______________________________________________________________________________
@@ -122,7 +123,7 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
           </div>
           <input v-if="state.cellEditing == item.item_id + ':' + prop" v-model="item.props[prop]"
             @keyup.esc="state.cellEditing = false" @keyup.enter="state.cellEditing = false" id="cellEditInput"
-            @blur="state.cellEditing00000000000000000000000 = false" @keypress="onChangeInput($event)" />
+            @blur="state.cellEditing00000000000000000000000 = false" @keyup="onChangeInput($event)" @keydown="onChangeInput($event)"/>
         </template>
       </div>
     </template>
