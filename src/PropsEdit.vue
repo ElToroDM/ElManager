@@ -10,9 +10,9 @@ TODO:
 ** calculate cell formulas eg: =column1+column2
 sync title horizontal scroll
 resizable columns widths
-edit cells
 edit columns
 add / remove columns (item types?)
+cell auto align: numbers right, text left, etc
 ________________________________________________________________________________
 */
 import { ref, reactive, nextTick } from 'vue'
@@ -179,7 +179,8 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   flex-grow: 0;
   flex-shrink: 0;
   flex-basis: 60px;
-  overflow: hidden;
+  max-width: 60px;
+  /* overflow: hidden; */
   padding-right: .2em;
   box-shadow:
     inset -2px 0 1px -2px var(--on-surface),
