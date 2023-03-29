@@ -7,8 +7,7 @@ exerionbit.com
 Code started: january 28, 2023
 ________________________________________________________________________________
 TODO:
-** calculate cell formulas eg: =column1+column2
-sync title horizontal scroll
+synchronize titles row horizontal scroll
 resizable columns widths
 edit columns
 add / remove columns (item types?)
@@ -122,7 +121,8 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
           </div>
           <input v-if="state.cellEditing == item.item_id + ':' + prop" v-model="item.props[prop]"
             @keyup.esc="state.cellEditing = false" @keyup.enter="state.cellEditing = false" id="cellEditInput"
-            @blur="state.cellEditing00000000000000000000000 = false" @keyup="onChangeInput($event)" @keydown="onChangeInput($event)"/>
+            @blur="state.cellEditing00000000000000000000000 = false" @keyup="onChangeInput($event)"
+            @keydown="onChangeInput($event)" />
         </template>
       </div>
     </template>
@@ -195,12 +195,23 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
 }
 
 #cellEditInput {
-  border: none;
   position: absolute;
   z-index: 1;
   top: -1px;
-  height: 100%;
+  /* height: 100%; */
+  max-width: 95%;
+
+  inline-size: 95%;
+  /* line-height: 100%; */
+
+  /* white-space:normal;
+  word-break:break-word;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto; */
+
   outline: none;
+  border: none;
   background-color: var(--surface);
   color: var(--on-surface);
   box-shadow: inset 0px 0px 0px 2px var(--primary);

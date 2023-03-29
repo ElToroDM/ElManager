@@ -58,7 +58,6 @@ const itemTypes = ref([
   </Pane>
   <div style="position:absolute; bottom:0;height: 40vh; overflow-y: scroll;width:100%;font:.8em monospace;">
     <Evaluate />
-    <!-- {{Evaluate.parentProp(666)}} -->
     <Themes />
     <!-- <div v-for="item in items" style="overflow:hidden; white-space: nowrap;"> {{ item }}</div> -->
     <div v-for="item in items" style="overflow:hidden; white-space: nowrap;"> {{ item }}</div>
