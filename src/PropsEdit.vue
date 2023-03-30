@@ -83,7 +83,7 @@ function onDblClicK(event, item, prop) {
   state.cellEditing = item.item_id + ':' + prop
   nextTick(() => {
     cellWidth = event.currentTarget.offsetWidth
-    const cellInput = document.getElementById('cellEditInput')
+    const cellInput = document.getElementById('cellEdit')//cellEditInput
     cellInput.style.left = event.currentTarget.offsetLeft - 2 + 'px'
     cellInput.style.width = cellWidth - 2 + 'px'
     cellInput.style.minWidth = cellWidth - 2 + 'px'
@@ -93,11 +93,16 @@ function onDblClicK(event, item, prop) {
 
 }
 function onChangeInput(event) {
-  event.currentTarget.style.width = 0
+  // event.currentTarget.style.width = 0
   const scrollWidth = event.currentTarget.scrollWidth
   if (scrollWidth > cellWidth + 2) {
     event.currentTarget.style.width = scrollWidth + 8 + 'px'
   }
+}
+
+function onChangeTextarea(event) {
+  event.currentTarget.style.height = "auto";
+  event.currentTarget.style.height = event.currentTarget.scrollHeight + 'px';
 }
 
 //______________________________________________________________________________
@@ -119,9 +124,13 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
           <div class="cell" @dblclick="onDblClicK($event, item, prop)">
             {{ cellView(item, prop) }}
           </div>
-          <input v-if="state.cellEditing == item.item_id + ':' + prop" v-model="item.props[prop]"
+          <!-- <input v-if="state.cellEditing == item.item_id + ':' + prop" v-model="item.props[prop]"
             @keyup.esc="state.cellEditing = false" @keyup.enter="state.cellEditing = false" id="cellEditInput"
             @blur="state.cellEditing00000000000000000000000 = false" @keyup="onChangeInput($event)"
+            @keydown="onChangeInput($event)" /> -->
+            <textarea v-if="state.cellEditing == item.item_id + ':' + prop" v-model="item.props[prop]"
+            @keyup.esc="state.cellEditing = false" @keyup.enter="state.cellEditing = false" id="cellEdit"
+            @blur="state.cellEditing00000000000000000000000 = false" @keyup="onChangeTextarea($event)"
             @keydown="onChangeInput($event)" />
         </template>
       </div>
@@ -194,7 +203,23 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
     inset 2px 0 1px -2px var(--on-surface)
 }
 
-#cellEditInput {
+/* #cellEditInput {
+  position: absolute;
+  z-index: 1;
+  top: -1px;
+  height: 100%;
+  max-width: 95%;
+
+  inline-size: 95%;
+
+  outline: none;
+  border: none;
+  background-color: var(--surface);
+  color: var(--on-surface);
+  box-shadow: inset 0px 0px 0px 2px var(--primary);
+} */
+
+#cellEdit {
   position: absolute;
   z-index: 1;
   top: -1px;
@@ -202,7 +227,7 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   max-width: 95%;
 
   inline-size: 95%;
-  /* line-height: 100%; */
+  line-height:  4vh; 
 
   /* white-space:normal;
   word-break:break-word;
@@ -210,10 +235,13 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   word-wrap: break-word;
   hyphens: auto; */
 
+  resize: none;
+
   outline: none;
   border: none;
   background-color: var(--surface);
   color: var(--on-surface);
   box-shadow: inset 0px 0px 0px 2px var(--primary);
+  
 }
 </style>
