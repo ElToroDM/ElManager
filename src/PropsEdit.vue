@@ -69,29 +69,28 @@ function evaluate(input) {
   }
 }
 //______________________________________________________________________________
-// function onDblClicK(event,item, prop) {
-//   state.cellEditing = item.item_id + ':' + prop
-//   nextTick(() => {
-//     const cellInput = document.getElementById('cellEditInput')
-//     cellInput.left= event.currentTarget.offsetLeft+'px'
-//     cellInput.focus()
-//     cellInput.select()
-//   })
-// }
-let cellWidth
-function onDblClicK(event, item, prop) {
+function onDblClicK(event,item, prop) {
   state.cellEditing = item.item_id + ':' + prop
   nextTick(() => {
-    cellWidth = event.currentTarget.offsetWidth
-    const cellInput = document.getElementById('cellEdit')//cellEditInput
-    cellInput.style.left = event.currentTarget.offsetLeft - 2 + 'px'
-    cellInput.style.width = cellWidth - 2 + 'px'
-    cellInput.style.minWidth = cellWidth - 2 + 'px'
+    const cellInput = document.getElementById('cellEdit')
+    cellInput.left= event.currentTarget.offsetLeft+'px'
     cellInput.focus()
-    // cellInput.select()
+    cellInput.select()
   })
-
 }
+// let cellWidth
+// function onDblClicK(event, item, prop) {
+//   state.cellEditing = item.item_id + ':' + prop
+//   nextTick(() => {
+//     cellWidth = event.currentTarget.offsetWidth
+//     const cellInput = document.getElementById('cellEdit')//cellEditInput
+//     cellInput.style.left = event.currentTarget.offsetLeft - 2 + 'px'
+//     cellInput.style.width = cellWidth - 2 + 'px'
+//     cellInput.style.minWidth = cellWidth - 2 + 'px'
+//     cellInput.focus()
+//     // cellInput.select()
+//   })
+// }
 function onChangeInput(event) {
   // event.currentTarget.style.width = 0
   const scrollWidth = event.currentTarget.scrollWidth
@@ -124,14 +123,14 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
           <div class="cell" @dblclick="onDblClicK($event, item, prop)">
             {{ cellView(item, prop) }}
           </div>
-          <!-- <input v-if="state.cellEditing == item.item_id + ':' + prop" v-model="item.props[prop]"
-            @keyup.esc="state.cellEditing = false" @keyup.enter="state.cellEditing = false" id="cellEditInput"
+          <input v-if="state.cellEditing == item.item_id + ':' + prop" v-model="item.props[prop]"
+            @keyup.esc="state.cellEditing = false" @keyup.enter="state.cellEditing = false" id="cellEdit"
             @blur="state.cellEditing00000000000000000000000 = false" @keyup="onChangeInput($event)"
-            @keydown="onChangeInput($event)" /> -->
-            <textarea v-if="state.cellEditing == item.item_id + ':' + prop" v-model="item.props[prop]"
+            @keydown="onChangeInput($event)" />
+            <!-- <textarea v-if="state.cellEditing == item.item_id + ':' + prop" v-model="item.props[prop]"
             @keyup.esc="state.cellEditing = false" @keyup.enter="state.cellEditing = false" id="cellEdit"
             @blur="state.cellEditing00000000000000000000000 = false" @keyup="onChangeTextarea($event)"
-            @keydown="onChangeInput($event)" />
+            @keydown="onChangeInput($event)" /> -->
         </template>
       </div>
     </template>
@@ -203,7 +202,7 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
     inset 2px 0 1px -2px var(--on-surface)
 }
 
-/* #cellEditInput {
+#cellEdit {
   position: absolute;
   z-index: 1;
   top: -1px;
@@ -217,31 +216,19 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   background-color: var(--surface);
   color: var(--on-surface);
   box-shadow: inset 0px 0px 0px 2px var(--primary);
-} */
+}
 
-#cellEdit {
+/* #cellEdit {
   position: absolute;
   z-index: 1;
   top: -1px;
-  /* height: 100%; */
   max-width: 95%;
-
   inline-size: 95%;
-  line-height:  4vh; 
-
-  /* white-space:normal;
-  word-break:break-word;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  hyphens: auto; */
-
   resize: none;
-
   outline: none;
   border: none;
   background-color: var(--surface);
   color: var(--on-surface);
-  box-shadow: inset 0px 0px 0px 2px var(--primary);
-  
-}
+  box-shadow: inset 0px 0px 0px 2px var(--primary); 
+} */
 </style>
