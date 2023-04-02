@@ -143,7 +143,7 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   min-height: inherit;
   flex-grow: 0;
   flex-shrink: 0;
-  flex-basis: 60px;
+  flex-basis: 8vh;
   overflow: hidden;
   padding-left: .2em;
   box-shadow: inset -2px 0 1px -2px var(--on-secondary);
@@ -170,8 +170,8 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   position: relative;
   align-items: center;
   justify-content: right;
-  flex: 0 0 60px;
-  max-width: 60px;
+  flex: 0 0 8vh;
+  max-width: 8vh;
   /* overflow: hidden; */
   padding-right: .2em;
   box-shadow:

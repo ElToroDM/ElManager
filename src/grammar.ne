@@ -1,6 +1,7 @@
 # Original code by Hardmath123 from https://github.com/Hardmath123/nearley/
 # Modified by Diego Fraga
 # Started: march 3 2023
+# compile with: nearleyc src/grammar.ne -o nearley/grammar.js
 
 main -> _ "=" _ AS _ {% (d) => {return {type:'main', d:d, v:d[3].v}} %}
     |   _ "=" _ SC _ {% (d) => {return {type:'main', d:d, v:d[3].v}} %}
