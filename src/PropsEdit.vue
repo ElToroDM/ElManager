@@ -69,41 +69,32 @@ function evaluate(input) {
   }
 }
 //______________________________________________________________________________
-function onDblClicK(event,item, prop) {
+let cellWidth
+let editingCell
+function onDblClicK(event, item, prop) {
   state.cellEditing = item.item_id + ':' + prop
   nextTick(() => {
     const cellInput = document.getElementById('cellEdit')
-    cellInput.left= event.currentTarget.offsetLeft+'px'
+    editingCell=event.currentTarget
+    cellWidth = editingCell.offsetWidth
+    cellInput.style.left = event.currentTarget.offsetLeft - 2 + 'px'
+    cellInput.style.minWidth = cellWidth - 2 + 'px'
     cellInput.focus()
     cellInput.select()
+    editingCell.style.visibility='hidden'
   })
 }
-// let cellWidth
-// function onDblClicK(event, item, prop) {
-//   state.cellEditing = item.item_id + ':' + prop
-//   nextTick(() => {
-//     cellWidth = event.currentTarget.offsetWidth
-//     const cellInput = document.getElementById('cellEdit')//cellEditInput
-//     cellInput.style.left = event.currentTarget.offsetLeft - 2 + 'px'
-//     cellInput.style.width = cellWidth - 2 + 'px'
-//     cellInput.style.minWidth = cellWidth - 2 + 'px'
-//     cellInput.focus()
-//     // cellInput.select()
-//   })
-// }
 function onChangeInput(event) {
-  // event.currentTarget.style.width = 0
+  event.currentTarget.style.width = 0
   const scrollWidth = event.currentTarget.scrollWidth
   if (scrollWidth > cellWidth + 2) {
     event.currentTarget.style.width = scrollWidth + 8 + 'px'
   }
 }
-
-function onChangeTextarea(event) {
-  event.currentTarget.style.height = "auto";
-  event.currentTarget.style.height = event.currentTarget.scrollHeight + 'px';
+function endCellEditing(event) {
+  editingCell.style.visibility='visible'
+state.cellEditing = false
 }
-
 //______________________________________________________________________________
 let columnsNames = ["Cantidad por padre", "Stock", "Stock deseado", "Reponer"]
 let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
@@ -124,13 +115,9 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
             {{ cellView(item, prop) }}
           </div>
           <input v-if="state.cellEditing == item.item_id + ':' + prop" v-model="item.props[prop]"
-            @keyup.esc="state.cellEditing = false" @keyup.enter="state.cellEditing = false" id="cellEdit"
-            @blur="state.cellEditing00000000000000000000000 = false" @keyup="onChangeInput($event)"
+            @keyup.esc="endCellEditing($event)" @keyup.enter="endCellEditing($event)" id="cellEdit"
+            @blur="endCellEditing($event)" @keyup="onChangeInput($event)"
             @keydown="onChangeInput($event)" />
-            <!-- <textarea v-if="state.cellEditing == item.item_id + ':' + prop" v-model="item.props[prop]"
-            @keyup.esc="state.cellEditing = false" @keyup.enter="state.cellEditing = false" id="cellEdit"
-            @blur="state.cellEditing00000000000000000000000 = false" @keyup="onChangeTextarea($event)"
-            @keydown="onChangeInput($event)" /> -->
         </template>
       </div>
     </template>
@@ -209,7 +196,9 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   height: 100%;
   max-width: 95%;
 
-  inline-size: 95%;
+  /* width: min-content; */
+
+  inline-size: 60px;
 
   outline: none;
   border: none;
@@ -217,18 +206,4 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   color: var(--on-surface);
   box-shadow: inset 0px 0px 0px 2px var(--primary);
 }
-
-/* #cellEdit {
-  position: absolute;
-  z-index: 1;
-  top: -1px;
-  max-width: 95%;
-  inline-size: 95%;
-  resize: none;
-  outline: none;
-  border: none;
-  background-color: var(--surface);
-  color: var(--on-surface);
-  box-shadow: inset 0px 0px 0px 2px var(--primary); 
-} */
 </style>
