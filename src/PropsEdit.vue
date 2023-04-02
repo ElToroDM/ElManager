@@ -25,8 +25,8 @@ const state = reactive({ result: '' })
 // elMan global functions for nearley's grammar to evaluate props. Functions are globals to use compiled grammar "as is"...
 window.elMan = {
   //item: 0,
-  prop: string => elMan.item.props[string],
-  parentProp: string => getParent(elMan.item).props[string],
+  prop: string => elMan.item.props[string + '_value'],
+  parentProp: string => getParent(elMan.item).props[string + '_value'],
 }
 
 function getParent(item) {
@@ -44,12 +44,15 @@ function cellView(item, prop) {
   if (typeof cell === 'string' || cell instanceof String) {
     // cell it's a string
     // TODO sanitize string
-    if (cell.charAt(0) != '=') return cell
-    elMan.item = item
-    return evaluate(cell)
+    if (cell.charAt(0) == '=') {
+      elMan.item = item
+      item.props[prop + '_value'] = evaluate(cell)
+      return item.props[prop + '_value']
+    }
   }
   // cell it's not a string
-  return cell
+  item.props[prop + '_value'] = cell
+  return item.props[prop + '_value']
 }
 
 // window.elMan.prop = function (string) {
@@ -75,13 +78,13 @@ function onDblClicK(event, item, prop) {
   state.cellEditing = item.item_id + ':' + prop
   nextTick(() => {
     const cellInput = document.getElementById('cellEdit')
-    editingCell=event.currentTarget
+    editingCell = event.currentTarget
     cellWidth = editingCell.offsetWidth
     cellInput.style.left = event.currentTarget.offsetLeft - 2 + 'px'
     cellInput.style.minWidth = cellWidth - 2 + 'px'
     cellInput.focus()
     cellInput.select()
-    editingCell.style.visibility='hidden'
+    editingCell.style.visibility = 'hidden'
   })
 }
 function onChangeInput(event) {
@@ -92,8 +95,8 @@ function onChangeInput(event) {
   }
 }
 function endCellEditing(event) {
-  editingCell.style.visibility='visible'
-state.cellEditing = false
+  editingCell.style.visibility = 'visible'
+  state.cellEditing = false
 }
 //______________________________________________________________________________
 let columnsNames = ["Cantidad por padre", "Stock", "Stock deseado", "Reponer"]
@@ -116,8 +119,7 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
           </div>
           <input v-if="state.cellEditing == item.item_id + ':' + prop" v-model="item.props[prop]"
             @keyup.esc="endCellEditing($event)" @keyup.enter="endCellEditing($event)" id="cellEdit"
-            @blur="endCellEditing($event)" @keyup="onChangeInput($event)"
-            @keydown="onChangeInput($event)" />
+            @blur="endCellEditing($event)" @keyup="onChangeInput($event)" @keydown="onChangeInput($event)" />
         </template>
       </div>
     </template>
