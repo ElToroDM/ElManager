@@ -21,19 +21,19 @@ import Themes from './Themes.vue'
 import Evaluate from './Evaluate.vue'
 
 const items = ref([
-  { "item_id": 732785649503224, "item_typeId": 3, "item_name": "Panqueque de dulce de leche", "item_level": 0, "props": { "stock": 2, "reponer": 5 } },
-  { "item_id": 732785649504646, "item_typeId": 1, "item_name": "Enrollar", "item_level": 1, "props": { "stock": 1, "reponer": "=..reponer" } },
-  { "item_id": 732787039516608, "item_typeId": 1, "item_name": "Panqueque", "item_level": 2, "props": { "stock": 4 } },
-  { "item_id": 732787228074946, "item_typeId": 1, "item_name": "Cocinar vuelta y vuelta", "item_level": 3, "props": { "stock": 0 } },
-  { "item_id": 732787388636990, "item_typeId": 2, "item_name": "Pasta", "item_level": 4, "props": { "stock": 0 } },
-  { "item_id": 732787473433670, "item_typeId": 1, "item_name": "Batir", "item_level": 5, "props": { "stock": 0 } },
-  { "item_id": 732787615515042, "item_typeId": 2, "item_name": "Huevos", "item_level": 6, "props": { "stock": 6, "cantidad": 4 , "reponer": "=stock*cantidad"} },
-  { "item_id": 732787613195910, "item_typeId": 2, "item_name": "Manteca derretida", "item_level": 6, "props": { "stock": 2, "cantidad": .05 } },
-  { "item_id": 732787611591662, "item_typeId": 2, "item_name": "Leche", "item_level": 6, "props": { "stock": 1, "cantidad": 2 } },
-  { "item_id": 732787609910024, "item_typeId": 2, "item_name": "Harina", "item_level": 6, "props": { "stock": 1, "cantidad": .8 } },
-  { "item_id": 732787604156978, "item_typeId": 2, "item_name": "Esencia de vainilla", "item_level": 6, "props": { "stock": 250, "cantidad": 10 } },
-  { "item_id": 732787571510938, "item_typeId": 2, "item_name": "Sal", "item_level": 6, "props": { "stock": 500, "cantidad": 2 } },
-  { "item_id": 732787108951490, "item_typeId": 2, "item_name": "Dulce de leche", "item_level": 2, "props": { "stock": .4, "cantidad": .05 } }
+{ "item_id": 732785649503224, "item_typeId": 3, "item_name": "Panqueque de dulce de leche", "item_level": 0, "props": { "stock": 2, "reponer": "=max(stockDeseado,0)", "cantidad": "1", "stockDeseado": "3" } },
+{ "item_id": 732785649504646, "item_typeId": 1, "item_name": "Enrollar", "item_level": 1, "props": { "stock": 1, "reponer": "=max(stockDeseado,0)", "cantidad": "1", "stockDeseado": "=cantidad*..reponer" } },
+{ "item_id": 732787039516608, "item_typeId": 1, "item_name": "Panqueque", "item_level": 2, "props": { "stock": 4, "cantidad": "1", "reponer": "=max(stockDeseado,0)", "stockDeseado": "=cantidad*..reponer" } },
+{ "item_id": 732787228074946, "item_typeId": 1, "item_name": "Cocinar vuelta y vuelta", "item_level": 3, "props": { "stock": 0, "cantidad": "1", "reponer": "=max(stockDeseado,0)", "stockDeseado": "=cantidad*..reponer" } },
+{ "item_id": 732787388636990, "item_typeId": 2, "item_name": "Pasta", "item_level": 4, "props": { "stock": 0, "cantidad": "1", "reponer": "=max(stockDeseado,0)", "stockDeseado": "=cantidad*..reponer" } },
+{ "item_id": 732787473433670, "item_typeId": 1, "item_name": "Batir", "item_level": 5, "props": { "stock": 0, "cantidad": "1", "reponer": "=max(stockDeseado,0)", "stockDeseado": "=cantidad*..reponer" } },
+{ "item_id": 732787615515042, "item_typeId": 2, "item_name": "Huevos", "item_level": 6, "props": { "stock": 6, "cantidad": 4, "reponer": "=max(stockDeseado,0)", "stockDeseado": "=cantidad*..reponer" } },
+{ "item_id": 732787613195910, "item_typeId": 2, "item_name": "Manteca derretida", "item_level": 6, "props": { "stock": 2, "cantidad": 0.05, "reponer": "=max(stockDeseado,0)", "stockDeseado": "=cantidad*..reponer" } },
+{ "item_id": 732787611591662, "item_typeId": 2, "item_name": "Leche", "item_level": 6, "props": { "stock": 1, "cantidad": 2, "reponer": "=max(stockDeseado,0)", "stockDeseado": "=cantidad*..reponer" } },
+{ "item_id": 732787609910024, "item_typeId": 2, "item_name": "Harina", "item_level": 6, "props": { "stock": 1, "cantidad": 0.8, "reponer": "=max(stockDeseado,0)", "stockDeseado": "=cantidad*..reponer" } },
+{ "item_id": 732787604156978, "item_typeId": 2, "item_name": "Esencia de vainilla", "item_level": 6, "props": { "stock": 250, "cantidad": 10, "reponer": "=max(stockDeseado,0)", "stockDeseado": "=cantidad*..reponer" } },
+{ "item_id": 732787571510938, "item_typeId": 2, "item_name": "Sal", "item_level": 6, "props": { "stock": 500, "cantidad": 2, "reponer": "=max(stockDeseado,0)", "stockDeseado": "=cantidad*..reponer" } },
+{ "item_id": 732787108951490, "item_typeId": 2, "item_name": "Dulce de leche", "item_level": 2, "props": { "stock": 0.4, "cantidad": 0.05, "reponer": "=max(stockDeseado,0)", "stockDeseado": "=cantidad*..reponer" } }
 ])
 
 const itemTypes = ref([
@@ -47,7 +47,7 @@ const itemTypes = ref([
 </script>
 
 <template>
-  <Pane container style="height: 40vh;">
+  <Pane container style="height: 60vh;">
     <Pane style="width:250px;" class="listPane">
       <ItemsList :items="items" />
     </Pane>
@@ -60,7 +60,7 @@ const itemTypes = ref([
     <Evaluate />
     <Themes />
     <!-- <div v-for="item in items" style="overflow:hidden; white-space: nowrap;"> {{ item }}</div> -->
-    <div v-for="item in items" style="overflow:hidden; white-space: nowrap;"> {{ item }}</div>
+    <div v-for="item in items" style="overflow:hidden; white-space: nowrap;"> {{ item }},</div>
   </div>
 </template>
 
