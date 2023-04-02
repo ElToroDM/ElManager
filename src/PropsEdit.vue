@@ -66,7 +66,7 @@ function evaluate(input) {
     if (!parser.results[0]) throw new Error(1)
     //if (isNaN(parser.results[0].v)) throw new Error(2)
     if (parser.results[0].v === Infinity) throw new Error(3)
-    return parser.results[0].v.toString()    
+    return parser.results[0].v.toString()
   } catch (e) {
     return  /*'[error]' +*/ e //+ ' ' + parser.results[0].v.toString()
   }
@@ -119,8 +119,9 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
             {{ cellView(item, prop) }}
           </div>
           <input v-if="state.cellEditing == item.item_id + ':' + prop" v-model="item.props[prop]"
-            @keyup.esc="endCellEditing($event)" @keyup.enter="endCellEditing($event)" id="cellEdit" @blur="endCellEditing($event)"
-            @keyup="onChangeInput($event.currentTarget)" @keydown="onChangeInput($event.currentTarget)" />
+            @keyup.esc="endCellEditing($event)" @keyup.enter="endCellEditing($event)" id="cellEdit"
+            @blur="endCellEditing($event)" @keyup="onChangeInput($event.currentTarget)"
+            @keydown="onChangeInput($event.currentTarget)" />
         </template>
       </div>
     </template>
@@ -153,15 +154,14 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
 }
 
 #propsEditDiv {
-  /* flex-direction: column; */
-  /* flex-grow: 1; */
   display: grid;
+  height: 100%;
+  align-content: start;
   background-color: var(--surface);
   color: var(--on-surface);
 }
 
 .row {
-  /* flex-grow: 1; */
   position: relative;
   display: flex;
   white-space: nowrap;

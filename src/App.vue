@@ -47,7 +47,7 @@ const itemTypes = ref([
 </script>
 
 <template>
-  <Pane container style="height: 70vh;" onselectstart='return false;'>
+  <Pane container style="height:60%;" onselectstart='return false;'>
     <Pane style="width:250px;" class="listPane">
       <ItemsList :items="items" />
     </Pane>
@@ -56,7 +56,7 @@ const itemTypes = ref([
       <PropsEdit :items="items" />
     </Pane>
   </Pane>
-  <div style="position:absolute; bottom:0;height: 40vh; overflow-y: scroll;width:100%;font:.8em monospace;">
+  <div style="position:absolute; bottom:0;height: 40%; overflow-y: scroll;width:100%;font:.8em monospace;">
     <Evaluate />
     <Themes />
     <!-- <div v-for="item in items" style="overflow:hidden; white-space: nowrap;"> {{ item }}</div> -->
