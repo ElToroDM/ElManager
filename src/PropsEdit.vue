@@ -21,7 +21,6 @@ const itemref = ref([])
 // const state = reactive({})
 const state = reactive({ result: '' })
 //______________________________________________________________________________
-
 // elMan global functions for nearley's grammar to evaluate props. Functions are globals to use compiled grammar "as is"...
 window.elMan = {
   //item: 0,
@@ -38,26 +37,23 @@ function getParent(item) {
   }
   return null
 }
+//______________________________________________________________________________
 
 function cellView(item, prop) {
-  const cell = item.props[prop]
-  if (typeof cell === 'string' || cell instanceof String) {
-    // cell it's a string
-    // TODO sanitize string
-    if (cell.charAt(0) == '=') {
+  let cellValue = item.props[prop]
+  if (typeof cellValue === 'string' || cellValue instanceof String) {
+    if (cellValue.charAt(0) == '=') {
+      // TODO sanitize string
       elMan.item = item
-      item.props[prop + '_value'] = evaluate(cell)
-      return item.props[prop + '_value']
+      cellValue = evaluate(cellValue)
     }
+    item.props[prop + '_value'] = cellValue
+    if (isNaN(cellValue)) return '#ERROR!'
+    return cellValue
   }
-  // cell it's not a string
-  item.props[prop + '_value'] = cell
-  return item.props[prop + '_value']
+  item.props[prop + '_value'] = cellValue
+  return cellValue
 }
-
-// window.elMan.prop = function (string) {
-//   return item.props[string]
-// };
 
 function evaluate(input) {
   const parser = new nearley.Parser(grammar.ParserRules, grammar.ParserStart)
