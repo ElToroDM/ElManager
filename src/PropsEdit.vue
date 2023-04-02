@@ -83,15 +83,16 @@ function onDblClicK(event, item, prop) {
     cellInput.style.left = event.currentTarget.offsetLeft - 2 + 'px'
     cellInput.style.minWidth = cellWidth - 2 + 'px'
     cellInput.focus()
-    cellInput.select()
+    // cellInput.select()
+    onChangeInput(cellInput)
     editingCell.style.visibility = 'hidden'
   })
 }
-function onChangeInput(event) {
-  event.currentTarget.style.width = 0
-  const scrollWidth = event.currentTarget.scrollWidth
+function onChangeInput(inputCell) {
+  inputCell.style.width = 0
+  const scrollWidth = inputCell.scrollWidth
   if (scrollWidth > cellWidth + 2) {
-    event.currentTarget.style.width = scrollWidth + 8 + 'px'
+    inputCell.style.width = scrollWidth + 8 + 'px'
   }
 }
 function endCellEditing(event) {
@@ -118,8 +119,8 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
             {{ cellView(item, prop) }}
           </div>
           <input v-if="state.cellEditing == item.item_id + ':' + prop" v-model="item.props[prop]"
-            @keyup.esc="endCellEditing($event)" @keyup.enter="endCellEditing($event)" id="cellEdit"
-            @blur="endCellEditing($event)" @keyup="onChangeInput($event)" @keydown="onChangeInput($event)" />
+            @keyup.esc="endCellEditing($event)" @keyup.enter="endCellEditing($event)" id="cellEdit" @blur="endCellEditing($event)"
+            @keyup="onChangeInput($event.currentTarget)" @keydown="onChangeInput($event.currentTarget)" />
         </template>
       </div>
     </template>
