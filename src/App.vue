@@ -47,7 +47,7 @@ const itemTypes = ref([
 </script>
 
 <template>
-  <Pane container style="height: 60vh;">
+  <Pane container style="height: 70vh;" onselectstart='return false;'>
     <Pane style="width:250px;" class="listPane">
       <ItemsList :items="items" />
     </Pane>

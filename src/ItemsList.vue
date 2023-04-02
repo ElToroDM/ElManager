@@ -298,16 +298,24 @@ function onDblClicK(item) {
 }
 
 #itemsList {
-  /* flex-grow: 1; */
-  /* flex-direction: column; */
+  /* flex: 1; */
+  /* flex: 0 0 100%;
+  flex-flow: column nowrap;
+  justify-content: flex-start; */
+
   display: grid;
 }
 
 .itemLine {
+
+
   position: relative;
   display: flex;
   white-space: nowrap;
+
   min-height: 4vh;
+  height: 4vh;
+
   color: var(--on-surface);
   background-color: var(--surface);
   box-shadow: inset 0 -2px 1px -2px var(--on-surface);

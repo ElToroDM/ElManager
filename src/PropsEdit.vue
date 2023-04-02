@@ -174,9 +174,7 @@ let columns = ["cantidad", "stock", "stockDeseado", "reponer"]
   position: relative;
   align-items: center;
   justify-content: right;
-  flex-grow: 0;
-  flex-shrink: 0;
-  flex-basis: 60px;
+  flex: 0 0 60px;
   max-width: 60px;
   /* overflow: hidden; */
   padding-right: .2em;
