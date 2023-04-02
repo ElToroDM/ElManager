@@ -20,9 +20,10 @@ MD -> MD _ "*" _ E  {% (d) => {return {type: 'M', d:d, v:d[0].v*d[4].v}} %}
     | MD _ "/" _ E  {% (d) => {return {type: 'D', d:d, v:d[0].v/d[4].v}} %}
     | E             {% id %}
 # Addition and subtraction
-AS -> AS _ "+" _ MD {% (d) => {return {type:'A', d:d, v:d[0].v+d[4].v}} %}
-    | AS _ "-" _ MD {% (d) => {return {type:'S', d:d, v:d[0].v-d[4].v}} %}
-    | MD            {% id %}
+# rounding to 6 decimal to evade float errors Math.round( this * 1000000 ) / 1000000
+AS -> AS _ "+" _ MD {% (d) => {return {type:'A', d:d, v:Math.round((d[0].v+d[4].v)* 1000000 ) / 1000000}} %}
+    | AS _ "-" _ MD {% (d) => {return {type:'S', d:d, v:Math.round((d[0].v-d[4].v)* 1000000 ) / 1000000}} %}
+    | MD            {% (d) => {return {type:'S', d:d, v:Math.round((d[0].v)* 1000000 ) / 1000000}} %}
 
 SP  -> "(" _ SC _ ")" {% (d) => {return {type:'SP', d:d, v:d[2].v}} %}
     | S             {% id %}
@@ -43,7 +44,7 @@ N -> float  {% id %}
 	#| prop      {% (d) =>{return {type:'prop',  v:d[0]}} %}
 	#| ".." prop {% (d) =>{return {type:'parentprop', v:d[1]}}  %}
 
-	| prop      {% (d) =>{return {type:'prop',  v:elMan.prop(d[0])}} %}
+	| prop {% (d) =>{return {type:'prop',  v:elMan.prop(d[0])}} %}
 	| ".." prop {% (d) =>{return {type:'parentprop', v:elMan.parentProp(d[1])}}  %}
 
 

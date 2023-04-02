@@ -66,7 +66,7 @@ function evaluate(input) {
     if (!parser.results[0]) throw new Error(1)
     //if (isNaN(parser.results[0].v)) throw new Error(2)
     if (parser.results[0].v === Infinity) throw new Error(3)
-    return parser.results[0].v.toString()
+    return parser.results[0].v.toString()    
   } catch (e) {
     return  /*'[error]' +*/ e //+ ' ' + parser.results[0].v.toString()
   }
