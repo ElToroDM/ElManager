@@ -1,29 +1,16 @@
 # ElManager
 
-This template should help get you started developing with Vue 3 in Vite.
+Manage tasks and resources
 
-## Recommended IDE Setup
+## Features
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+### Tree based organization of items
+Organize your items: tasks and resources of any kind.
 
-## Customize configuration
+### Items properties customized via Spreadsheet-like cells
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+### Themes
+Choose your favorite color theme
 
-## Project Setup
 
-```sh
-npm install
-```
 
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
