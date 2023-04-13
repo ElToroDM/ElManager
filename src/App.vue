@@ -8,6 +8,7 @@ Code started: november 5, 2022
 ________________________________________________________________________________
 TODO:
 save data
+use itemTypes
 edit props structure
 edit props
 undo actions: useManualRefHistory? or Pinia? ...or: https://vuejs.org/examples/#circle-drawer
