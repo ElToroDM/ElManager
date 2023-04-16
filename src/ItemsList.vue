@@ -137,7 +137,7 @@ function newItemId() {
 function insertItem(item) {
   const lastSuccessorItemIndex = getLastSuccessorIndex(item)
   props.items.splice(lastSuccessorItemIndex + 1, 0,
-    { item_id: newItemId(), item_name: 'New item', item_level: item.item_level + 1, cost: 2 })
+    { item_id: newItemId(), item_name: 'New item', item_level: item.item_level + 1, props: {} })
 }
 //______________________________________________________________________________
 function removeItem(item) {
