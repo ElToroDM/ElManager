@@ -20,6 +20,7 @@ import PropsEdit from './PropsEdit.vue'
 import Pane from './Pane.vue'
 import Themes from './Themes.vue'
 import Evaluate from './Evaluate.vue'
+import Auth from './Auth.vue'
 
 const items = ref([
   { "item_id": 732785649503224, "item_typeId": 3, "item_name": "Panqueque de dulce de leche", "item_level": 0, "props": { "stock": 2, "reponer": "=max(stockDeseado-stock,0)", "cantidad": "1", "stockDeseado": "12", "reponer_value": "10", "stock_value": 2, "cantidad_value": "1", "stockDeseado_value": "12" } },
