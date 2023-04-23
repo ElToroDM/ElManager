@@ -12,3 +12,8 @@ ________________________________________________________________________________
 
 
 </script>
+<template>
+    <form action="/auth/google" method="GET">
+        <button type="submit"> Login with GOOGLE</button>
+    </form>
+</template>
